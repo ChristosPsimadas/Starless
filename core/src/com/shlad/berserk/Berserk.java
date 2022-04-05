@@ -3,6 +3,7 @@ package com.shlad.berserk;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.shlad.berserk.Screens.PlayScreen;
+import com.shlad.berserk.Screens.StartScreen;
 
 public class Berserk extends Game
 {
@@ -18,7 +19,8 @@ public class Berserk extends Game
 	public void create ()
 	{
 		batch = new SpriteBatch();
-		setScreen(new PlayScreen(this));
+		setScreen(new StartScreen(this));
+		//setScreen(new PlayScreen(this));
 	}
 
 	@Override
