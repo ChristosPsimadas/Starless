@@ -20,7 +20,6 @@ public class Berserk extends Game
 	{
 		batch = new SpriteBatch();
 		setScreen(new StartScreen(this));
-		//setScreen(new PlayScreen(this));
 	}
 
 	@Override

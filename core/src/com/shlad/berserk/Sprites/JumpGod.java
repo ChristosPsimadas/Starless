@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.shlad.berserk.Berserk;
@@ -30,6 +31,9 @@ public class JumpGod extends Sprite
     private float stateTimer;
     private boolean runningRight;
     private boolean jumping;
+
+    private float maxSpeed = 1.8f;
+
     
     public String toString()
     {
@@ -79,7 +83,119 @@ public class JumpGod extends Sprite
         setRegion(jumpKingStand);
         //jumpKing extends sprite which extends Texture region, so it fulfills the req because it takes a texture region
     }
-    
+
+    public JumpGod(World world, PlayScreen screen, float baseSpeed)
+    {
+        //on the sprite map jumpKing is called little jumpKing
+        super(screen.getAtlas().findRegion("jumpking"));
+
+        this.world = world;
+        this.maxSpeed = baseSpeed;
+
+        currentState = AnimationState.STANDING;
+        previousState = AnimationState.STANDING;
+        stateTimer = 0;
+        runningRight = true;
+
+        Array<TextureRegion> frames = new Array<>();
+        for(int i = 1; i < 4; i++) {frames.add(new TextureRegion(getTexture(), 1 + i * 32, 1, 32, 32));}
+        jumpKingRun = new Animation<>(0.1f, frames);
+        frames.clear();
+
+        for(int i = 1; i < 4; i++) {frames.add(new TextureRegion(getTexture(), 129, 1, 32, 32));}
+        jumpKingCharging = new Animation<>(0.1f, frames);
+        frames.clear();
+
+        jumpKingFall =     new TextureRegion(getTexture(), 193, 1, 32, 32);
+
+        jumpKingJump =     new TextureRegion(getTexture(), 161, 1, 32, 32);
+
+        jumpKingStand =    new TextureRegion(getTexture(), 1  , 1, 32, 32);
+
+        definejumpKing();
+
+        setBounds(0, 0, 32 / Berserk.PPM, 32 / Berserk.PPM);
+        setRegion(jumpKingStand);
+        //jumpKing extends sprite which extends Texture region, so it fulfills the req because it takes a texture region
+    }
+
+    public void handlePlayerInput(float deltaTime)
+    {
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && (this.b2body.getLinearVelocity().x <= maxSpeed))
+        {
+            this.b2body.applyLinearImpulse(new Vector2(maxSpeed/4, 0), b2body.getWorldCenter(), true);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && (this.b2body.getLinearVelocity().x <= maxSpeed))
+        {
+            this.b2body.applyLinearImpulse(new Vector2(-maxSpeed/4, 0), b2body.getWorldCenter(), true);
+        }
+        //Should change to account for double jumps
+        if (Gdx.input.isButtonJustPressed(Input.Keys.W) && this.b2body.getLinearVelocity().y == 0)
+        {
+            //this.b2body.applyLinearImpulse();
+        }
+
+
+
+//        //No moving in the air
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.D) && (this.b2body.getLinearVelocity().x <= 1.8f)
+//                && (!this.isJumping()) && (this.b2body.getLinearVelocity().y == 0))
+//        {
+//            //Move a set speed, no acceleration
+//            this.b2body.setLinearVelocity(new Vector2(1.1f, 0));
+//        }
+//
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.A) && (this.b2body.getLinearVelocity().x >= -1.8f)
+//                && (!this.isJumping()) && (this.b2body.getLinearVelocity().y == 0))
+//        {
+//            //move a set speed, no acceleration
+//            this.b2body.setLinearVelocity(new Vector2(-1.1f, 0));
+//        }
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.W) && (this.b2body.getLinearVelocity().y == 0))
+//        {
+//            //Make the setJumping boolean true
+//            //So that you can't move left or right when charging your jump
+//            this.setJumping(true);
+//
+//            //Make your character stop completely in place when charging a jump
+//            this.b2body.setLinearVelocity(0,0);
+//
+//            //This is what charges the jump
+//            yImpulseJump += 8.9 * deltaTime;
+//
+//            //Change previous state to held, to know when a key is released
+//            previousKeyState = "held";
+//
+//            //Make the max jumping power 5.4
+//            if (yImpulseJump > maxYJumpvelocity) {yImpulseJump = maxYJumpvelocity;}
+//
+//            //Make it such that you can charge left and right as well
+//            if (Gdx.input.isKeyPressed(Input.Keys.D))
+//            {
+//                xImpulseJump += 5.2 * deltaTime;
+//                if (xImpulseJump > maxXJumpvelocity) {xImpulseJump = maxXJumpvelocity;}
+//            }
+//
+//            if (Gdx.input.isKeyPressed(Input.Keys.A))
+//            {
+//                xImpulseJump -= 5.2 * deltaTime;
+//                if (xImpulseJump < -maxXJumpvelocity) {xImpulseJump = -maxXJumpvelocity;}
+//            }
+//        }
+//        else if(previousKeyState.equals("held"))
+//        {
+//            previousKeyState = "released";
+//            this.b2body.applyLinearImpulse(new Vector2(xImpulseJump, yImpulseJump), this.b2body.getWorldCenter(), true);
+//            xImpulseJump = 0;
+//            yImpulseJump = 0;
+//            this.setJumping(false);
+//        }
+
+    }
+
     public void update(float dt)
     {
         setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2 + 3/ Berserk.PPM);
