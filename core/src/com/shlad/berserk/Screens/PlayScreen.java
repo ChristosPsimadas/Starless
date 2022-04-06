@@ -179,7 +179,8 @@ public class PlayScreen implements Screen
     {
         player.update(deltaTime);
         //user input first
-        handleInput(deltaTime);
+        player.handlePlayerInput(deltaTime);
+        //handleInput(deltaTime);
         
         timer.setTime(deltaTime);
         

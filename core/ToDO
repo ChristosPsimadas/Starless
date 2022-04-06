@@ -1,0 +1,8 @@
+To Do & Ideas
+
+Every single stat will be a mutable instance variable. For example, speed, attack speed, cool-downs, etc...
+These stats will be changed by items that can be picked up, e.g. picking up a special potion to make you move faster
+
+Make my own title screen
+
+Make specific classes that extend player.

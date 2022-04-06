@@ -123,17 +123,19 @@ public class JumpGod extends Sprite
     {
         if (Gdx.input.isKeyPressed(Input.Keys.D) && (this.b2body.getLinearVelocity().x <= maxSpeed))
         {
-            this.b2body.applyLinearImpulse(new Vector2(maxSpeed/4, 0), b2body.getWorldCenter(), true);
+            this.b2body.applyLinearImpulse(new Vector2(maxSpeed/4, 0), this.b2body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && (this.b2body.getLinearVelocity().x <= maxSpeed))
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && (this.b2body.getLinearVelocity().x >= -maxSpeed))
         {
-            this.b2body.applyLinearImpulse(new Vector2(-maxSpeed/4, 0), b2body.getWorldCenter(), true);
+            this.b2body.applyLinearImpulse(new Vector2(-maxSpeed/4, 0), this.b2body.getWorldCenter(), true);
         }
         //Should change to account for double jumps
-        if (Gdx.input.isButtonJustPressed(Input.Keys.W) && this.b2body.getLinearVelocity().y == 0)
+        //Actually instead add a separate method for calculating double jumps, and it would only work when you're in the air
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && this.b2body.getLinearVelocity().y == 0)
         {
-            //this.b2body.applyLinearImpulse();
+            this.b2body.applyLinearImpulse(new Vector2(0, 5), this.b2body.getWorldCenter(), true);
         }
+        
 
 
 
