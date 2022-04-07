@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
-import com.shlad.berserk.Sprites.JumpGod;
+import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.B2WorldCreator;
 import com.shlad.berserk.Tools.Timer;
 
@@ -38,7 +38,7 @@ public class PlayScreen implements Screen
     //shows us fixtures and rigid bodies, so we see what's going on
     private final Box2DDebugRenderer b2dr;
     
-    private final JumpGod player;
+    private Player player;
 
     private float xImpulseJump;
     private float yImpulseJump;
@@ -92,7 +92,7 @@ public class PlayScreen implements Screen
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         
-        player = new JumpGod(world, this);
+        player = new Player(world, this);
         
     }
     
@@ -181,7 +181,7 @@ public class PlayScreen implements Screen
         //user input first
         player.handlePlayerInput(deltaTime);
         //handleInput(deltaTime);
-        
+
         timer.setTime(deltaTime);
         
         
@@ -201,7 +201,7 @@ public class PlayScreen implements Screen
         
         gameCam.update();
         renderer.setView(gameCam);
-        
+
         checkWin();
     }
     

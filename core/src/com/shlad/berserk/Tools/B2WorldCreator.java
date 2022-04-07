@@ -34,7 +34,8 @@ public class B2WorldCreator
             shape.setAsBox((rect.getWidth() / 2) / Berserk.PPM,
                            (rect.getHeight() / 2) / Berserk.PPM);
             fdef.shape = shape;
-            fdef.restitution = 0.5f;
+            fdef.restitution = 0.0f;
+            fdef.friction = 0f;
             body.createFixture(fdef);
         }
     
@@ -50,7 +51,7 @@ public class B2WorldCreator
             shape.setAsBox((rect.getWidth() / 2) / Berserk.PPM,
                            (rect.getHeight() / 2) / Berserk.PPM);
             fdef.shape = shape;
-            fdef.restitution = 0.3f;
+            fdef.restitution = 0.0f;
             fdef.friction = 1f;
             
             body.createFixture(fdef);

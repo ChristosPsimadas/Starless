@@ -34,19 +34,4 @@ public class Berserk extends Game
 	{
 		batch.dispose();
 	}
-	
-	public String toString()
-	{
-		return "Theres not much to say about this, it's a game class";
-	}
-	
-	public boolean equals(Object other)
-	{
-		if (other != null)
-		{
-			return false;
-		}
-		return false;
-		//No game classes are equal to each other. Not even itself.
-	}
 }
