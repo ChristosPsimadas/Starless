@@ -77,11 +77,11 @@ public class PlayScreen implements Screen
         
         backgroundTexture = new Texture("stringstar fields/background_0.png");
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        
+
         //Set gamecam to be centered at the start of the map
         //still should use this even tho it's centered on jumpKing because it centers the y height
         gameCam.position.set(gamePort.getWorldWidth() / 2.0f, gamePort.getWorldHeight() / 2.0f, 0);
-        
+
         //Gravity , sleep objects at rest
         world = new World(new Vector2(0, -10), true);
         b2dr = new Box2DDebugRenderer();
@@ -91,9 +91,9 @@ public class PlayScreen implements Screen
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("backgroundSound.mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
-        
-        player = new Player(world, this);
-        
+
+        player = new Player(world, this, 1.4f);
+
     }
     
     public TextureAtlas getAtlas()
@@ -188,13 +188,16 @@ public class PlayScreen implements Screen
         //Makes it such that the camera follows the player, but only in multiple-of-4 increments
         //For example, if jumpKing is at position 3, then the remainder is 3. The game cam gets set to 2 + 3 - 3, because
         //jumpKing has not left the screen yet since leaving the screen means passing the 4th mark.
-        gameCam.position.x = 2 + (int) player.b2body.getPosition().x - (int) player.b2body.getPosition().x % 4;
+        //gameCam.position.x = 2 + (int) player.b2body.getPosition().x - (int) player.b2body.getPosition().x % 4;
         //gameCam.position.y = (int) player.b2body.getPosition().y - ((((int) player.b2body.getPosition().y * 100) % 208) / 100);
         
         //Since the height of one screen is 2.08, and we cannot modulo a float, we convert it to an integer 208 by multiplying everything by 100
         //Then do all modulo divisions, and then divide by 100 at the end
-        gameCam.position.y = 1.04f + (((player.b2body.getPosition().y * 100) - (player.b2body.getPosition().y * 100 % 208)) / 100);
-        
+        //gameCam.position.y = 1.04f + (((player.b2body.getPosition().y * 100) - (player.b2body.getPosition().y * 100 % 208)) / 100);
+
+        gameCam.position.x = player.b2body.getPosition().x;
+        gameCam.position.y = player.b2body.getPosition().y;
+
         //60 fps, how many times to calculate velocity and position
         //higher num = more precise but slow
         world.step(1/60f, 6, 2);

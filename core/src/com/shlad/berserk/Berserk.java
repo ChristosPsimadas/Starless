@@ -19,7 +19,8 @@ public class Berserk extends Game
 	public void create ()
 	{
 		batch = new SpriteBatch();
-		setScreen(new StartScreen(this));
+		//setScreen(new StartScreen(this));
+		setScreen(new PlayScreen(this));
 	}
 
 	@Override

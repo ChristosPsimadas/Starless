@@ -14,7 +14,7 @@ import com.shlad.berserk.Screens.PlayScreen;
 
 public class Player extends Sprite
 {
-    public enum AnimationState {FALLING, JUMPING, STANDING, RUNNING, CHARGING}
+    public enum AnimationState {FALLING, JUMPING, STANDING, RUNNING}
     
     public AnimationState currentState;
     public AnimationState previousState;
@@ -43,20 +43,22 @@ public class Player extends Sprite
         super(screen.getAtlas().findRegion("jumpking"));
         
         this.world = world;
-        
+        maxSpeed = 1.8f;
+
+
         currentState = AnimationState.STANDING;
         previousState = AnimationState.STANDING;
         stateTimer = 0;
         runningRight = true;
-        
+
         Array<TextureRegion> frames = new Array<>();
         for(int i = 1; i < 4; i++) {frames.add(new TextureRegion(getTexture(), 1 + i * 32, 1, 32, 32));}
         playerRun = new Animation<>(0.1f, frames);
         frames.clear();
         
-        playerFall =     new TextureRegion(getTexture(), 193, 1, 32, 32);
+        playerFall =    new TextureRegion(getTexture(), 193, 1, 32, 32);
         
-        playerJump =     new TextureRegion(getTexture(), 161, 1, 32, 32);
+        playerJump =    new TextureRegion(getTexture(), 161, 1, 32, 32);
     
         playerIdle =    new TextureRegion(getTexture(), 1  , 1, 32, 32);
         
@@ -178,9 +180,6 @@ public class Player extends Sprite
         
         else if (b2body.getLinearVelocity().x != 0)
             return AnimationState.RUNNING;
-        
-        else if (Gdx.input.isKeyPressed(Input.Keys.W))
-            return AnimationState.CHARGING;
         
         else
             return AnimationState.STANDING;
