@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="200" height="120" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="insideDungeon" tilewidth="16" tileheight="16" tilecount="672" columns="42">
+  <image source="grotto/environment-tiles.png" width="672" height="256"/>
+ </tileset>
+ <tileset firstgid="673" name="desert" tilewidth="16" tileheight="16" tilecount="100" columns="20">
+  <image source="desert/Tileset/00Atlas.png" width="320" height="80"/>
+ </tileset>
+ <tileset firstgid="773" name="starryNight" tilewidth="16" tileheight="16" tilecount="338" columns="26">
+  <image source="starryNight/Tileset.png" width="416" height="208"/>
+ </tileset>
+ <layer id="1" name="background" width="200" height="120">
+  <data encoding="base64" compression="zlib">
+   eJzt0zkKgEAABEHZ/3/VB5gZGLoNJh5gFUw+SS8LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwp228/QC+a9bHOs6DP5q1oA846AOaPqDpA5o+oOkDmj6g6QOaPqDpA5o+oOkDmj6g6QOaPqDpA5o+oOkDmj6g6QOaPqDpA5o+oOkDmj6g6QOaPqDpA5o+oOkDmj6g6QOaPqDpA5o+oOkDmj6g6QOaPqDpA5o+oOkDmj6g6QOaPqDpA5o+oOkDmj6g6QOaPqDpA5o+oOkDmj6g6QOaPqDpA5o+oF3tw8zMzMzMzMye3Q4zRdgC
+  </data>
+ </layer>
+</map>
