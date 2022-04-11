@@ -7,8 +7,8 @@ import com.shlad.berserk.Screens.StartScreen;
 
 public class Berserk extends Game
 {
-	public static final int V_WIDTH = 400;
-	public static final int V_HEIGHT = 208;
+	public static final int V_WIDTH = 800;
+	public static final int V_HEIGHT = 416;
 	//pixels per meter
 	public static final float PPM = 100;
 	

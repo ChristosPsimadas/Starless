@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import com.badlogic.gdx.math.Vector2;
@@ -21,58 +22,23 @@ public class Player extends Sprite
     
     public World world;
     public Body b2body;
-    private final TextureRegion playerIdle;
-    private final TextureRegion playerJump;
-    private final TextureRegion playerFall;
-    private final Animation<TextureRegion> playerRun;
-
-    private float stateTimer;
-    private boolean runningRight;
-    private boolean jumping;
-
-    private float maxSpeed = 1.8f;
+    protected TextureRegion playerIdle;
+    protected TextureRegion playerJump;
+    protected TextureRegion playerFall;
+    protected Animation<TextureRegion> playerRun;
     
-    public String toString()
-    {
-        return "x: " + (this.b2body.getPosition().x) + " y: " + (this.b2body.getPosition().y);
-    }
+    protected float stateTimer;
+    protected boolean runningRight;
+    protected boolean jumping;
+    
+    protected float maxSpeed = 1.4f;
 
-    public Player(World world, PlayScreen screen)
+    
+    //Should find a way to make it not ask for region name
+    public Player(World world, float baseSpeed, String packName, String regionName)
     {
         //on the sprite map jumpKing is called little jumpKing
-        super(screen.getAtlas().findRegion("jumpking"));
-        
-        this.world = world;
-        maxSpeed = 1.8f;
-
-
-        currentState = AnimationState.STANDING;
-        previousState = AnimationState.STANDING;
-        stateTimer = 0;
-        runningRight = true;
-
-        Array<TextureRegion> frames = new Array<>();
-        for(int i = 1; i < 4; i++) {frames.add(new TextureRegion(getTexture(), 1 + i * 32, 1, 32, 32));}
-        playerRun = new Animation<>(0.1f, frames);
-        frames.clear();
-        
-        playerFall =    new TextureRegion(getTexture(), 193, 1, 32, 32);
-        
-        playerJump =    new TextureRegion(getTexture(), 161, 1, 32, 32);
-    
-        playerIdle =    new TextureRegion(getTexture(), 1  , 1, 32, 32);
-        
-        definePlayer();
-        
-        setBounds(0, 0, 32 / Berserk.PPM, 32 / Berserk.PPM);
-        setRegion(playerIdle);
-        //jumpKing extends sprite which extends Texture region, so it fulfills the req because it takes a texture region
-    }
-
-    public Player(World world, PlayScreen screen, float baseSpeed)
-    {
-        //on the sprite map jumpKing is called little jumpKing
-        super(screen.getAtlas().findRegion("jumpking"));
+        super(new TextureAtlas(packName).findRegion(regionName));
 
         this.world = world;
         this.maxSpeed = baseSpeed;
@@ -81,23 +47,6 @@ public class Player extends Sprite
         previousState = AnimationState.STANDING;
         stateTimer = 0;
         runningRight = true;
-
-        Array<TextureRegion> frames = new Array<>();
-        for(int i = 1; i < 4; i++) {frames.add(new TextureRegion(getTexture(), 1 + i * 32, 1, 32, 32));}
-        playerRun = new Animation<>(0.1f, frames);
-        frames.clear();
-
-        playerFall =     new TextureRegion(getTexture(), 193, 1, 32, 32);
-
-        playerJump =     new TextureRegion(getTexture(), 161, 1, 32, 32);
-
-        playerIdle =    new TextureRegion(getTexture(), 1  , 1, 32, 32);
-
-        definePlayer();
-
-        setBounds(0, 0, 32 / Berserk.PPM, 32 / Berserk.PPM);
-        setRegion(playerIdle);
-        //jumpKing extends sprite which extends Texture region, so it fulfills the req because it takes a texture region
     }
 
     public void handlePlayerInput(float deltaTime)
@@ -185,7 +134,7 @@ public class Player extends Sprite
             return AnimationState.STANDING;
     }
     
-    public void definePlayer()
+    public void definePlayer(float radius)
     {
         BodyDef bdef = new BodyDef();
         bdef.position.set(200 / Berserk.PPM, 40 / Berserk.PPM);
@@ -195,12 +144,16 @@ public class Player extends Sprite
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(12 / Berserk.PPM);
+        shape.setRadius(radius / Berserk.PPM);
         fdef.friction = 1f;
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
-        
+    }
+    
+    public String toString()
+    {
+        return "x: " + (this.b2body.getPosition().x) + " y: " + (this.b2body.getPosition().y);
     }
     
     public boolean isJumping()
