@@ -29,7 +29,7 @@ public class Player extends Sprite
     
     protected float stateTimer;
     protected boolean runningRight;
-    protected boolean jumping;
+    //    protected boolean jumping;
     
     protected float maxSpeed = 1.4f;
 
@@ -39,7 +39,6 @@ public class Player extends Sprite
     {
         //on the sprite map jumpKing is called little jumpKing
         super(new TextureAtlas(packName).findRegion(regionName));
-
         this.world = world;
         this.maxSpeed = baseSpeed;
 
@@ -156,13 +155,13 @@ public class Player extends Sprite
         return "x: " + (this.b2body.getPosition().x) + " y: " + (this.b2body.getPosition().y);
     }
     
-    public boolean isJumping()
-    {
-        return jumping;
-    }
-    
-    public void setJumping(boolean jumping)
-    {
-        this.jumping = jumping;
-    }
+//    public boolean isJumping()
+//    {
+//        return jumping;
+//    }
+//
+//    public void setJumping(boolean jumping)
+//    {
+//        this.jumping = jumping;
+//    }
 }

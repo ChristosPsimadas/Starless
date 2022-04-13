@@ -41,13 +41,13 @@ public class PlayScreen implements Screen
     
     private Commando player;
 
-    private float xImpulseJump;
-    private float yImpulseJump;
-    
-    private final float maxXJumpvelocity = 7f;
-    private final float maxYJumpvelocity = 4.8f;
-    
-    private String previousKeyState = "released";
+//    private float xImpulseJump;
+//    private float yImpulseJump;
+//
+//    private final float maxXJumpvelocity = 7f;
+//    private final float maxYJumpvelocity = 4.8f;
+//
+//    private String previousKeyState = "released";
 
     private final Music backgroundMusic;
     private final Texture backgroundTexture;
@@ -84,7 +84,7 @@ public class PlayScreen implements Screen
         gameCam.position.set(gamePort.getWorldWidth() / 2.0f, gamePort.getWorldHeight() / 2.0f, 0);
 
         //Gravity , sleep objects at rest
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, -9.81f), true);
         b2dr = new Box2DDebugRenderer();
         
         new B2WorldCreator(world, map2);
@@ -108,66 +108,66 @@ public class PlayScreen implements Screen
     
     }
     
-    public void handleInput(float deltaTime)
-    {
-        //No moving in the air
-
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && (player.b2body.getLinearVelocity().x <= 1.8f)
-                && (!player.isJumping()) && (player.b2body.getLinearVelocity().y == 0))
-        {
-            //Move a set speed, no acceleration
-            player.b2body.setLinearVelocity(new Vector2(1.1f, 0));
-        }
-    
-    
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && (player.b2body.getLinearVelocity().x >= -1.8f)
-                && (!player.isJumping()) && (player.b2body.getLinearVelocity().y == 0))
-        {
-            //move a set speed, no acceleration
-            player.b2body.setLinearVelocity(new Vector2(-1.1f, 0));
-        }
-        
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && (player.b2body.getLinearVelocity().y == 0))
-        {
-            //Make the setJumping boolean true
-            //So that you can't move left or right when charging your jump
-            player.setJumping(true);
-            
-            //Make your character stop completely in place when charging a jump
-            player.b2body.setLinearVelocity(0,0);
-            
-            //This is what charges the jump
-            yImpulseJump += 8.9 * deltaTime;
-            
-            //Change previous state to held, to know when a key is released
-            previousKeyState = "held";
-            
-            //Make the max jumping power 5.4
-            if (yImpulseJump > maxYJumpvelocity) {yImpulseJump = maxYJumpvelocity;}
-            
-            //Make it such that you can charge left and right as well
-            if (Gdx.input.isKeyPressed(Input.Keys.D))
-            {
-                xImpulseJump += 5.2 * deltaTime;
-                if (xImpulseJump > maxXJumpvelocity) {xImpulseJump = maxXJumpvelocity;}
-            }
-    
-            if (Gdx.input.isKeyPressed(Input.Keys.A))
-            {
-                xImpulseJump -= 5.2 * deltaTime;
-                if (xImpulseJump < -maxXJumpvelocity) {xImpulseJump = -maxXJumpvelocity;}
-            }
-        }
-        else if(previousKeyState.equals("held"))
-        {
-            previousKeyState = "released";
-            player.b2body.applyLinearImpulse(new Vector2(xImpulseJump, yImpulseJump), player.b2body.getWorldCenter(), true);
-            xImpulseJump = 0;
-            yImpulseJump = 0;
-            player.setJumping(false);
-        }
-
-    }
+//    public void handleInput(float deltaTime)
+//    {
+//        //No moving in the air
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.D) && (player.b2body.getLinearVelocity().x <= 1.8f)
+//                && (!player.isJumping()) && (player.b2body.getLinearVelocity().y == 0))
+//        {
+//            //Move a set speed, no acceleration
+//            player.b2body.setLinearVelocity(new Vector2(1.1f, 0));
+//        }
+//
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.A) && (player.b2body.getLinearVelocity().x >= -1.8f)
+//                && (!player.isJumping()) && (player.b2body.getLinearVelocity().y == 0))
+//        {
+//            //move a set speed, no acceleration
+//            player.b2body.setLinearVelocity(new Vector2(-1.1f, 0));
+//        }
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.W) && (player.b2body.getLinearVelocity().y == 0))
+//        {
+//            //Make the setJumping boolean true
+//            //So that you can't move left or right when charging your jump
+//            player.setJumping(true);
+//
+//            //Make your character stop completely in place when charging a jump
+//            player.b2body.setLinearVelocity(0,0);
+//
+//            //This is what charges the jump
+//            yImpulseJump += 8.9 * deltaTime;
+//
+//            //Change previous state to held, to know when a key is released
+//            previousKeyState = "held";
+//
+//            //Make the max jumping power 5.4
+//            if (yImpulseJump > maxYJumpvelocity) {yImpulseJump = maxYJumpvelocity;}
+//
+//            //Make it such that you can charge left and right as well
+//            if (Gdx.input.isKeyPressed(Input.Keys.D))
+//            {
+//                xImpulseJump += 5.2 * deltaTime;
+//                if (xImpulseJump > maxXJumpvelocity) {xImpulseJump = maxXJumpvelocity;}
+//            }
+//
+//            if (Gdx.input.isKeyPressed(Input.Keys.A))
+//            {
+//                xImpulseJump -= 5.2 * deltaTime;
+//                if (xImpulseJump < -maxXJumpvelocity) {xImpulseJump = -maxXJumpvelocity;}
+//            }
+//        }
+//        else if(previousKeyState.equals("held"))
+//        {
+//            previousKeyState = "released";
+//            player.b2body.applyLinearImpulse(new Vector2(xImpulseJump, yImpulseJump), player.b2body.getWorldCenter(), true);
+//            xImpulseJump = 0;
+//            yImpulseJump = 0;
+//            player.setJumping(false);
+//        }
+//
+//    }
     
     public void checkWin()
     {
@@ -216,7 +216,7 @@ public class PlayScreen implements Screen
         update(delta);
         
         //Clear the screen and make it light blue
-        Gdx.gl.glClearColor(0.35f, 0.35f, 0.8f, 1);
+        Gdx.gl.glClearColor(0.3f, 0.45f, 0.74f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     
         if (!won)
