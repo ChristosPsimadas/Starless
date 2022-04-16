@@ -1,7 +1,6 @@
 package com.shlad.berserk.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,7 +16,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.CharacterClasses.Commando;
-import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.B2WorldCreator;
 import com.shlad.berserk.Tools.Timer;
 
@@ -31,7 +29,7 @@ public class PlayScreen implements Screen
     
     //Tiled map stuff
     private final TmxMapLoader mapLoader;
-    private final TiledMap map2;
+    private final TiledMap map1;
     private final OrthogonalTiledMapRenderer renderer;
     
     //Box2d stuff
@@ -68,8 +66,8 @@ public class PlayScreen implements Screen
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Berserk.V_WIDTH / Berserk.PPM, Berserk.V_HEIGHT / Berserk.PPM, gameCam);
         mapLoader = new TmxMapLoader();
-        map2 = mapLoader.load("mapWIP.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map2, 1 / Berserk.PPM);
+        map1 = mapLoader.load("newMapUnfinished.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map1, 1 / Berserk.PPM);
         
         timer = new Timer(game.batch);
         winText = new Texture(Gdx.files.internal("congratulations.png"));
@@ -87,7 +85,7 @@ public class PlayScreen implements Screen
         world = new World(new Vector2(0, -9.81f), true);
         b2dr = new Box2DDebugRenderer();
         
-        new B2WorldCreator(world, map2);
+        new B2WorldCreator(world, map1);
     
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("backgroundSound.mp3"));
         backgroundMusic.setLooping(true);
@@ -169,12 +167,6 @@ public class PlayScreen implements Screen
 //
 //    }
     
-    public void checkWin()
-    {
-        
-        if (player.b2body.getPosition().y > 13.85 && player.b2body.getPosition().x > 1.5 && player.b2body.getPosition().x < 2) {won = true;}
-    }
-    
     //update the game world
     public void update(float deltaTime)
     {
@@ -205,8 +197,6 @@ public class PlayScreen implements Screen
         
         gameCam.update();
         renderer.setView(gameCam);
-
-        checkWin();
     }
     
     @Override
@@ -218,42 +208,24 @@ public class PlayScreen implements Screen
         //Clear the screen and make it light blue
         Gdx.gl.glClearColor(0.3f, 0.45f, 0.74f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    
-        if (!won)
-        {
-            game.batch.setProjectionMatrix(gameCam.combined);
-            game.batch.begin();
-            game.batch.draw(backgroundTexture, 0, gameCam.position.y - 1.04f, gameCam.viewportWidth, gameCam.viewportHeight);
-            game.batch.end();
-            //render the game map
-            renderer.render();
-    
-            //render the physics lines
-            //b2dr.render(world, gameCam.combined);
-    
-    
-            game.batch.begin();
-            player.draw(game.batch);
-            game.batch.end();
-    
-            game.batch.setProjectionMatrix(timer.stage.getCamera().combined);
-            timer.stage.draw();
-        }
-        else
-        {
-            backgroundMusic.stop();
-            if (!music.isPlaying())
-            {
-                music.play();
-            }
-    
-            game.batch.setProjectionMatrix(gameCam.combined);
-            game.batch.begin();
-            game.batch.draw(winText, 0, gameCam.position.y - 1.04f, gameCam.viewportWidth, gameCam.viewportHeight);
-            game.batch.end();
-            timer.stage.draw();
-        }
 
+        game.batch.setProjectionMatrix(gameCam.combined);
+        game.batch.begin();
+        game.batch.draw(backgroundTexture, 0, gameCam.position.y - 1.04f, gameCam.viewportWidth, gameCam.viewportHeight);
+        game.batch.end();
+        //render the game map
+        renderer.render();
+
+        //render the physics lines
+        //b2dr.render(world, gameCam.combined);
+
+
+        game.batch.begin();
+        player.draw(game.batch);
+        game.batch.end();
+
+        game.batch.setProjectionMatrix(timer.stage.getCamera().combined);
+        timer.stage.draw();
     }
     
     @Override

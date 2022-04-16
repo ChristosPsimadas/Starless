@@ -21,7 +21,7 @@ public class B2WorldCreator
     
         //2 is wall
         //3 is Floor
-        //4 is the dollar
+        //4 is the objects
         for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class))
         {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -52,7 +52,7 @@ public class B2WorldCreator
                            (rect.getHeight() / 2) / Berserk.PPM);
             fdef.shape = shape;
             fdef.restitution = 0.0f;
-            fdef.friction = 1f;
+            fdef.friction = 0.85f;
             
             body.createFixture(fdef);
         }

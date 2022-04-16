@@ -62,7 +62,7 @@ public class Player extends Sprite
         //Actually instead add a separate method for calculating double jumps, and it would only work when you're in the air
         if (Gdx.input.isKeyJustPressed(Input.Keys.W) && this.b2body.getLinearVelocity().y == 0)
         {
-            this.b2body.applyLinearImpulse(new Vector2(0, 5), this.b2body.getWorldCenter(), true);
+            this.b2body.applyLinearImpulse(new Vector2(0, 6.5f), this.b2body.getWorldCenter(), true);
         }
 
     }
@@ -136,7 +136,8 @@ public class Player extends Sprite
     public void definePlayer(float radius)
     {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(200 / Berserk.PPM, 40 / Berserk.PPM);
+        //Starting position
+        bdef.position.set(312 / Berserk.PPM, 190 / Berserk.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         
         b2body = world.createBody(bdef);
