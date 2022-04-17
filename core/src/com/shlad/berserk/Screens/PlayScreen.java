@@ -216,9 +216,6 @@ public class PlayScreen implements Screen
         //render the game map
         renderer.render();
 
-        //render the physics lines
-        //b2dr.render(world, gameCam.combined);
-
 
         game.batch.begin();
         player.draw(game.batch);
@@ -226,6 +223,9 @@ public class PlayScreen implements Screen
 
         game.batch.setProjectionMatrix(timer.stage.getCamera().combined);
         timer.stage.draw();
+    
+        //render the physics lines
+        b2dr.render(world, gameCam.combined);
     }
     
     @Override

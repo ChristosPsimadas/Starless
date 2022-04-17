@@ -32,7 +32,7 @@ public class Commando extends Player
     
         playerIdle =     new TextureRegion(getTexture(), 1  , 1, 12, 12);
     
-        definePlayer(2.5f);
+        definePlayer(4.5f);
     
         setBounds(0, 0, 12 / Berserk.PPM, 12 / Berserk.PPM);
         setRegion(playerIdle);

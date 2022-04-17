@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="200" height="120" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="90">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="200" height="120" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="91">
  <tileset firstgid="1" name="insideDungeon" tilewidth="16" tileheight="16" tilecount="672" columns="42">
   <image source="grotto/environment-tiles.png" width="672" height="256"/>
  </tileset>
@@ -9,17 +9,17 @@
  <tileset firstgid="773" name="starryNight" tilewidth="16" tileheight="16" tilecount="338" columns="26">
   <image source="starryNight/Tileset.png" width="416" height="208"/>
  </tileset>
- <layer id="2" name="backgroundDetails" width="200" height="120">
+ <layer id="2" name="backgroundDetails" width="200" height="120" locked="1">
   <data encoding="base64" compression="zlib">
    eJzt2UkKwjAYgNGQk3gUj+JRPI24k+qiuil4E49inBDFFIdAQ30PfqQDJYt8i2AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/IsmhvkihnCbdA1c6QPySvbRxTAptjCowIs+pt9+axvDrNzKYHjPfazSHk/3Ds399+1p9cHIPPfx68CY6IMxWvfs0c0H+3R5OXNMSkzrfE4l+vpIz+ZDrMn5nFrU2EenDypRYx9QC31Anj4gTx+Qpw/I0wfk6QMe7dO+38bz/3Bh19NHe33nNJ1WAAAAAKp1BPCVnzs=
   </data>
  </layer>
- <layer id="1" name="backgroundFloors" width="200" height="120">
+ <layer id="1" name="backgroundFloors" width="200" height="120" locked="1">
   <data encoding="base64" compression="zlib">
    eJzt2ltu02AQBeDIK+1SuhTE/foAUrsH4IGFsIeKoKpvDLGTOmd++/uk81YVe2aOFIUeDgAAAAAAAAAAAAAAAACc6+0kXUNe+gZEPzpL34DoR2fpGxD96Cx9A6IfnaVvQPSjs/QNiH50lr4B0Y/O0jcg+tFZ+gZEPzpL34DoR2fpGxD9AAAAAAAAAAAAAADy0n8//ZQHf0tNQ+le6AedpXuhH3SW7oV+0Fm6F6f6kX6uUea39LlHeZ8Ofk+PSdKPHneVfm79+Df96HFX6efWj2W67yf9fPqxPv3Qj67v81wu+fc79wOeg35ATT+g1vEzH3ShH3AZ/YCafkBNP6CmH1DTD6jpB9T0A2r6ATX9gJp+QE0/oKYfUNMPqOkH1PQDavoBNf2Amn5ATT+gph9QW7sfc3//GlnrebYquauus9eP/ju6lvTtd5y9fvTf0bWkb7/j7PWj/46uJX37ydmnnqvbLDvviBw3ATX92J7vx738WJCf9lga7fMgXJN+QE0/oKYfUNMPqOkH1PQDavoBNf2Amn70sdYu7OR8dnG5l8f3fTUjr0/MRT/6sYvLvZk5k3f6MRy7uNzdzJnc68dw7OJy74/v+2FGjj93s/R3r90ZO/8/s1rfw/SYc6RvfqSdp99/pFltRXqPI+08/f4jzWor0nscaefp9x9pVnPN/W52zveza0jvcYs7X2Lvszre/c3cdzr+7ItrP1/65re48yX2Pqv76XA7951OfT+7hvTNb3HnS+x9VnO/m/2bj/qxiZ0vYVa9pW9+7zs3q97SN7/3nZtVb+mb3/vOzaq39M3vfedrzmvu/yusnV+B72WfS/rm9WP7uZsOt+k5nys9O/3Yfr4OvLv07GT70Q+ROt8G/nz1pcH8ZNvRD5E6n6b8d2jn5nOD+YmIiIiIiEiv/AHpxiaq
   </data>
  </layer>
- <objectgroup id="3" name="Walls">
+ <objectgroup id="3" name="Walls" locked="1">
   <object id="28" x="745" y="1744" width="7" height="111"/>
   <object id="29" x="848" y="1616" width="5.75" height="51.75"/>
   <object id="30" x="1034.75" y="1616" width="5.25" height="52.75"/>
@@ -70,7 +70,7 @@
   <object id="88" x="2167" y="272" width="9" height="181.333"/>
   <object id="89" x="528" y="448" width="1648" height="16"/>
  </objectgroup>
- <objectgroup id="4" name="Floor">
+ <objectgroup id="4" name="Floor" locked="1">
   <object id="8" x="748.682" y="1840" width="742.955" height="15.9921"/>
   <object id="9" x="853.25" y="1616" width="181.5" height="16"/>
   <object id="10" x="1125.5" y="1504" width="164.5" height="16"/>
@@ -93,5 +93,5 @@
   <object id="27" x="176" y="1744" width="569" height="16"/>
   <object id="83" x="532.333" y="272.021" width="1638.67" height="15.9578"/>
  </objectgroup>
- <objectgroup id="6" name="Objects"/>
+ <objectgroup id="6" name="Objects" locked="1"/>
 </map>
