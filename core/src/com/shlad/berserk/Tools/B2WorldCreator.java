@@ -56,6 +56,7 @@ public class B2WorldCreator
             fdef.restitution = 0.0f;
             fdef.friction = 0.85f;
             
+            
             body.createFixture(fdef);
         }
         
