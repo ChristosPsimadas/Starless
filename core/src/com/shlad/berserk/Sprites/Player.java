@@ -29,7 +29,6 @@ public class Player extends Sprite
     
     protected float stateTimer;
     protected boolean runningRight;
-    //    protected boolean jumping;
     
     protected float maxSpeed = 1.4f;
 
@@ -62,7 +61,7 @@ public class Player extends Sprite
         //Actually instead add a separate method for calculating double jumps, and it would only work when you're in the air
         if (Gdx.input.isKeyJustPressed(Input.Keys.W) && this.b2body.getLinearVelocity().y == 0)
         {
-            this.b2body.applyLinearImpulse(new Vector2(0, 6.5f), this.b2body.getWorldCenter(), true);
+            this.b2body.applyLinearImpulse(new Vector2(0, 4.5f), this.b2body.getWorldCenter(), true);
         }
 
     }
@@ -148,21 +147,6 @@ public class Player extends Sprite
         fdef.friction = 1f;
 
         fdef.shape = shape;
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData("player");
     }
-    
-    public String toString()
-    {
-        return "x: " + (this.b2body.getPosition().x) + " y: " + (this.b2body.getPosition().y);
-    }
-    
-//    public boolean isJumping()
-//    {
-//        return jumping;
-//    }
-//
-//    public void setJumping(boolean jumping)
-//    {
-//        this.jumping = jumping;
-//    }
 }

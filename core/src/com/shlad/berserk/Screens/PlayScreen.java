@@ -18,6 +18,7 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.CharacterClasses.Commando;
 import com.shlad.berserk.Tools.B2WorldCreator;
 import com.shlad.berserk.Tools.Timer;
+import com.shlad.berserk.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen
 {
@@ -92,7 +93,8 @@ public class PlayScreen implements Screen
         backgroundMusic.play();
 
         player = new Commando(world, 1.4f, "playerSprites/commando.pack", "commandoNoBG");
-
+        
+        world.setContactListener(new WorldContactListener());
     }
     
     public TextureAtlas getAtlas()

@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Sprites.JumpPad;
 
 public class B2WorldCreator
 {
@@ -19,10 +20,10 @@ public class B2WorldCreator
         
         fdef.restitution = 0f;
     
-        //2 is wall
-        //3 is Floor
-        //4 is the objects
-        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class))
+        //3 is wall
+        //4 is Floor
+        //5 is the objects
+        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class))
         {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             bDef.type = BodyDef.BodyType.StaticBody;
@@ -39,7 +40,7 @@ public class B2WorldCreator
             body.createFixture(fdef);
         }
     
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class))
+        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class))
         {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             bDef.type = BodyDef.BodyType.StaticBody;
@@ -56,5 +57,12 @@ public class B2WorldCreator
             
             body.createFixture(fdef);
         }
+        
+        for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class))
+        {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            new JumpPad(world, map, rect);
+        }
+        
     }
 }
