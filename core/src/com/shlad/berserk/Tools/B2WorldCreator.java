@@ -22,7 +22,8 @@ public class B2WorldCreator
     
         //3 is wall
         //4 is Floor
-        //5 is the objects
+        //5 is the jump pads
+        //6 is for objects
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class))
         {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
