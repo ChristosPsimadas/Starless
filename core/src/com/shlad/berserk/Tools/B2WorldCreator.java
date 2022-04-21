@@ -6,12 +6,15 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.JumpPad;
 
 public class B2WorldCreator
 {
-    public B2WorldCreator(World world, TiledMap map)
+    public B2WorldCreator(PlayScreen screen)
     {
+        World world = screen.getWorld();
+        TiledMap map = screen.getMap();
         //Defining the attributes of a body
         BodyDef bDef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -63,7 +66,7 @@ public class B2WorldCreator
         for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class))
         {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            new JumpPad(world, map, rect);
+            new JumpPad(screen, rect);
         }
         
     }

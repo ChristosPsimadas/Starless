@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
+import com.sun.jndi.ldap.Ber;
 
 public class Player extends Sprite
 {
@@ -26,6 +27,7 @@ public class Player extends Sprite
     protected TextureRegion playerJump;
     protected TextureRegion playerFall;
     protected Animation<TextureRegion> playerRun;
+    protected Fixture fixture;
     
     protected float stateTimer;
     protected boolean runningRight;
@@ -34,11 +36,11 @@ public class Player extends Sprite
 
     
     //Should find a way to make it not ask for region name
-    public Player(World world, float baseSpeed, String packName, String regionName)
+    public Player(PlayScreen screen, float baseSpeed, String packName, String regionName)
     {
         //on the sprite map jumpKing is called little jumpKing
         super(new TextureAtlas(packName).findRegion(regionName));
-        this.world = world;
+        this.world = screen.getWorld();
         this.maxSpeed = baseSpeed;
 
         currentState = AnimationState.STANDING;
@@ -144,9 +146,10 @@ public class Player extends Sprite
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / Berserk.PPM);
-        fdef.friction = 1f;
+        fdef.filter.categoryBits = Berserk.PLAYER_BIT;
+        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT;
 
         fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData("player");
+        fixture = b2body.createFixture(fdef);
     }
 }

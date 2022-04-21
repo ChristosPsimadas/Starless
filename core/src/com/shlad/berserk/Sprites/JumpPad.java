@@ -7,13 +7,15 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Screens.PlayScreen;
 
 public class JumpPad extends InteractiveTileObject
 {
-    public JumpPad(World world, TiledMap map, Rectangle bounds)
+    public JumpPad(PlayScreen screen, Rectangle bounds)
     {
-        super(world, map, bounds);
+        super(screen, bounds);
         fixture.setUserData(this);
+        setCategoryFilter(Berserk.JUMP_PAD_BIT);
     }
     
     @Override
@@ -21,4 +23,6 @@ public class JumpPad extends InteractiveTileObject
     {
         playerBody.applyLinearImpulse(new Vector2(0, 10.2f), playerBody.getWorldCenter(), true);
     }
+    
+    
 }

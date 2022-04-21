@@ -51,7 +51,7 @@ public class PlayScreen implements Screen
     private final Music backgroundMusic;
     private final Texture backgroundTexture;
     
-    private final Timer timer;
+    //private final Timer timer;
     
     public static boolean won = false;
     
@@ -70,7 +70,7 @@ public class PlayScreen implements Screen
         map1 = mapLoader.load("newMapUnfinished.tmx");
         renderer = new OrthogonalTiledMapRenderer(map1, 1 / Berserk.PPM);
         
-        timer = new Timer(game.batch);
+        //timer = new Timer(game.batch);
         winText = new Texture(Gdx.files.internal("congratulations.png"));
         music = Gdx.audio.newMusic(Gdx.files.internal("congratulations.mp3"));
         music.setLooping(false);
@@ -86,13 +86,13 @@ public class PlayScreen implements Screen
         world = new World(new Vector2(0, -9.81f), true);
         b2dr = new Box2DDebugRenderer();
         
-        new B2WorldCreator(world, map1);
+        new B2WorldCreator(this);
     
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("backgroundSound.mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
 
-        player = new Commando(world, 1.4f, "playerSprites/commando.pack", "commandoNoBG");
+        player = new Commando(this, 1.4f, "playerSprites/commando.pack", "commandoNoBG");
         
         world.setContactListener(new WorldContactListener());
     }
@@ -177,7 +177,7 @@ public class PlayScreen implements Screen
         player.handlePlayerInput(deltaTime);
         //handleInput(deltaTime);
 
-        timer.setTime(deltaTime);
+        //timer.setTime(deltaTime);
         
         
         //Makes it such that the camera follows the player, but only in multiple-of-4 increments
@@ -223,8 +223,8 @@ public class PlayScreen implements Screen
         player.draw(game.batch);
         game.batch.end();
 
-        game.batch.setProjectionMatrix(timer.stage.getCamera().combined);
-        timer.stage.draw();
+//        game.batch.setProjectionMatrix(timer.stage.getCamera().combined);
+//        timer.stage.draw();
     
         //render the physics lines
         b2dr.render(world, gameCam.combined);
@@ -234,6 +234,16 @@ public class PlayScreen implements Screen
     public void resize(int width, int height)
     {
         gamePort.update(width, height);
+    }
+    
+    public TiledMap getMap()
+    {
+        return map1;
+    }
+    
+    public World getWorld()
+    {
+        return world;
     }
     
     @Override
@@ -262,6 +272,6 @@ public class PlayScreen implements Screen
         b2dr.dispose();
         backgroundMusic.dispose();
         backgroundTexture.dispose();
-        timer.dispose();
+        //timer.dispose();
     }
 }

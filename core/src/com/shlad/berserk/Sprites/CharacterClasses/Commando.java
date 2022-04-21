@@ -14,9 +14,9 @@ import com.shlad.berserk.Sprites.Player;
 public class Commando extends Player
 {
     
-    public Commando(World world, float baseSpeed, String packName, String regionName)
+    public Commando(PlayScreen screen, float baseSpeed, String packName, String regionName)
     {
-        super(world, baseSpeed, packName, regionName);
+        super(screen, baseSpeed, packName, regionName);
     
         //The sprites begin at 0, 0. The sprites should have 1 pixel padding on each side, which is why there is a plus 1.
         //The x and y parameters are INCLUSIVE. They include the point 1 etc.
@@ -36,5 +36,6 @@ public class Commando extends Player
     
         setBounds(0, 0, 12 / Berserk.PPM, 12 / Berserk.PPM);
         setRegion(playerIdle);
+        fixture.setUserData("player");
     }
 }
