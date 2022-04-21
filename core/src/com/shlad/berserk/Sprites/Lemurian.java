@@ -4,9 +4,9 @@ import com.shlad.berserk.Screens.PlayScreen;
 
 public class Lemurian extends Enemy
 {
-    public Lemurian(PlayScreen screen, float x, float y)
+    public Lemurian(PlayScreen screen, String packName, String regionName)
     {
-        super(screen, x, y);
+        super(screen, packName, regionName);
     }
     
     @Override

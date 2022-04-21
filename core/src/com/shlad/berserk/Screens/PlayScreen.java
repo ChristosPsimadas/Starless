@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.CharacterClasses.Commando;
 import com.shlad.berserk.Tools.B2WorldCreator;
+import com.shlad.berserk.Tools.Hud;
 import com.shlad.berserk.Tools.Timer;
 import com.shlad.berserk.Tools.WorldContactListener;
 
@@ -40,28 +41,19 @@ public class PlayScreen implements Screen
     
     private Commando player;
 
-//    private float xImpulseJump;
-//    private float yImpulseJump;
-//
-//    private final float maxXJumpvelocity = 7f;
-//    private final float maxYJumpvelocity = 4.8f;
-//
-//    private String previousKeyState = "released";
-
     private final Music backgroundMusic;
     private final Texture backgroundTexture;
-    
-    //private final Timer timer;
     
     public static boolean won = false;
     
     private final Texture winText;
     private final Music music;
     
+    private Hud hud;
+    
     public PlayScreen(Berserk game)
     {
         atlas = new TextureAtlas("jumpking.pack");
-        
         
         this.game = game;
         gameCam = new OrthographicCamera();
@@ -91,8 +83,10 @@ public class PlayScreen implements Screen
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("backgroundSound.mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
-
-        player = new Commando(this, 1.4f, "playerSprites/commando.pack", "commandoNoBG");
+        
+        player = new Commando(this, "playerSprites/commando.pack", "commandoNoBG");
+        
+        this.hud = new Hud(game.batch, player);
         
         world.setContactListener(new WorldContactListener());
     }
@@ -108,73 +102,13 @@ public class PlayScreen implements Screen
     
     }
     
-//    public void handleInput(float deltaTime)
-//    {
-//        //No moving in the air
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.D) && (player.b2body.getLinearVelocity().x <= 1.8f)
-//                && (!player.isJumping()) && (player.b2body.getLinearVelocity().y == 0))
-//        {
-//            //Move a set speed, no acceleration
-//            player.b2body.setLinearVelocity(new Vector2(1.1f, 0));
-//        }
-//
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.A) && (player.b2body.getLinearVelocity().x >= -1.8f)
-//                && (!player.isJumping()) && (player.b2body.getLinearVelocity().y == 0))
-//        {
-//            //move a set speed, no acceleration
-//            player.b2body.setLinearVelocity(new Vector2(-1.1f, 0));
-//        }
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.W) && (player.b2body.getLinearVelocity().y == 0))
-//        {
-//            //Make the setJumping boolean true
-//            //So that you can't move left or right when charging your jump
-//            player.setJumping(true);
-//
-//            //Make your character stop completely in place when charging a jump
-//            player.b2body.setLinearVelocity(0,0);
-//
-//            //This is what charges the jump
-//            yImpulseJump += 8.9 * deltaTime;
-//
-//            //Change previous state to held, to know when a key is released
-//            previousKeyState = "held";
-//
-//            //Make the max jumping power 5.4
-//            if (yImpulseJump > maxYJumpvelocity) {yImpulseJump = maxYJumpvelocity;}
-//
-//            //Make it such that you can charge left and right as well
-//            if (Gdx.input.isKeyPressed(Input.Keys.D))
-//            {
-//                xImpulseJump += 5.2 * deltaTime;
-//                if (xImpulseJump > maxXJumpvelocity) {xImpulseJump = maxXJumpvelocity;}
-//            }
-//
-//            if (Gdx.input.isKeyPressed(Input.Keys.A))
-//            {
-//                xImpulseJump -= 5.2 * deltaTime;
-//                if (xImpulseJump < -maxXJumpvelocity) {xImpulseJump = -maxXJumpvelocity;}
-//            }
-//        }
-//        else if(previousKeyState.equals("held"))
-//        {
-//            previousKeyState = "released";
-//            player.b2body.applyLinearImpulse(new Vector2(xImpulseJump, yImpulseJump), player.b2body.getWorldCenter(), true);
-//            xImpulseJump = 0;
-//            yImpulseJump = 0;
-//            player.setJumping(false);
-//        }
-//
-//    }
-    
     //update the game world
     public void update(float deltaTime)
     {
         player.update(deltaTime);
         //user input first
         player.handlePlayerInput(deltaTime);
+        
         //handleInput(deltaTime);
 
         //timer.setTime(deltaTime);
@@ -228,6 +162,8 @@ public class PlayScreen implements Screen
     
         //render the physics lines
         b2dr.render(world, gameCam.combined);
+        
+        hud.updateHealth();
     }
     
     @Override

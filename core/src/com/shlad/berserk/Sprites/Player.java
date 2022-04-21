@@ -33,15 +33,33 @@ public class Player extends Sprite
     protected boolean runningRight;
     
     protected float maxSpeed = 1.4f;
-
+    
+    protected double maxHealth = 1;
+    protected double currentHealth = 1;
+    protected double healthPerLevel = 0;
+    
+    protected double healthRegen = 0;
+    protected double healthRegenPerLevel = 0;
+    
+    protected double damage = 1;
+    protected double damagePerLevel = 0;
+    
+    protected double armor = 0;
+    protected double armorPerLevel = 0;
+    
+    protected int level = 1;
+    protected double xp;
+    protected double xpToLevelUp;
+    
+    protected int gold;
+    
     
     //Should find a way to make it not ask for region name
-    public Player(PlayScreen screen, float baseSpeed, String packName, String regionName)
+    public Player(PlayScreen screen, String packName, String regionName)
     {
-        //on the sprite map jumpKing is called little jumpKing
+        
         super(new TextureAtlas(packName).findRegion(regionName));
         this.world = screen.getWorld();
-        this.maxSpeed = baseSpeed;
 
         currentState = AnimationState.STANDING;
         previousState = AnimationState.STANDING;
@@ -151,5 +169,145 @@ public class Player extends Sprite
 
         fdef.shape = shape;
         fixture = b2body.createFixture(fdef);
+    }
+    
+    public float getMaxSpeed()
+    {
+        return maxSpeed;
+    }
+    
+    public void setMaxSpeed(float maxSpeed)
+    {
+        this.maxSpeed = maxSpeed;
+    }
+    
+    public double getMaxHealth()
+    {
+        return maxHealth;
+    }
+    
+    public void setMaxHealth(double health)
+    {
+        this.maxHealth = health;
+    }
+    
+    public double getCurrentHealth()
+    {
+        return currentHealth;
+    }
+    
+    public void setCurrentHealth(double currentHealth)
+    {
+        this.currentHealth = currentHealth;
+    }
+    
+    public double getHealthPerLevel()
+    {
+        return healthPerLevel;
+    }
+    
+    public void setHealthPerLevel(double healthPerLevel)
+    {
+        this.healthPerLevel = healthPerLevel;
+    }
+    
+    public double getHealthRegen()
+    {
+        return healthRegen;
+    }
+    
+    public void setHealthRegen(double healthRegen)
+    {
+        this.healthRegen = healthRegen;
+    }
+    
+    public double getHealthRegenPerLevel()
+    {
+        return healthRegenPerLevel;
+    }
+    
+    public void setHealthRegenPerLevel(double healthRegenPerLevel)
+    {
+        this.healthRegenPerLevel = healthRegenPerLevel;
+    }
+    
+    public double getDamage()
+    {
+        return damage;
+    }
+    
+    public void setDamage(double damage)
+    {
+        this.damage = damage;
+    }
+    
+    public double getDamagePerlevel()
+    {
+        return damagePerLevel;
+    }
+    
+    public void setDamagePerlevel(double damagePerlevel)
+    {
+        this.damagePerLevel = damagePerlevel;
+    }
+    
+    public double getArmor()
+    {
+        return armor;
+    }
+    
+    public void setArmor(double armor)
+    {
+        this.armor = armor;
+    }
+    
+    public double getArmorPerLevel()
+    {
+        return armorPerLevel;
+    }
+    
+    public void setArmorPerLevel(double armorPerLevel)
+    {
+        this.armorPerLevel = armorPerLevel;
+    }
+    
+    public int getLevel()
+    {
+        return level;
+    }
+    
+    public void setLevel(int level)
+    {
+        this.level = level;
+    }
+    
+    public double getXp()
+    {
+        return xp;
+    }
+    
+    public void setXp(double xp)
+    {
+        this.xp = xp;
+    }
+    
+    public double getXpToLevelUp()
+    {
+        return xpToLevelUp;
+    }
+    
+    public void setXpToLevelUp(double xpToLevelUp)
+    {
+        this.xpToLevelUp = xpToLevelUp;
+    }
+    
+    public int getGold()
+    {
+        return gold;
+    }
+    
+    public void setGold(int gold)
+    {
+        this.gold = gold;
     }
 }

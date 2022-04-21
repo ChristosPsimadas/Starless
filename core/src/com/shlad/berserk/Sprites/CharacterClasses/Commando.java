@@ -14,9 +14,17 @@ import com.shlad.berserk.Sprites.Player;
 public class Commando extends Player
 {
     
-    public Commando(PlayScreen screen, float baseSpeed, String packName, String regionName)
+    public Commando(PlayScreen screen, String packName, String regionName)
     {
-        super(screen, baseSpeed, packName, regionName);
+        super(screen, packName, regionName);
+        maxHealth = 110;
+        currentHealth = maxHealth;
+        healthPerLevel = 33;
+        healthRegen = 1;
+        healthRegenPerLevel = 0.2;
+        damage = 12;
+        damagePerLevel = 2.4;
+        
     
         //The sprites begin at 0, 0. The sprites should have 1 pixel padding on each side, which is why there is a plus 1.
         //The x and y parameters are INCLUSIVE. They include the point 1 etc.
