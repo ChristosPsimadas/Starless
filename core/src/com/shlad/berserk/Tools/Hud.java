@@ -1,22 +1,25 @@
 package com.shlad.berserk.Tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
-import com.shlad.berserk.Sprites.CharacterClasses.Commando;
 import com.shlad.berserk.Sprites.Player;
 
 public class Hud
 {
-    private Stage stage;
+    public Stage stage;
     private Viewport viewport;
     private Player player;
+    BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
     
     public Hud(SpriteBatch spriteBatch, Player player)
     {
@@ -25,13 +28,11 @@ public class Hud
         this.player = player;
     
         Table table = new Table();
-        table.top();
+        table.bottom();
         table.setFillParent(true);
-        
-        
     }
     
-    public void updateHealth()
+    public void updateHealth(SpriteBatch spriteBatch)
     {
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
@@ -49,8 +50,13 @@ public class Hud
         shapeRenderer.setColor(new Color(126/255f, 219/255f, 107/255f, 1f));
         shapeRenderer.rect(Berserk.V_WIDTH / 2f - 75, Berserk.V_HEIGHT - 370, 150 * (float) player.getCurrentHealth() / (float) player.getMaxHealth(), 10);
         
-        
         shapeRenderer.end();
         
+        spriteBatch.setProjectionMatrix(stage.getCamera().combined);
+        spriteBatch.begin();
+        font.getData().setScale(0.30f);
+        font.setColor(Color.WHITE);
+        font.draw(spriteBatch, "" + (int) player.getCurrentHealth() + "/" + (int) player.getMaxHealth(), Berserk.V_WIDTH / 2f - 18, Berserk.V_HEIGHT - 361);
+        spriteBatch.end();
     }
 }

@@ -24,7 +24,6 @@ import com.shlad.berserk.Tools.WorldContactListener;
 public class PlayScreen implements Screen
 {
     private final Berserk game;
-    private final TextureAtlas atlas;
     
     private final OrthographicCamera gameCam;
     private final Viewport gamePort;
@@ -53,7 +52,6 @@ public class PlayScreen implements Screen
     
     public PlayScreen(Berserk game)
     {
-        atlas = new TextureAtlas("jumpking.pack");
         
         this.game = game;
         gameCam = new OrthographicCamera();
@@ -89,11 +87,6 @@ public class PlayScreen implements Screen
         this.hud = new Hud(game.batch, player);
         
         world.setContactListener(new WorldContactListener());
-    }
-    
-    public TextureAtlas getAtlas()
-    {
-        return atlas;
     }
     
     @Override
@@ -156,14 +149,14 @@ public class PlayScreen implements Screen
         game.batch.begin();
         player.draw(game.batch);
         game.batch.end();
-
-//        game.batch.setProjectionMatrix(timer.stage.getCamera().combined);
-//        timer.stage.draw();
     
         //render the physics lines
         b2dr.render(world, gameCam.combined);
         
-        hud.updateHealth();
+        hud.updateHealth(game.batch);
+    
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
     }
     
     @Override
