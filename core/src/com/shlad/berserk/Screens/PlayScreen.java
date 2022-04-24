@@ -137,15 +137,14 @@ public class PlayScreen implements Screen
         //Clear the screen and make it light blue
         Gdx.gl.glClearColor(0.3f, 0.45f, 0.74f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        game.batch.setProjectionMatrix(gameCam.combined);
-        game.batch.begin();
-        game.batch.draw(backgroundTexture, 0, gameCam.position.y - 1.04f, gameCam.viewportWidth, gameCam.viewportHeight);
-        game.batch.end();
+        
+        //game.batch.begin();
+        //game.batch.draw(backgroundTexture, 0, gameCam.position.y - 1.04f, gameCam.viewportWidth, gameCam.viewportHeight);
+        //game.batch.end();
         //render the game map
         renderer.render();
-
-
+    
+        game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         player.draw(game.batch);
         game.batch.end();

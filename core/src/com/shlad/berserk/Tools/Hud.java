@@ -59,4 +59,14 @@ public class Hud
         font.draw(spriteBatch, "" + (int) player.getCurrentHealth() + "/" + (int) player.getMaxHealth(), Berserk.V_WIDTH / 2f - 18, Berserk.V_HEIGHT - 361);
         spriteBatch.end();
     }
+    
+    public void updateSkills(SpriteBatch spriteBatch)
+    {
+        spriteBatch.setProjectionMatrix(stage.getCamera().combined);
+        spriteBatch.begin();
+        
+        
+        
+        spriteBatch.end();
+    }
 }
