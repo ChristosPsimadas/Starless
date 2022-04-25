@@ -2,6 +2,7 @@ package com.shlad.berserk.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -52,6 +53,8 @@ public class Player extends Sprite
     protected double xpToLevelUp;
     
     protected int gold;
+
+    //protected Texture
     
     
     //Should find a way to make it not ask for region name

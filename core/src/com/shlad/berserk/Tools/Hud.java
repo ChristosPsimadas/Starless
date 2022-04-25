@@ -32,7 +32,7 @@ public class Hud
         table.setFillParent(true);
     }
     
-    public void updateHealth(SpriteBatch spriteBatch)
+    public void updateHealth()
     {
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
@@ -52,11 +52,21 @@ public class Hud
         
         shapeRenderer.end();
         
-        spriteBatch.setProjectionMatrix(stage.getCamera().combined);
-        spriteBatch.begin();
+        stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
+        stage.getBatch().begin();
         font.getData().setScale(0.30f);
         font.setColor(Color.WHITE);
-        font.draw(spriteBatch, "" + (int) player.getCurrentHealth() + "/" + (int) player.getMaxHealth(), Berserk.V_WIDTH / 2f - 18, Berserk.V_HEIGHT - 361);
-        spriteBatch.end();
+        font.draw(stage.getBatch(), "" + (int) player.getCurrentHealth() + "/" + (int) player.getMaxHealth(), Berserk.V_WIDTH / 2f - 18, Berserk.V_HEIGHT - 361);
+        stage.getBatch().end();
+    }
+
+    public void updateSkills()
+    {
+        stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
+        stage.getBatch().begin();
+
+        //stage.getBatch().draw();
+
+        stage.getBatch().end();
     }
 }

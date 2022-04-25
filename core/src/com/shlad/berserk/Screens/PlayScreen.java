@@ -153,7 +153,7 @@ public class PlayScreen implements Screen
         //render the physics lines
         b2dr.render(world, gameCam.combined);
         
-        hud.updateHealth(game.batch);
+        hud.updateHealth();
     
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
