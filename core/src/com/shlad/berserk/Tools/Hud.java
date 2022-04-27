@@ -58,15 +58,30 @@ public class Hud
         font.setColor(Color.WHITE);
         font.draw(stage.getBatch(), "" + (int) player.getCurrentHealth() + "/" + (int) player.getMaxHealth(), Berserk.V_WIDTH / 2f - 18, Berserk.V_HEIGHT - 361);
         stage.getBatch().end();
+        updateSkills();
     }
 
-    public void updateSkills()
+    private void updateSkills()
     {
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
+        shapeRenderer.rect((Berserk.V_WIDTH / 2f) - 80, Berserk.V_HEIGHT - 352, 161, 41);
+        shapeRenderer.end();
+
+
         stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
         stage.getBatch().begin();
 
-        //stage.getBatch().draw();
+
+        for (int i = 0; i < 4; i++)
+        {
+            stage.getBatch().draw(player.getAllSkills()[i], (Berserk.V_WIDTH / 2f) - 77 + (i * 40), Berserk.V_HEIGHT - 350, 36, 36);
+        }
 
         stage.getBatch().end();
+
     }
 }

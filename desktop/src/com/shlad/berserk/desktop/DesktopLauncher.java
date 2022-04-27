@@ -12,7 +12,7 @@ public class DesktopLauncher
 		//Aspect ratio -> 25x13
 		config.height = 910;
 		config.width = 1750;
-		config.title = "Shitass";
+		config.title = "Shias";
 		
 		new LwjglApplication(new Berserk(), config);
 	}

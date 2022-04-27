@@ -101,7 +101,7 @@ public class PlayScreen implements Screen
         player.update(deltaTime);
         //user input first
         player.handlePlayerInput(deltaTime);
-        
+
         //handleInput(deltaTime);
 
         //timer.setTime(deltaTime);
@@ -153,9 +153,8 @@ public class PlayScreen implements Screen
         //render the physics lines
         b2dr.render(world, gameCam.combined);
         
-        hud.updateHealth();
-    
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.updateHealth();
         hud.stage.draw();
     }
     

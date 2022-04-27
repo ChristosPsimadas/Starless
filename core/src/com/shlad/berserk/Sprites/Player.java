@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
+import com.shlad.berserk.Tools.Skill;
 import com.sun.jndi.ldap.Ber;
 
 public class Player extends Sprite
@@ -54,9 +55,9 @@ public class Player extends Sprite
     
     protected int gold;
 
-    //protected Texture
-    
-    
+    protected Texture[] allSkills;
+    protected Skill[] allSkills1;
+
     //Should find a way to make it not ask for region name
     public Player(PlayScreen screen, String packName, String regionName)
     {
@@ -67,11 +68,19 @@ public class Player extends Sprite
         currentState = AnimationState.STANDING;
         previousState = AnimationState.STANDING;
         stateTimer = 0;
-        runningRight = true;
+        runningRight = true;}
+
+    protected void setSkillArray(Texture[] skills)
+    {
+        this.allSkills = skills;
     }
+
+    //protected void setSkillArray
 
     public void handlePlayerInput(float deltaTime)
     {
+
+
         if (Gdx.input.isKeyPressed(Input.Keys.D) && (this.b2body.getLinearVelocity().x <= maxSpeed))
         {
             this.b2body.applyLinearImpulse(new Vector2(maxSpeed/4, 0), this.b2body.getWorldCenter(), true);
@@ -86,7 +95,6 @@ public class Player extends Sprite
         {
             this.b2body.applyLinearImpulse(new Vector2(0, 4.5f), this.b2body.getWorldCenter(), true);
         }
-
     }
 
     public void update(float dt)
@@ -312,5 +320,9 @@ public class Player extends Sprite
     public void setGold(int gold)
     {
         this.gold = gold;
+    }
+
+    public Texture[] getAllSkills() {
+        return allSkills;
     }
 }

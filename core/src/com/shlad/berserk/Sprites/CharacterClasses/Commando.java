@@ -25,6 +25,7 @@ public class Commando extends Player
     public Commando(PlayScreen screen, String packName, String regionName)
     {
         super(screen, packName, regionName);
+        this.setSkillArray(allSkills);
         maxHealth = 110;
         currentHealth = maxHealth;
         healthPerLevel = 33;
@@ -55,7 +56,12 @@ public class Commando extends Player
         fixture.setUserData("player");
     }
 
-    public Texture getSkillOne() {
-        return skillOne;
+
+    public void printSkills()
+    {
+        for (Texture t : allSkills)
+        {
+            System.out.println(t);
+        }
     }
 }
