@@ -1,5 +1,7 @@
 package com.shlad.berserk.Sprites.CharacterClasses;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,10 +15,17 @@ import com.shlad.berserk.Sprites.Player;
 
 public class Commando extends Player
 {
-    
+    private final Texture skillOne = new Texture("commandoSkill1.png");
+    private final Texture skillTwo = new Texture("commandoSkill2.png");
+    private final Texture skillThree = new Texture("commandoSkill3.png");
+    private final Texture skillFour = new Texture("commandoSkill4.png");
+
+    private Texture[] allSkills = new Texture[] {skillOne, skillTwo, skillThree, skillFour};
+
     public Commando(PlayScreen screen, String packName, String regionName)
     {
         super(screen, packName, regionName);
+        this.setSkillArray(allSkills);
         maxHealth = 110;
         currentHealth = maxHealth;
         healthPerLevel = 33;
@@ -45,5 +54,14 @@ public class Commando extends Player
         setBounds(0, 0, 12 / Berserk.PPM, 12 / Berserk.PPM);
         setRegion(playerIdle);
         fixture.setUserData("player");
+    }
+
+
+    public void printSkills()
+    {
+        for (Texture t : allSkills)
+        {
+            System.out.println(t);
+        }
     }
 }
