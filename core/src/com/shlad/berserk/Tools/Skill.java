@@ -3,24 +3,29 @@ package com.shlad.berserk.Tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Tools.Hud;
 
 public class Skill
 {
-    private Texture skillImg;
-    private float coolDownSeconds;
-    private float damagePercent;
+    protected Texture skillImg;
+    protected float coolDownSeconds;
+    
+    protected int skillNumber;
+    
+    protected String name;
 
-    private int skillNumber;
-
-    public Skill(String filePath, float coolDownSeconds, float damagePercent, int skillNumber)
+    public Skill(String name, String textureFilePath, float coolDownSeconds, int skillNumber)
     {
-        skillImg = new Texture(Gdx.files.internal(filePath));
+        skillImg = new Texture(Gdx.files.internal(textureFilePath));
         this.coolDownSeconds = coolDownSeconds;
-        this.damagePercent = damagePercent;
 
         this.skillNumber = skillNumber;
-
+        
+        this.name = name;
     }
+    
+    public Skill() {}
 
     //Intended usage: if (Gdx.input.isKeyPressed(skill4.getSkillKey)) returns true if R is pressed
     public int getSkillKey()
@@ -42,5 +47,22 @@ public class Skill
         }
         //R key
         else return 46;
+    }
+    
+    public void draw(Hud hud)
+    {
+        if (skillNumber == 1)
+        {
+            hud.stage.getBatch().draw(skillImg, (Berserk.V_WIDTH / 2f) - 77, Berserk.V_HEIGHT - 350);
+        }
+        else if (skillNumber == 2)
+        {
+            hud.stage.getBatch().draw(skillImg, (Berserk.V_WIDTH / 2f) - 77 + 40, Berserk.V_HEIGHT - 350);
+        }
+        else if (skillNumber == 3)
+        {
+            hud.stage.getBatch().draw(skillImg, (Berserk.V_WIDTH / 2f) - 77 + 80, Berserk.V_HEIGHT - 350);
+        }
+        else hud.stage.getBatch().draw(skillImg, (Berserk.V_WIDTH / 2f) - 77 + 80, Berserk.V_HEIGHT - 350);
     }
 }

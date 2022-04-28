@@ -3,6 +3,7 @@ package com.shlad.berserk.Tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -21,6 +22,8 @@ public class Hud
     private Player player;
     BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
     
+    Pixmap cursorImage = new Pixmap(Gdx.files.internal("crosshair.png"));
+    
     public Hud(SpriteBatch spriteBatch, Player player)
     {
         viewport = new FitViewport(Berserk.V_WIDTH, Berserk.V_HEIGHT, new OrthographicCamera());
@@ -30,6 +33,7 @@ public class Hud
         Table table = new Table();
         table.bottom();
         table.setFillParent(true);
+        Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursorImage, 0, 0));
     }
     
     public void updateHealth()
@@ -68,7 +72,7 @@ public class Hud
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
-        shapeRenderer.rect((Berserk.V_WIDTH / 2f) - 80, Berserk.V_HEIGHT - 352, 161, 41);
+        shapeRenderer.rect((Berserk.V_WIDTH / 2f) - 80, Berserk.V_HEIGHT - 353, 162, 42);
         shapeRenderer.end();
 
 
@@ -85,13 +89,9 @@ public class Hud
 
     }
     
-    public void updateSkills(SpriteBatch spriteBatch)
+    private void drawCursor()
     {
-        spriteBatch.setProjectionMatrix(stage.getCamera().combined);
-        spriteBatch.begin();
-        
-        
-        
-        spriteBatch.end();
+    
     }
+    
 }

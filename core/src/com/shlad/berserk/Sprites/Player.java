@@ -18,7 +18,7 @@ import com.sun.jndi.ldap.Ber;
 
 public class Player extends Sprite
 {
-    public enum AnimationState {FALLING, JUMPING, STANDING, RUNNING}
+    public enum AnimationState {FALLING, JUMPING, STANDING, RUNNING, SKILLONE, SKILLTWO, SKILLTHREE, SKILLFOUR}
     
     public AnimationState currentState;
     public AnimationState previousState;
@@ -29,6 +29,11 @@ public class Player extends Sprite
     protected TextureRegion playerJump;
     protected TextureRegion playerFall;
     protected Animation<TextureRegion> playerRun;
+    protected Animation<TextureRegion> playerSkillOne;
+    protected Animation<TextureRegion> playerSkillTwo;
+    protected Animation<TextureRegion> playerSkillThree;
+    protected Animation<TextureRegion> playerSkillFour;
+    
     protected Fixture fixture;
     
     protected float stateTimer;
@@ -68,19 +73,18 @@ public class Player extends Sprite
         currentState = AnimationState.STANDING;
         previousState = AnimationState.STANDING;
         stateTimer = 0;
-        runningRight = true;}
+        runningRight = true;
+    }
 
     protected void setSkillArray(Texture[] skills)
     {
         this.allSkills = skills;
     }
 
-    //protected void setSkillArray
+    protected void setSkillArrayObject(Skill[] skillArray) {this.allSkills1 = skillArray;}
 
     public void handlePlayerInput(float deltaTime)
     {
-
-
         if (Gdx.input.isKeyPressed(Input.Keys.D) && (this.b2body.getLinearVelocity().x <= maxSpeed))
         {
             this.b2body.applyLinearImpulse(new Vector2(maxSpeed/4, 0), this.b2body.getWorldCenter(), true);
@@ -99,7 +103,7 @@ public class Player extends Sprite
 
     public void update(float dt)
     {
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2 + 3/ Berserk.PPM);
+        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2 + 2.5f/ Berserk.PPM);
         setRegion(getFrame(dt));
     }
     
@@ -121,6 +125,10 @@ public class Player extends Sprite
                 
             case FALLING:
                 region = playerFall;
+                break;
+                
+            case SKILLONE:
+                region = playerSkillOne.getKeyFrame(stateTimer, true);
                 break;
                 
             case STANDING:
@@ -153,12 +161,14 @@ public class Player extends Sprite
         if (b2body.getLinearVelocity().y > 0)
             return AnimationState.JUMPING;
         
+        else if (b2body.getLinearVelocity().y == 0 && Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+            return AnimationState.SKILLONE;
+        
         else if (b2body.getLinearVelocity().y < 0)
             return AnimationState.FALLING;
         
         else if (b2body.getLinearVelocity().x != 0)
             return AnimationState.RUNNING;
-        
         else
             return AnimationState.STANDING;
     }

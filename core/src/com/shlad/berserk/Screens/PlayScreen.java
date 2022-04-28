@@ -82,7 +82,7 @@ public class PlayScreen implements Screen
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         
-        player = new Commando(this, "playerSprites/commando.pack", "commandoNoBG");
+        player = new Commando(this);
         
         this.hud = new Hud(game.batch, player);
         
@@ -199,6 +199,8 @@ public class PlayScreen implements Screen
         b2dr.dispose();
         backgroundMusic.dispose();
         backgroundTexture.dispose();
-        //timer.dispose();
+        hud.stage.dispose();
+        player.getTexture().dispose();
+        
     }
 }

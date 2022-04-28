@@ -1,0 +1,12 @@
+
+commandoStandardized.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+commandoStandard
+  rotate: false
+  xy: 0, 0
+  size: 587, 105
+  orig: 587, 105
+  offset: 0, 0
+  index: -1

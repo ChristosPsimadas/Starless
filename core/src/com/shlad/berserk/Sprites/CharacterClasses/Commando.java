@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.Array;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.Player;
+import com.shlad.berserk.Tools.Skill;
+import com.shlad.berserk.Tools.Skills.DoubleTap;
 
 public class Commando extends Player
 {
@@ -21,11 +23,21 @@ public class Commando extends Player
     private final Texture skillFour = new Texture("commandoSkill4.png");
 
     private Texture[] allSkills = new Texture[] {skillOne, skillTwo, skillThree, skillFour};
+    
+    private Skill doubleTap = new DoubleTap();
+    private Skill[] allSkillObjects = new Skill[]{doubleTap};
+    
+    private final int WIDTH = 38;
+    
+    
+    
+    //private Skill doubleTap = new Skill("Double Tap", "commandoSkill1.png", 0, 60, )
 
-    public Commando(PlayScreen screen, String packName, String regionName)
+    public Commando(PlayScreen screen)
     {
-        super(screen, packName, regionName);
+        super(screen, "playerSpritesNewest/commandoStandardized.pack", "commandoStandard");
         this.setSkillArray(allSkills);
+        this.setSkillArrayObject(allSkillObjects);
         maxHealth = 110;
         currentHealth = maxHealth;
         healthPerLevel = 33;
@@ -39,23 +51,34 @@ public class Commando extends Player
         //The x and y parameters are INCLUSIVE. They include the point 1 etc.
         //Sprite should be 12 pixels height and width.
         Array<TextureRegion> frames = new Array<>();
-        for(int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i * 12, 1 + 12, 12, 12));}
+        for(int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 12, WIDTH, 12));}
         playerRun = new Animation<>(0.1f, frames);
         frames.clear();
     
-        playerFall =     new TextureRegion(getTexture(), 1,  1 + 24, 12, 12);
+                                                            //3 because its the 3rd from the top
+        playerFall = new TextureRegion(getTexture(), 1, 3 + 24, WIDTH, 12);
     
-        playerJump =     new TextureRegion(getTexture(), 1, 1 + 24, 12, 12);
+        playerJump = new TextureRegion(getTexture(), 1, 3 + 24, WIDTH, 12);
     
-        playerIdle =     new TextureRegion(getTexture(), 1  , 1, 12, 12);
+        playerIdle = new TextureRegion(getTexture(), 1, 1     , WIDTH, 12);
+        
+        for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + 48, WIDTH, 12));}
+        playerSkillOne = new Animation<>(0.1f, frames);
+        frames.clear();
     
         definePlayer(4.5f);
     
-        setBounds(0, 0, 12 / Berserk.PPM, 12 / Berserk.PPM);
+        setBounds(0, 0, WIDTH / Berserk.PPM, 12 / Berserk.PPM);
         setRegion(playerIdle);
         fixture.setUserData("player");
     }
-
+    
+//    @Override
+//    public void update(float dt)
+//    {
+//        setPosition(b2body.getPosition().x - getWidth() / 2 + 4f/ Berserk.PPM, b2body.getPosition().y - getHeight() / 2 + 2.5f/ Berserk.PPM);
+//        setRegion(getFrame(dt));
+//    }
 
     public void printSkills()
     {
