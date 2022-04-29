@@ -3,9 +3,12 @@ package com.shlad.berserk.Tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Sprites.Player;
 
 public class Skill
 {
+    protected Player.AnimationState nameOfAnimationState;
+
     protected Texture skillImg;
     protected float coolDownSeconds;
     
@@ -52,7 +55,12 @@ public class Skill
         //R key
         else return 46;
     }
-    
+
+    public boolean isCoolDownOver()
+    {
+        return this.getCoolDownSeconds() < this.getTimePassedSinceLastUsed();
+    }
+
     public void draw(Hud hud)
     {
         if (skillNumber == 1)
