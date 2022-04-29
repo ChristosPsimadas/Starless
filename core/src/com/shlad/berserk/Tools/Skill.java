@@ -1,10 +1,8 @@
 package com.shlad.berserk.Tools;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.shlad.berserk.Berserk;
-import com.shlad.berserk.Tools.Hud;
 
 public class Skill
 {
@@ -14,6 +12,12 @@ public class Skill
     protected int skillNumber;
     
     protected String name;
+    
+    private boolean inSkillAnimation;
+    
+    protected float timePassedSinceLastUsed;
+    
+    protected float animationDuration;
 
     public Skill(String name, String textureFilePath, float coolDownSeconds, int skillNumber)
     {
@@ -64,5 +68,35 @@ public class Skill
             hud.stage.getBatch().draw(skillImg, (Berserk.V_WIDTH / 2f) - 77 + 80, Berserk.V_HEIGHT - 350);
         }
         else hud.stage.getBatch().draw(skillImg, (Berserk.V_WIDTH / 2f) - 77 + 80, Berserk.V_HEIGHT - 350);
+    }
+    
+    public float getCoolDownSeconds()
+    {
+        return coolDownSeconds;
+    }
+    
+    public boolean isInSkillAnimation()
+    {
+        return inSkillAnimation;
+    }
+    
+    public void setInSkillAnimation(boolean inSkillAnimation)
+    {
+        this.inSkillAnimation = inSkillAnimation;
+    }
+    
+    public float getTimePassedSinceLastUsed()
+    {
+        return timePassedSinceLastUsed;
+    }
+    
+    public void setTimePassedSinceLastUsed(float timePassedSinceLastUsed)
+    {
+        this.timePassedSinceLastUsed = timePassedSinceLastUsed;
+    }
+    
+    public float getAnimationDuration()
+    {
+        return animationDuration;
     }
 }

@@ -13,6 +13,7 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
+import com.shlad.berserk.Tools.Skills.DodgeRoll;
 import com.shlad.berserk.Tools.Skills.DoubleTap;
 
 public class Commando extends Player
@@ -25,7 +26,8 @@ public class Commando extends Player
     private Texture[] allSkills = new Texture[] {skillOne, skillTwo, skillThree, skillFour};
     
     private Skill doubleTap = new DoubleTap();
-    private Skill[] allSkillObjects = new Skill[]{doubleTap};
+    private Skill dodgeRoll = new DodgeRoll();
+    private Skill[] allSkillObjects = new Skill[]{doubleTap, dodgeRoll, dodgeRoll};
     
     private final int WIDTH = 38;
     
@@ -63,7 +65,11 @@ public class Commando extends Player
         playerIdle = new TextureRegion(getTexture(), 1, 1     , WIDTH, 12);
         
         for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + 48, WIDTH, 12));}
-        playerSkillOne = new Animation<>(0.1f, frames);
+        playerSkillOne = new Animation<>(doubleTap.getCoolDownSeconds() / 4f, frames);
+        frames.clear();
+    
+        for (int i = 0; i < 9; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 7 + 72, WIDTH, 12));}
+        playerSkillThree = new Animation<>(dodgeRoll.getAnimationDuration() / 8f, frames);
         frames.clear();
     
         definePlayer(4.5f);
@@ -72,13 +78,6 @@ public class Commando extends Player
         setRegion(playerIdle);
         fixture.setUserData("player");
     }
-    
-//    @Override
-//    public void update(float dt)
-//    {
-//        setPosition(b2body.getPosition().x - getWidth() / 2 + 4f/ Berserk.PPM, b2body.getPosition().y - getHeight() / 2 + 2.5f/ Berserk.PPM);
-//        setRegion(getFrame(dt));
-//    }
 
     public void printSkills()
     {

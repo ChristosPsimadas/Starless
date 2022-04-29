@@ -5,18 +5,14 @@ import com.shlad.berserk.Tools.Skill;
 
 public class DoubleTap extends Skill
 {
-    public DoubleTap(String name, String textureFilePath, float coolDownSeconds, int skillNumber)
-    {
-        super(name, textureFilePath, coolDownSeconds, skillNumber);
-    }
-    
     public DoubleTap()
     {
-        this.coolDownSeconds = 0;
+        this.timePassedSinceLastUsed = 0f;
+        this.coolDownSeconds = 0.4f;
         this.skillNumber = 1;
         this.name = "Double Tap";
         this.skillImg = new Texture("commandoSkill1.png");
+        this.animationDuration = coolDownSeconds;
     }
-    
     
 }

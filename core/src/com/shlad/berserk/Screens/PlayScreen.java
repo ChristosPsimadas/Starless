@@ -98,9 +98,10 @@ public class PlayScreen implements Screen
     //update the game world
     public void update(float deltaTime)
     {
-        player.update(deltaTime);
+        
         //user input first
         player.handlePlayerInput(deltaTime);
+        player.update(deltaTime);
 
         //handleInput(deltaTime);
 
