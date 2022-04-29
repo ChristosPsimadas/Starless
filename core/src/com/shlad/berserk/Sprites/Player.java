@@ -89,15 +89,26 @@ public class Player extends Sprite
             skill.setTimePassedSinceLastUsed(skill.getTimePassedSinceLastUsed() + deltaTime);
         }
         
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && (allSkills1[0].getCoolDownSeconds() < allSkills1[0].getTimePassedSinceLastUsed()) && (this.b2body.getLinearVelocity().y == 0) && (this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLTHREE && this.currentState != AnimationState.SKILLFOUR))
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && (allSkills1[0].getCoolDownSeconds() < allSkills1[0].getTimePassedSinceLastUsed()) &&
+                (this.b2body.getLinearVelocity().y == 0) && (this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLTHREE && this.currentState != AnimationState.SKILLFOUR))
         {
             System.out.println("Shoot");
             this.b2body.setLinearVelocity(0f, 0f);
             allSkills1[0].setInSkillAnimation(true);
             allSkills1[0].setTimePassedSinceLastUsed(0);
         }
-        
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills1[2].getCoolDownSeconds() < allSkills1[2].getTimePassedSinceLastUsed()) && (this.currentState != AnimationState.SKILLONE && this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLFOUR))
+
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && (allSkills1[1].getCoolDownSeconds() < allSkills1[1].getTimePassedSinceLastUsed()) &&
+                (this.b2body.getLinearVelocity().y == 0) && (this.currentState != AnimationState.SKILLONE && this.currentState != AnimationState.SKILLTHREE && this.currentState != AnimationState.SKILLFOUR))
+        {
+            System.out.println("Shoot Special");
+            this.b2body.setLinearVelocity(0f, 0f);
+            allSkills1[1].setInSkillAnimation(true);
+            allSkills1[1].setTimePassedSinceLastUsed(0);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills1[2].getCoolDownSeconds() < allSkills1[2].getTimePassedSinceLastUsed()) &&
+                (this.currentState != AnimationState.SKILLONE && this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLFOUR))
         {
             System.out.println("Dodge");
             if (runningRight)
@@ -144,8 +155,13 @@ public class Player extends Sprite
         {
             allSkills1[0].setInSkillAnimation(false);
         }
-        
-        if (allSkills1[2].isInSkillAnimation() && allSkills1[2].getTimePassedSinceLastUsed() > (allSkills1[2].getAnimationDuration() * 2))
+
+        if (allSkills1[1].isInSkillAnimation() && allSkills1[1].getTimePassedSinceLastUsed() > allSkills1[1].getAnimationDuration())
+        {
+            allSkills1[1].setInSkillAnimation(false);
+        }
+
+        if (allSkills1[2].isInSkillAnimation() && allSkills1[2].getTimePassedSinceLastUsed() > (allSkills1[2].getAnimationDuration()))
         {
             allSkills1[2].setInSkillAnimation(false);
         }
@@ -221,11 +237,17 @@ public class Player extends Sprite
         if (((Gdx.input.isButtonPressed(Input.Buttons.LEFT) && b2body.getLinearVelocity().y == 0) &&
                 (this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLTHREE && this.currentState != AnimationState.SKILLFOUR)) || allSkills1[0].isInSkillAnimation())
             return AnimationState.SKILLONE;
-        
+
+        else if (((Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && b2body.getLinearVelocity().y == 0) && (allSkills1[1].getCoolDownSeconds() < allSkills1[1].getTimePassedSinceLastUsed()) &&
+                (this.currentState != AnimationState.SKILLONE && this.currentState != AnimationState.SKILLTHREE && this.currentState != AnimationState.SKILLFOUR)) || allSkills1[1].isInSkillAnimation())
+        {
+            return AnimationState.SKILLTWO;
+        }
+
         else if ((Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills1[2].getCoolDownSeconds() < allSkills1[2].getTimePassedSinceLastUsed()) &&
                 (this.currentState != AnimationState.SKILLONE && this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLFOUR)) || allSkills1[2].isInSkillAnimation())
             return AnimationState.SKILLTHREE;
-        
+
         else if (b2body.getLinearVelocity().y != 0)
             return AnimationState.JUMPING;
         
