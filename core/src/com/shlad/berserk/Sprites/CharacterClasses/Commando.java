@@ -26,16 +26,12 @@ public class Commando extends Player
 
     private Texture[] allSkills = new Texture[] {skillOne, skillTwo, skillThree, skillFour};
     
-    private Skill doubleTap = new DoubleTap();
-    private Skill fullMetalJacket = new FullMetalJacket();
-    private Skill dodgeRoll = new DodgeRoll();
+    private Skill doubleTap = new DoubleTap(this);
+    private Skill fullMetalJacket = new FullMetalJacket(this);
+    private Skill dodgeRoll = new DodgeRoll(this);
     private Skill[] allSkillObjects = new Skill[]{doubleTap, fullMetalJacket, dodgeRoll};
     
     private final int WIDTH = 38;
-    
-    
-    
-    //private Skill doubleTap = new Skill("Double Tap", "commandoSkill1.png", 0, 60, )
 
     public Commando(PlayScreen screen)
     {
@@ -60,9 +56,9 @@ public class Commando extends Player
         frames.clear();
     
                                                             //3 because its the 3rd from the top
-        playerFall = new TextureRegion(getTexture(), 1, 3 + 24, WIDTH, 12);
-    
         playerJump = new TextureRegion(getTexture(), 1, 3 + 24, WIDTH, 12);
+        //Same animation
+        playerFall = playerJump;
     
         playerIdle = new TextureRegion(getTexture(), 1, 1     , WIDTH, 12);
         

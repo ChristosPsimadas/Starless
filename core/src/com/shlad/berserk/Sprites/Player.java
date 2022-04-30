@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Tools.Skill;
+import com.shlad.berserk.Tools.Skills.DoubleTap;
 
 public class Player extends Sprite
 {
@@ -89,8 +90,7 @@ public class Player extends Sprite
             skill.setTimePassedSinceLastUsed(skill.getTimePassedSinceLastUsed() + deltaTime);
         }
         
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && (allSkills1[0].getCoolDownSeconds() < allSkills1[0].getTimePassedSinceLastUsed()) &&
-                (this.b2body.getLinearVelocity().y == 0) && (this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLTHREE && this.currentState != AnimationState.SKILLFOUR))
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && (allSkills1[0].isCoolDownOver()) && (this.b2body.getLinearVelocity().y == 0) && (allSkills1[0].checkIfInOtherAnimation()))
         {
             System.out.println("Shoot");
             this.b2body.setLinearVelocity(0f, 0f);
@@ -98,8 +98,7 @@ public class Player extends Sprite
             allSkills1[0].setTimePassedSinceLastUsed(0);
         }
 
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && (allSkills1[1].getCoolDownSeconds() < allSkills1[1].getTimePassedSinceLastUsed()) &&
-                (this.b2body.getLinearVelocity().y == 0) && (this.currentState != AnimationState.SKILLONE && this.currentState != AnimationState.SKILLTHREE && this.currentState != AnimationState.SKILLFOUR))
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && (allSkills1[1].isCoolDownOver()) && (this.b2body.getLinearVelocity().y == 0) && (allSkills1[1].checkIfInOtherAnimation()))
         {
             System.out.println("Shoot Special");
             this.b2body.setLinearVelocity(0f, 0f);
@@ -107,8 +106,7 @@ public class Player extends Sprite
             allSkills1[1].setTimePassedSinceLastUsed(0);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills1[2].getCoolDownSeconds() < allSkills1[2].getTimePassedSinceLastUsed()) &&
-                (this.currentState != AnimationState.SKILLONE && this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLFOUR))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills1[2].isCoolDownOver()) && (allSkills1[2].checkIfInOtherAnimation()))
         {
             System.out.println("Dodge");
             if (runningRight)
@@ -126,8 +124,8 @@ public class Player extends Sprite
             allSkills1[2].setTimePassedSinceLastUsed(0);
         }
         
-        //If you're in an animation then you're locked in and can't move
-        if (this.currentState != AnimationState.SKILLONE && this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLTHREE && this.currentState != AnimationState.SKILLFOUR)
+        //If you're in a different animation then you're locked in and can't move
+        if (Skill.checkIfNotInAnyAnimation(this))
         {
             if (Gdx.input.isKeyPressed(Input.Keys.D) && (this.b2body.getLinearVelocity().x <= maxSpeed))
             {
@@ -139,7 +137,7 @@ public class Player extends Sprite
             }
             //Should change to account for double jumps
             //Actually instead add a separate method for calculating double jumps, and it would only work when you're in the air
-            if (Gdx.input.isKeyJustPressed(Input.Keys.W) && this.b2body.getLinearVelocity().y == 0)
+            if ((Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) && this.b2body.getLinearVelocity().y == 0)
             {
                 this.b2body.applyLinearImpulse(new Vector2(0, 4.5f), this.b2body.getWorldCenter(), true);
             }
@@ -150,18 +148,18 @@ public class Player extends Sprite
     {
         //IT WORKS LETS GO
         
-        //What this does, is basically if you are in the animation, and 0.4 seconds have passed, then the animation is over, so it gets set to false
-        if (allSkills1[0].isInSkillAnimation() && allSkills1[0].getCoolDownSeconds() < allSkills1[0].getTimePassedSinceLastUsed())
+        //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
+        if (allSkills1[0].isInSkillAnimation() && allSkills1[0].hasAnimationEnded())
         {
             allSkills1[0].setInSkillAnimation(false);
         }
 
-        if (allSkills1[1].isInSkillAnimation() && allSkills1[1].getTimePassedSinceLastUsed() > allSkills1[1].getAnimationDuration())
+        if (allSkills1[1].isInSkillAnimation() && allSkills1[1].hasAnimationEnded())
         {
             allSkills1[1].setInSkillAnimation(false);
         }
 
-        if (allSkills1[2].isInSkillAnimation() && allSkills1[2].getTimePassedSinceLastUsed() > (allSkills1[2].getAnimationDuration()))
+        if (allSkills1[2].isInSkillAnimation() && allSkills1[2].hasAnimationEnded())
         {
             allSkills1[2].setInSkillAnimation(false);
         }
@@ -172,7 +170,7 @@ public class Player extends Sprite
     
     public TextureRegion getFrame(float dt)
     {
-        currentState = getAnimationState(dt);
+        currentState = getAnimationState();
         
         TextureRegion region;
         switch (currentState)
@@ -231,21 +229,16 @@ public class Player extends Sprite
         return region;
     }
     
-    public AnimationState getAnimationState(float deltaTime)
+    public AnimationState getAnimationState()
     {
-        //Check if you click left click, anf if you're on the floor, and if you're not doing anything else, and finally if you're already in the animation, then your current animation will be skill 1
-        if (((Gdx.input.isButtonPressed(Input.Buttons.LEFT) && b2body.getLinearVelocity().y == 0) &&
-                (this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLTHREE && this.currentState != AnimationState.SKILLFOUR)) || allSkills1[0].isInSkillAnimation())
+        //Check if you click left click, and if you're on the floor, and if you're not doing anything else, and finally if you're already in the animation, then your current animation will be skill 1
+        if (((Gdx.input.isButtonPressed(Input.Buttons.LEFT) && b2body.getLinearVelocity().y == 0) && allSkills1[0].checkIfInOtherAnimation()) || allSkills1[0].isInSkillAnimation())
             return AnimationState.SKILLONE;
 
-        else if (((Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && b2body.getLinearVelocity().y == 0) && (allSkills1[1].getCoolDownSeconds() < allSkills1[1].getTimePassedSinceLastUsed()) &&
-                (this.currentState != AnimationState.SKILLONE && this.currentState != AnimationState.SKILLTHREE && this.currentState != AnimationState.SKILLFOUR)) || allSkills1[1].isInSkillAnimation())
-        {
+        else if (((Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && b2body.getLinearVelocity().y == 0) && allSkills1[1].isCoolDownOver() && (allSkills1[1].checkIfInOtherAnimation())) || allSkills1[1].isInSkillAnimation())
             return AnimationState.SKILLTWO;
-        }
 
-        else if ((Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills1[2].getCoolDownSeconds() < allSkills1[2].getTimePassedSinceLastUsed()) &&
-                (this.currentState != AnimationState.SKILLONE && this.currentState != AnimationState.SKILLTWO && this.currentState != AnimationState.SKILLFOUR)) || allSkills1[2].isInSkillAnimation())
+        else if ((Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills1[2].isCoolDownOver()) && allSkills1[2].checkIfInOtherAnimation()) || allSkills1[2].isInSkillAnimation())
             return AnimationState.SKILLTHREE;
 
         else if (b2body.getLinearVelocity().y != 0)

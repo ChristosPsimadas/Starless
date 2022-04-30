@@ -6,8 +6,9 @@ import com.shlad.berserk.Tools.Skill;
 
 public class DoubleTap extends Skill
 {
-    public DoubleTap()
+    public DoubleTap(Player player)
     {
+        super(player);
         this.timePassedSinceLastUsed = 0f;
         this.coolDownSeconds = 0.5f;
         this.skillNumber = 1;
@@ -16,5 +17,4 @@ public class DoubleTap extends Skill
         this.animationDuration = coolDownSeconds;
         this.nameOfAnimationState = Player.AnimationState.SKILLONE;
     }
-    
 }

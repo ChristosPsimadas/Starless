@@ -21,6 +21,8 @@ public class Skill
     protected float timePassedSinceLastUsed;
     
     protected float animationDuration;
+    
+    protected Player player;
 
     public Skill(String name, String textureFilePath, float coolDownSeconds, int skillNumber)
     {
@@ -32,7 +34,10 @@ public class Skill
         this.name = name;
     }
     
-    public Skill() {}
+    public Skill(Player player)
+    {
+        this.player = player;
+    }
 
     //Intended usage: if (Gdx.input.isKeyPressed(skill4.getSkillKey)) returns true if R is pressed
     public int getSkillKey()
@@ -59,6 +64,12 @@ public class Skill
     public boolean isCoolDownOver()
     {
         return this.getCoolDownSeconds() < this.getTimePassedSinceLastUsed();
+    }
+    
+    public boolean hasAnimationEnded()
+    {
+        //if your animation lasts 0.4 seconds, and 0.5 seconds have passed, it will return true because the animation has ended.
+        return this.getAnimationDuration() < this.getTimePassedSinceLastUsed();
     }
 
     public void draw(Hud hud)
@@ -106,5 +117,31 @@ public class Skill
     public float getAnimationDuration()
     {
         return animationDuration;
+    }
+    
+    public boolean checkIfInOtherAnimation()
+    {
+        if (this.skillNumber == 1)
+        {
+            return (player.currentState != Player.AnimationState.SKILLTWO && player.currentState != Player.AnimationState.SKILLTHREE && player.currentState != Player.AnimationState.SKILLFOUR);
+        }
+        else if (this.skillNumber == 2)
+        {
+            return (player.currentState != Player.AnimationState.SKILLONE && player.currentState != Player.AnimationState.SKILLTHREE && player.currentState != Player.AnimationState.SKILLFOUR);
+        }
+        else if (this.skillNumber == 3)
+        {
+            return (player.currentState != Player.AnimationState.SKILLONE && player.currentState != Player.AnimationState.SKILLTWO   && player.currentState != Player.AnimationState.SKILLFOUR);
+        }
+        else if (this.skillNumber == 4)
+        {
+            return (player.currentState != Player.AnimationState.SKILLONE && player.currentState != Player.AnimationState.SKILLTWO   && player.currentState != Player.AnimationState.SKILLTHREE);
+        }
+        else return true;
+    }
+    
+    public static boolean checkIfNotInAnyAnimation(Player player)
+    {
+        return (player.currentState != Player.AnimationState.SKILLONE && player.currentState != Player.AnimationState.SKILLTWO && player.currentState != Player.AnimationState.SKILLTHREE && player.currentState != Player.AnimationState.SKILLFOUR);
     }
 }
