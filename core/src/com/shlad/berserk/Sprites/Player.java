@@ -2,7 +2,6 @@ package com.shlad.berserk.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Tools.Skill;
-import com.shlad.berserk.Tools.Skills.DoubleTap;
 
 public class Player extends Sprite
 {
@@ -58,9 +56,8 @@ public class Player extends Sprite
     protected double xpToLevelUp;
     
     protected int gold;
-
-    protected Texture[] allSkills;
-    protected Skill[] allSkills1;
+    
+    protected Skill[] allSkills;
 
     //Should find a way to make it not ask for region name
     public Player(PlayScreen screen, String packName, String regionName)
@@ -75,38 +72,33 @@ public class Player extends Sprite
         runningRight = true;
     }
 
-    protected void setSkillArray(Texture[] skills)
-    {
-        this.allSkills = skills;
-    }
-
-    protected void setSkillArrayObject(Skill[] skillArray) {this.allSkills1 = skillArray;}
+    protected void setSkillArrayObject(Skill[] skillArray) {this.allSkills = skillArray;}
 
     public void handlePlayerInput(float deltaTime)
     {
         
-        for (Skill skill : allSkills1)
+        for (Skill skill : allSkills)
         {
             skill.setTimePassedSinceLastUsed(skill.getTimePassedSinceLastUsed() + deltaTime);
         }
         
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && (allSkills1[0].isCoolDownOver()) && (this.b2body.getLinearVelocity().y == 0) && (allSkills1[0].checkIfInOtherAnimation()))
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && (allSkills[0].isCoolDownOver()) && (this.b2body.getLinearVelocity().y == 0) && (allSkills[0].checkIfInOtherAnimation()))
         {
             System.out.println("Shoot");
             this.b2body.setLinearVelocity(0f, 0f);
-            allSkills1[0].setInSkillAnimation(true);
-            allSkills1[0].setTimePassedSinceLastUsed(0);
+            allSkills[0].setInSkillAnimation(true);
+            allSkills[0].setTimePassedSinceLastUsed(0);
         }
 
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && (allSkills1[1].isCoolDownOver()) && (this.b2body.getLinearVelocity().y == 0) && (allSkills1[1].checkIfInOtherAnimation()))
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && (allSkills[1].isCoolDownOver()) && (this.b2body.getLinearVelocity().y == 0) && (allSkills[1].checkIfInOtherAnimation()))
         {
             System.out.println("Shoot Special");
             this.b2body.setLinearVelocity(0f, 0f);
-            allSkills1[1].setInSkillAnimation(true);
-            allSkills1[1].setTimePassedSinceLastUsed(0);
+            allSkills[1].setInSkillAnimation(true);
+            allSkills[1].setTimePassedSinceLastUsed(0);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills1[2].isCoolDownOver()) && (allSkills1[2].checkIfInOtherAnimation()))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills[2].isCoolDownOver()) && (allSkills[2].checkIfInOtherAnimation()))
         {
             System.out.println("Dodge");
             if (runningRight)
@@ -120,8 +112,16 @@ public class Player extends Sprite
                 this.b2body.setLinearVelocity(new Vector2(-maxSpeed * 3, this.b2body.getLinearVelocity().y));
             }
             
-            allSkills1[2].setInSkillAnimation(true);
-            allSkills1[2].setTimePassedSinceLastUsed(0);
+            allSkills[2].setInSkillAnimation(true);
+            allSkills[2].setTimePassedSinceLastUsed(0);
+        }
+        
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R) && (allSkills[3].isCoolDownOver()) && (this.b2body.getLinearVelocity().y == 0) && (allSkills[3].checkIfInOtherAnimation()))
+        {
+            System.out.println("Fourth Shoot");
+            this.b2body.setLinearVelocity(0f, 0f);
+            allSkills[3].setInSkillAnimation(true);
+            allSkills[3].setTimePassedSinceLastUsed(0);
         }
         
         //If you're in a different animation then you're locked in and can't move
@@ -149,22 +149,27 @@ public class Player extends Sprite
         //IT WORKS LETS GO
         
         //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
-        if (allSkills1[0].isInSkillAnimation() && allSkills1[0].hasAnimationEnded())
+        if (allSkills[0].isInSkillAnimation() && allSkills[0].hasAnimationEnded())
         {
-            allSkills1[0].setInSkillAnimation(false);
+            allSkills[0].setInSkillAnimation(false);
         }
 
-        if (allSkills1[1].isInSkillAnimation() && allSkills1[1].hasAnimationEnded())
+        if (allSkills[1].isInSkillAnimation() && allSkills[1].hasAnimationEnded())
         {
-            allSkills1[1].setInSkillAnimation(false);
+            allSkills[1].setInSkillAnimation(false);
         }
 
-        if (allSkills1[2].isInSkillAnimation() && allSkills1[2].hasAnimationEnded())
+        if (allSkills[2].isInSkillAnimation() && allSkills[2].hasAnimationEnded())
         {
-            allSkills1[2].setInSkillAnimation(false);
+            allSkills[2].setInSkillAnimation(false);
         }
         
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2 + 2.5f/ Berserk.PPM);
+        if (allSkills[3].isInSkillAnimation() && allSkills[3].hasAnimationEnded())
+        {
+            allSkills[3].setInSkillAnimation(false);
+        }
+        
+        setPosition(this.b2body.getPosition().x - getWidth() / 2, this.b2body.getPosition().y - getHeight() / 2 + 2.5f/ Berserk.PPM);
         setRegion(getFrame(dt));
     }
     
@@ -232,14 +237,17 @@ public class Player extends Sprite
     public AnimationState getAnimationState()
     {
         //Check if you click left click, and if you're on the floor, and if you're not doing anything else, and finally if you're already in the animation, then your current animation will be skill 1
-        if (((Gdx.input.isButtonPressed(Input.Buttons.LEFT) && b2body.getLinearVelocity().y == 0) && allSkills1[0].checkIfInOtherAnimation()) || allSkills1[0].isInSkillAnimation())
+        if (((Gdx.input.isButtonPressed(Input.Buttons.LEFT) && b2body.getLinearVelocity().y == 0) && allSkills[0].checkIfInOtherAnimation()) || allSkills[0].isInSkillAnimation())
             return AnimationState.SKILLONE;
 
-        else if (((Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && b2body.getLinearVelocity().y == 0) && allSkills1[1].isCoolDownOver() && (allSkills1[1].checkIfInOtherAnimation())) || allSkills1[1].isInSkillAnimation())
+        else if (((Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && b2body.getLinearVelocity().y == 0) && allSkills[1].isCoolDownOver() && (allSkills[1].checkIfInOtherAnimation())) || allSkills[1].isInSkillAnimation())
             return AnimationState.SKILLTWO;
 
-        else if ((Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills1[2].isCoolDownOver()) && allSkills1[2].checkIfInOtherAnimation()) || allSkills1[2].isInSkillAnimation())
+        else if ((Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills[2].isCoolDownOver()) && allSkills[2].checkIfInOtherAnimation()) || allSkills[2].isInSkillAnimation())
             return AnimationState.SKILLTHREE;
+        
+        else if ((Gdx.input.isKeyJustPressed(Input.Keys.R) && (allSkills[3].isCoolDownOver() && allSkills[3].checkIfInOtherAnimation())) || allSkills[3].isInSkillAnimation())
+            return AnimationState.SKILLFOUR;
 
         else if (b2body.getLinearVelocity().y != 0)
             return AnimationState.JUMPING;
@@ -266,7 +274,7 @@ public class Player extends Sprite
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / Berserk.PPM);
         fdef.filter.categoryBits = Berserk.PLAYER_BIT;
-        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT;
+        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT;
 
         fdef.shape = shape;
         fixture = b2body.createFixture(fdef);
@@ -411,8 +419,9 @@ public class Player extends Sprite
     {
         this.gold = gold;
     }
-
-    public Texture[] getAllSkills() {
+    
+    public Skill[] getAllSkills()
+    {
         return allSkills;
     }
 }

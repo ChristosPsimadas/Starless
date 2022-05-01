@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -72,26 +71,17 @@ public class Hud
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
-        shapeRenderer.rect((Berserk.V_WIDTH / 2f) - 80, Berserk.V_HEIGHT - 353, 162, 42);
+        shapeRenderer.rect((Berserk.V_WIDTH / 2f) - 60, Berserk.V_HEIGHT - 353, 116, 30);
         shapeRenderer.end();
-
-
+        
+        
         stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
         stage.getBatch().begin();
-
-
-        for (int i = 0; i < 4; i++)
-        {
-            stage.getBatch().draw(player.getAllSkills()[i], (Berserk.V_WIDTH / 2f) - 77 + (i * 40), Berserk.V_HEIGHT - 350, 36, 36);
-        }
-
+        
+        for (Skill skill : player.getAllSkills()) {skill.draw(this);}
+        
         stage.getBatch().end();
 
-    }
-    
-    private void drawCursor()
-    {
-    
     }
     
 }

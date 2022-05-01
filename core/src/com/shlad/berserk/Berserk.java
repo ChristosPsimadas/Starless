@@ -3,7 +3,6 @@ package com.shlad.berserk;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.shlad.berserk.Screens.PlayScreen;
-import com.shlad.berserk.Screens.StartScreen;
 
 public class Berserk extends Game
 {
@@ -17,6 +16,7 @@ public class Berserk extends Game
 	public static final short JUMP_PAD_BIT = 4;
 	public static final short CHEST_BIT = 8;
 	public static final short OPENED_CHEST_BIT = 16;
+	public static final short WALL_BIT = 32;
 	
 	
 	public SpriteBatch batch;

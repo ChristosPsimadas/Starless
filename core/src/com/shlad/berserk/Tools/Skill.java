@@ -1,8 +1,10 @@
 package com.shlad.berserk.Tools;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Player;
 
 public class Skill
@@ -10,19 +12,17 @@ public class Skill
     protected Player.AnimationState nameOfAnimationState;
 
     protected Texture skillImg;
-    protected float coolDownSeconds;
-    
+    protected final int TEXTURESIZE = 24;
     protected int skillNumber;
-    
     protected String name;
     
     private boolean inSkillAnimation;
-    
     protected float timePassedSinceLastUsed;
-    
     protected float animationDuration;
+    protected float coolDownSeconds;
     
     protected Player player;
+    protected Enemy enemy;
 
     public Skill(String name, String textureFilePath, float coolDownSeconds, int skillNumber)
     {
@@ -38,6 +38,11 @@ public class Skill
     {
         this.player = player;
     }
+    
+    public Skill(Enemy enemy)
+    {
+        this.enemy = enemy;
+    }
 
     //Intended usage: if (Gdx.input.isKeyPressed(skill4.getSkillKey)) returns true if R is pressed
     public int getSkillKey()
@@ -45,20 +50,20 @@ public class Skill
         if (skillNumber == 1)
         {
             //Left click
-            return 1;
+            return Input.Buttons.LEFT;
         }
         else if (skillNumber == 2)
         {
             //Right click
-            return 2;
+            return Input.Buttons.RIGHT;
         }
         else if (skillNumber == 3)
         {
             //Left shift
-            return 59;
+            return Input.Keys.SHIFT_LEFT;
         }
         //R key
-        else return 46;
+        else return Input.Keys.R;
     }
 
     public boolean isCoolDownOver()
@@ -72,21 +77,19 @@ public class Skill
         return this.getAnimationDuration() < this.getTimePassedSinceLastUsed();
     }
 
+    public float drawLocationX()
+    {
+        return (Berserk.V_WIDTH / 2f) - 84 + skillNumber * 28;
+    }
+    
+    public float drawLocationY()
+    {
+        return Berserk.V_HEIGHT - 350f;
+    }
+    
     public void draw(Hud hud)
     {
-        if (skillNumber == 1)
-        {
-            hud.stage.getBatch().draw(skillImg, (Berserk.V_WIDTH / 2f) - 77, Berserk.V_HEIGHT - 350);
-        }
-        else if (skillNumber == 2)
-        {
-            hud.stage.getBatch().draw(skillImg, (Berserk.V_WIDTH / 2f) - 77 + 40, Berserk.V_HEIGHT - 350);
-        }
-        else if (skillNumber == 3)
-        {
-            hud.stage.getBatch().draw(skillImg, (Berserk.V_WIDTH / 2f) - 77 + 80, Berserk.V_HEIGHT - 350);
-        }
-        else hud.stage.getBatch().draw(skillImg, (Berserk.V_WIDTH / 2f) - 77 + 80, Berserk.V_HEIGHT - 350);
+        hud.stage.getBatch().draw(skillImg, drawLocationX(), drawLocationY(), TEXTURESIZE, TEXTURESIZE);
     }
     
     public float getCoolDownSeconds()
@@ -140,8 +143,34 @@ public class Skill
         else return true;
     }
     
+    public boolean checkIfInOtherAnimationEnemy()
+    {
+        if (this.skillNumber == 1)
+        {
+            return (enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLTWO && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLTHREE && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLFOUR);
+        }
+        else if (this.skillNumber == 2)
+        {
+            return (enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLONE && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLTHREE && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLFOUR);
+        }
+        else if (this.skillNumber == 3)
+        {
+            return (enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLONE && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLTWO && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLFOUR);
+        }
+        else if (this.skillNumber == 4)
+        {
+            return (enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLONE && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLTWO && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLTHREE);
+        }
+        else return true;
+    }
+    
     public static boolean checkIfNotInAnyAnimation(Player player)
     {
         return (player.currentState != Player.AnimationState.SKILLONE && player.currentState != Player.AnimationState.SKILLTWO && player.currentState != Player.AnimationState.SKILLTHREE && player.currentState != Player.AnimationState.SKILLFOUR);
+    }
+    
+    public static boolean checkIfNotInAnyAnimation(Enemy enemy)
+    {
+        return (enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLONE && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLTWO && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLTHREE && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLFOUR);
     }
 }

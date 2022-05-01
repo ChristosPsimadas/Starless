@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.CharacterClasses.Commando;
+import com.shlad.berserk.Sprites.Imp;
 import com.shlad.berserk.Tools.B2WorldCreator;
 import com.shlad.berserk.Tools.Hud;
 import com.shlad.berserk.Tools.Timer;
@@ -39,6 +40,7 @@ public class PlayScreen implements Screen
     private final Box2DDebugRenderer b2dr;
     
     private Commando player;
+    private Imp enemy;
 
     private final Music backgroundMusic;
     private final Texture backgroundTexture;
@@ -83,6 +85,7 @@ public class PlayScreen implements Screen
         backgroundMusic.play();
         
         player = new Commando(this);
+        enemy = new Imp(this);
         
         this.hud = new Hud(game.batch, player);
         
@@ -102,6 +105,7 @@ public class PlayScreen implements Screen
         //user input first
         player.handlePlayerInput(deltaTime);
         player.update(deltaTime);
+        enemy.update(deltaTime);
 
         //handleInput(deltaTime);
 
@@ -148,6 +152,7 @@ public class PlayScreen implements Screen
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         player.draw(game.batch);
+        enemy.draw(game.batch);
         game.batch.end();
     
         //render the physics lines
@@ -202,6 +207,7 @@ public class PlayScreen implements Screen
         backgroundTexture.dispose();
         hud.stage.dispose();
         player.getTexture().dispose();
+        enemy.getTexture().dispose();
         
     }
 }

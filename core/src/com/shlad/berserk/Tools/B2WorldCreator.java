@@ -27,6 +27,8 @@ public class B2WorldCreator
         //4 is Floor
         //5 is the jump pads
         //6 is for objects
+        
+        //I'm going jerma yoinky sploinky crazy for bitwise operations
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class))
         {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -41,6 +43,8 @@ public class B2WorldCreator
             fdef.shape = shape;
             fdef.restitution = 0.0f;
             fdef.friction = 0f;
+            fdef.filter.categoryBits = Berserk.WALL_BIT;
+            
             body.createFixture(fdef);
         }
     
@@ -58,7 +62,6 @@ public class B2WorldCreator
             fdef.shape = shape;
             fdef.restitution = 0.0f;
             fdef.friction = 0.85f;
-            
             
             body.createFixture(fdef);
         }
