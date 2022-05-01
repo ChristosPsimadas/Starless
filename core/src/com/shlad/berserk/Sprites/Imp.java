@@ -39,6 +39,11 @@ public class Imp extends Enemy
         for (int i = 0; i < 6; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 25, WIDTH, HEIGHT));}
         playerRun = new Animation<>(0.1f, frames);
         frames.clear();
+    
+        for (int i = 0; i < 11; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 4 + 75, WIDTH, HEIGHT));}
+        playerSkillOne = new Animation<>(0.1f, frames);
+        frames.clear();
+        
         
         playerJump = new TextureRegion(getTexture(), 1, 2 + 25, WIDTH, HEIGHT);
         
@@ -46,7 +51,6 @@ public class Imp extends Enemy
         
         playerIdle = new TextureRegion(getTexture(), 1, 1     , WIDTH, HEIGHT);
         
-        playerSkillOne = playerRun;
         playerSkillTwo = playerRun;
         playerSkillThree = playerRun;
         playerSkillFour = playerRun;

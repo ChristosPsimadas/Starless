@@ -44,6 +44,12 @@ public class Skill
         this.enemy = enemy;
     }
 
+    public void activate() {}
+    
+    public void skillEnded() {}
+    
+    public boolean activationCondition() {return false;}
+    
     //Intended usage: if (Gdx.input.isKeyPressed(skill4.getSkillKey)) returns true if R is pressed
     public int getSkillKey()
     {

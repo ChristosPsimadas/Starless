@@ -11,12 +11,11 @@ public class Berserk extends Game
 	//pixels per meter
 	public static final float PPM = 100;
 	
+	//Black magic voodoo shit IDK
 	public static final short DEFAULT_BIT = 1;
 	public static final short PLAYER_BIT = 2;
 	public static final short JUMP_PAD_BIT = 4;
-	public static final short CHEST_BIT = 8;
-	public static final short OPENED_CHEST_BIT = 16;
-	public static final short WALL_BIT = 32;
+	public static final short WALL_BIT = 8;
 	
 	
 	public SpriteBatch batch;

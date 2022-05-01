@@ -1,6 +1,7 @@
 package com.shlad.berserk.Tools;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.InteractiveTileObject;
 
 public class WorldContactListener implements ContactListener
@@ -10,6 +11,8 @@ public class WorldContactListener implements ContactListener
     {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
+        
+        int collisionIdentifier = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
         
         if (fixA.getUserData() == "player" || fixB.getUserData() == "player")
         {
@@ -23,6 +26,8 @@ public class WorldContactListener implements ContactListener
                 ((InteractiveTileObject) object.getUserData()).onTouch(head.getBody());
             }
         }
+        
+        
     }
     
     @Override

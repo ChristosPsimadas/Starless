@@ -1,5 +1,7 @@
 package com.shlad.berserk.Tools.Skills;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
@@ -16,5 +18,26 @@ public class SuppressiveFire extends Skill
         this.skillNumber = 4;
         this.name = "Suppressive Fire";
         this.skillImg = new Texture("commandoSkill4.png");
+    }
+    
+    @Override
+    public void activate()
+    {
+        System.out.println("Fourth Shoot");
+        player.b2body.setLinearVelocity(0f, 0f);
+        this.setInSkillAnimation(true);
+        this.setTimePassedSinceLastUsed(0);
+    }
+    
+    @Override
+    public void skillEnded()
+    {
+        this.setInSkillAnimation(false);
+    }
+    
+    @Override
+    public boolean activationCondition()
+    {
+        return (Gdx.input.isKeyJustPressed(Input.Keys.R) && (this.isCoolDownOver()) && (player.b2body.getLinearVelocity().y == 0) && (this.checkIfInOtherAnimation()));
     }
 }

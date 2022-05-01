@@ -176,6 +176,8 @@ public abstract class Enemy extends Sprite
 //        else if ((Gdx.input.isKeyJustPressed(Input.Keys.R) && (allSkills[3].isCoolDownOver() && allSkills[3].checkIfInOtherAnimation())) || allSkills[3].isInSkillAnimation())
 //            return AnimationStateEnemy.SKILLFOUR;
         
+        
+        
         if (b2bodyEnemy.getLinearVelocity().y != 0)
             return AnimationStateEnemy.JUMPING;
         
