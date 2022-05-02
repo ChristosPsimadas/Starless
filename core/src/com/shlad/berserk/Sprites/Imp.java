@@ -53,12 +53,14 @@ public class Imp extends Enemy
         
         enemyIdle = new TextureRegion(getTexture(), 1, 1     , WIDTH, HEIGHT);
         
+        enemyDead = new TextureRegion(getTexture(), 239, 5 + 100, WIDTH, HEIGHT);
+        
         enemySkillTwo = enemyRun;
         enemySkillThree = enemyRun;
         enemySkillFour = enemyRun;
         
         
-        defineEnemyRadius(11.5f);
+        defineEnemyRadius(10f);
         
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
         setRegion(enemyIdle);

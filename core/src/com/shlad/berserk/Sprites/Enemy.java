@@ -11,7 +11,7 @@ import com.shlad.berserk.Tools.Skill;
 
 public abstract class Enemy extends Sprite
 {
-    public enum AnimationStateEnemy {FALLING, JUMPING, STANDING, RUNNING, SKILLONE, SKILLTWO, SKILLTHREE, SKILLFOUR, DYING}
+    public enum AnimationStateEnemy {FALLING, JUMPING, STANDING, RUNNING, SKILLONE, SKILLTWO, SKILLTHREE, SKILLFOUR, DYING, DEAD}
     
     public AnimationStateEnemy currentStateEnemy;
     public AnimationStateEnemy previousStateEnemy;
@@ -21,6 +21,7 @@ public abstract class Enemy extends Sprite
     protected TextureRegion enemyIdle;
     protected TextureRegion enemyJump;
     protected TextureRegion enemyFall;
+    protected TextureRegion enemyDead;
     protected Animation<TextureRegion> enemyRun;
     protected Animation<TextureRegion> enemySkillOne;
     protected Animation<TextureRegion> enemySkillTwo;
@@ -56,8 +57,7 @@ public abstract class Enemy extends Sprite
     
     protected Skill[] allSkills;
     
-    protected boolean setToDestroy;
-    protected boolean destroyed;
+    public boolean destroyed;
     
     
     public Enemy(PlayScreen screen, String packName, String regionName)
@@ -70,7 +70,6 @@ public abstract class Enemy extends Sprite
         stateTimer = 0;
         runningRight = true;
         
-        setToDestroy = false;
         destroyed = false;
     }
     
@@ -79,12 +78,22 @@ public abstract class Enemy extends Sprite
     
     public void update(float dt)
     {
-        currentHealth -= 5;
-        
         if (!destroyed)
         {
-            //IT WORKS LETS GO
+            
+            for (Skill skill : allSkills)
+            {
+                skill.setTimePassedSinceLastUsed(skill.getTimePassedSinceLastUsed() + dt);
+            }
     
+            for (Skill skill : allSkills)
+            {
+                if (skill.activationCondition())
+                {
+                    skill.activate();
+                }
+            }
+            
             //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
             for (Skill skill : allSkills)
             {
@@ -137,6 +146,11 @@ public abstract class Enemy extends Sprite
                 
             case DYING:
                 region = enemyDying.getKeyFrame(stateTimer, false);
+                break;
+            
+            case DEAD:
+                region = enemyDead;
+                break;
             
             case STANDING:
             default:
@@ -165,37 +179,24 @@ public abstract class Enemy extends Sprite
     
     public AnimationStateEnemy getAnimationState()
     {
-        //Check if you click left click, and if you're on the floor, and if you're not doing anything else, and finally if you're already in the animation, then your current animation will be skill 1
-//        if (((Gdx.input.isButtonPressed(Input.Buttons.LEFT) && b2body.getLinearVelocity().y == 0) && allSkills[0].checkIfInOtherAnimation()) || allSkills[0].isInSkillAnimation())
-//            return AnimationStateEnemy.SKILLONE;
-//
-//        else if (((Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && b2body.getLinearVelocity().y == 0) && allSkills[1].isCoolDownOver() && (allSkills[1].checkIfInOtherAnimation())) || allSkills[1].isInSkillAnimation())
-//            return AnimationStateEnemy.SKILLTWO;
-//
-//        else if ((Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT) && (allSkills[2].isCoolDownOver()) && allSkills[2].checkIfInOtherAnimation()) || allSkills[2].isInSkillAnimation())
-//            return AnimationStateEnemy.SKILLTHREE;
-//
-//        else if ((Gdx.input.isKeyJustPressed(Input.Keys.R) && (allSkills[3].isCoolDownOver() && allSkills[3].checkIfInOtherAnimation())) || allSkills[3].isInSkillAnimation())
-//            return AnimationStateEnemy.SKILLFOUR;
-        
-        if (currentHealth < 0)
-        {
-            setToDestroy = true;
+    
+        if (allSkills[4].activationCondition() || allSkills[4].isInSkillAnimation())
             return AnimationStateEnemy.DYING;
-        }
+        
+        else if (b2bodyEnemy.getLinearVelocity().y != 0)
+            return AnimationStateEnemy.JUMPING;
+        
+        else if (b2bodyEnemy.getLinearVelocity().y < 0)
+            return AnimationStateEnemy.FALLING;
+        
+        else if (b2bodyEnemy.getLinearVelocity().x != 0)
+            return AnimationStateEnemy.RUNNING;
+        
+        else if (currentHealth < 0)
+            return AnimationStateEnemy.DEAD;
+        
         else
-        {
-            if (b2bodyEnemy.getLinearVelocity().y != 0)
-                return AnimationStateEnemy.JUMPING;
-    
-            else if (b2bodyEnemy.getLinearVelocity().y < 0)
-                return AnimationStateEnemy.FALLING;
-    
-            else if (b2bodyEnemy.getLinearVelocity().x != 0)
-                return AnimationStateEnemy.RUNNING;
-            else
-                return AnimationStateEnemy.STANDING;
-        }
+            return AnimationStateEnemy.STANDING;
     }
     
     public void defineEnemyRadius(float radius)
