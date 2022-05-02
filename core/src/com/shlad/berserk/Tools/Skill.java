@@ -49,28 +49,6 @@ public class Skill
     public void skillEnded() {}
     
     public boolean activationCondition() {return false;}
-    
-    //Intended usage: if (Gdx.input.isKeyPressed(skill4.getSkillKey)) returns true if R is pressed
-    public int getSkillKey()
-    {
-        if (skillNumber == 1)
-        {
-            //Left click
-            return Input.Buttons.LEFT;
-        }
-        else if (skillNumber == 2)
-        {
-            //Right click
-            return Input.Buttons.RIGHT;
-        }
-        else if (skillNumber == 3)
-        {
-            //Left shift
-            return Input.Keys.SHIFT_LEFT;
-        }
-        //R key
-        else return Input.Keys.R;
-    }
 
     public boolean isCoolDownOver()
     {
@@ -178,5 +156,27 @@ public class Skill
     public static boolean checkIfNotInAnyAnimation(Enemy enemy)
     {
         return (enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLONE && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLTWO && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLTHREE && enemy.currentStateEnemy != Enemy.AnimationStateEnemy.SKILLFOUR);
+    }
+    
+    //Intended usage: if (Gdx.input.isKeyPressed(skill4.getSkillKey)) returns true if R is pressed
+    public int getSkillKey()
+    {
+        if (skillNumber == 1)
+        {
+            //Left click
+            return Input.Buttons.LEFT;
+        }
+        else if (skillNumber == 2)
+        {
+            //Right click
+            return Input.Buttons.RIGHT;
+        }
+        else if (skillNumber == 3)
+        {
+            //Left shift
+            return Input.Keys.SHIFT_LEFT;
+        }
+        //R key
+        else return Input.Keys.R;
     }
 }

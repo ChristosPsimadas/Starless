@@ -11,22 +11,22 @@ import com.shlad.berserk.Tools.Skill;
 
 public abstract class Enemy extends Sprite
 {
-    
-    public enum AnimationStateEnemy {FALLING, JUMPING, STANDING, RUNNING, SKILLONE, SKILLTWO, SKILLTHREE, SKILLFOUR}
+    public enum AnimationStateEnemy {FALLING, JUMPING, STANDING, RUNNING, SKILLONE, SKILLTWO, SKILLTHREE, SKILLFOUR, DYING}
     
     public AnimationStateEnemy currentStateEnemy;
     public AnimationStateEnemy previousStateEnemy;
     
     public World worldEnemy;
     public Body b2bodyEnemy;
-    protected TextureRegion playerIdle;
-    protected TextureRegion playerJump;
-    protected TextureRegion playerFall;
-    protected Animation<TextureRegion> playerRun;
-    protected Animation<TextureRegion> playerSkillOne;
-    protected Animation<TextureRegion> playerSkillTwo;
-    protected Animation<TextureRegion> playerSkillThree;
-    protected Animation<TextureRegion> playerSkillFour;
+    protected TextureRegion enemyIdle;
+    protected TextureRegion enemyJump;
+    protected TextureRegion enemyFall;
+    protected Animation<TextureRegion> enemyRun;
+    protected Animation<TextureRegion> enemySkillOne;
+    protected Animation<TextureRegion> enemySkillTwo;
+    protected Animation<TextureRegion> enemySkillThree;
+    protected Animation<TextureRegion> enemySkillFour;
+    protected Animation<TextureRegion> enemyDying;
     
     protected Fixture fixture;
     
@@ -56,6 +56,9 @@ public abstract class Enemy extends Sprite
     
     protected Skill[] allSkills;
     
+    protected boolean setToDestroy;
+    protected boolean destroyed;
+    
     
     public Enemy(PlayScreen screen, String packName, String regionName)
     {
@@ -66,6 +69,9 @@ public abstract class Enemy extends Sprite
         previousStateEnemy = AnimationStateEnemy.STANDING;
         stateTimer = 0;
         runningRight = true;
+        
+        setToDestroy = false;
+        destroyed = false;
     }
     
     protected void setSkillArrayObject(Skill[] skillArray) {this.allSkills = skillArray;}
@@ -73,31 +79,24 @@ public abstract class Enemy extends Sprite
     
     public void update(float dt)
     {
-        //IT WORKS LETS GO
+        currentHealth -= 5;
         
-        //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
-        if (allSkills[0].isInSkillAnimation() && allSkills[0].hasAnimationEnded())
+        if (!destroyed)
         {
-            allSkills[0].setInSkillAnimation(false);
+            //IT WORKS LETS GO
+    
+            //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
+            for (Skill skill : allSkills)
+            {
+                if (skill.isInSkillAnimation() && skill.hasAnimationEnded())
+                {
+                    skill.skillEnded();
+                }
+            }
+            
+            setPosition(this.b2bodyEnemy.getPosition().x - getWidth() / 2, this.b2bodyEnemy.getPosition().y - getHeight() / 2 + 2.5f / Berserk.PPM);
+            setRegion(getFrame(dt));
         }
-        
-        if (allSkills[1].isInSkillAnimation() && allSkills[1].hasAnimationEnded())
-        {
-            allSkills[1].setInSkillAnimation(false);
-        }
-        
-        if (allSkills[2].isInSkillAnimation() && allSkills[2].hasAnimationEnded())
-        {
-            allSkills[2].setInSkillAnimation(false);
-        }
-        
-        if (allSkills[3].isInSkillAnimation() && allSkills[3].hasAnimationEnded())
-        {
-            allSkills[3].setInSkillAnimation(false);
-        }
-        
-        setPosition(this.b2bodyEnemy.getPosition().x - getWidth() / 2, this.b2bodyEnemy.getPosition().y - getHeight() / 2 + 2.5f/ Berserk.PPM);
-        setRegion(getFrame(dt));
     }
     
     public TextureRegion getFrame(float dt)
@@ -109,36 +108,39 @@ public abstract class Enemy extends Sprite
         {
             case JUMPING:
                 //state-timer determines which of the frames that the animation is currently in
-                region = playerJump;
+                region = enemyJump;
                 break;
             
             case RUNNING:
-                region = playerRun.getKeyFrame(stateTimer, true);
+                region = enemyRun.getKeyFrame(stateTimer, true);
                 break;
             
             case FALLING:
-                region = playerFall;
+                region = enemyFall;
                 break;
             
             case SKILLONE:
-                region = playerSkillOne.getKeyFrame(stateTimer, true);
+                region = enemySkillOne.getKeyFrame(stateTimer, true);
                 break;
             
             case SKILLTWO:
-                region = playerSkillTwo.getKeyFrame(stateTimer, true);
+                region = enemySkillTwo.getKeyFrame(stateTimer, true);
                 break;
             
             case SKILLTHREE:
-                region = playerSkillThree.getKeyFrame(stateTimer, true);
+                region = enemySkillThree.getKeyFrame(stateTimer, true);
                 break;
             
             case SKILLFOUR:
-                region = playerSkillFour.getKeyFrame(stateTimer, true);
+                region = enemySkillFour.getKeyFrame(stateTimer, true);
                 break;
+                
+            case DYING:
+                region = enemyDying.getKeyFrame(stateTimer, false);
             
             case STANDING:
             default:
-                region = playerIdle;
+                region = enemyIdle;
                 break;
         }
         //region.isFlipx() returns if the actual sprite is flipped
@@ -176,18 +178,24 @@ public abstract class Enemy extends Sprite
 //        else if ((Gdx.input.isKeyJustPressed(Input.Keys.R) && (allSkills[3].isCoolDownOver() && allSkills[3].checkIfInOtherAnimation())) || allSkills[3].isInSkillAnimation())
 //            return AnimationStateEnemy.SKILLFOUR;
         
-        
-        
-        if (b2bodyEnemy.getLinearVelocity().y != 0)
-            return AnimationStateEnemy.JUMPING;
-        
-        else if (b2bodyEnemy.getLinearVelocity().y < 0)
-            return AnimationStateEnemy.FALLING;
-        
-        else if (b2bodyEnemy.getLinearVelocity().x != 0)
-            return AnimationStateEnemy.RUNNING;
+        if (currentHealth < 0)
+        {
+            setToDestroy = true;
+            return AnimationStateEnemy.DYING;
+        }
         else
-            return AnimationStateEnemy.STANDING;
+        {
+            if (b2bodyEnemy.getLinearVelocity().y != 0)
+                return AnimationStateEnemy.JUMPING;
+    
+            else if (b2bodyEnemy.getLinearVelocity().y < 0)
+                return AnimationStateEnemy.FALLING;
+    
+            else if (b2bodyEnemy.getLinearVelocity().x != 0)
+                return AnimationStateEnemy.RUNNING;
+            else
+                return AnimationStateEnemy.STANDING;
+        }
     }
     
     public void defineEnemyRadius(float radius)
@@ -212,5 +220,16 @@ public abstract class Enemy extends Sprite
     public Skill[] getAllSkills()
     {
         return allSkills;
+    }
+    
+    
+    public void setCurrentHealth(double currentHealth)
+    {
+        this.currentHealth = currentHealth;
+    }
+    
+    public double getCurrentHealth()
+    {
+        return currentHealth;
     }
 }

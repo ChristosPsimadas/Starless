@@ -62,7 +62,6 @@ public class Player extends Sprite
     //Should find a way to make it not ask for region name
     public Player(PlayScreen screen, String packName, String regionName)
     {
-        
         super(new TextureAtlas(packName).findRegion(regionName));
         this.world = screen.getWorld();
 
@@ -71,9 +70,7 @@ public class Player extends Sprite
         stateTimer = 0;
         runningRight = true;
     }
-
-    protected void setSkillArrayObject(Skill[] skillArray) {this.allSkills = skillArray;}
-
+    
     public void handlePlayerInput(float deltaTime)
     {
         
@@ -112,7 +109,7 @@ public class Player extends Sprite
 
     public void update(float dt)
     {
-        //IT WORKS LETS GO
+        //IT WORKS LETS FUGGING GOOOOOOOO
         
         //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
         
@@ -191,8 +188,8 @@ public class Player extends Sprite
     
     public AnimationState getAnimationState()
     {
-        //Check if you click left click, and if you're on the floor, and if you're not doing anything else, and finally if you're already in the animation, then your current animation will be skill 1
-        if (allSkills[0].activationCondition() || allSkills[0].isInSkillAnimation())
+        //Check if you click left click, and if you're on the floor, and if you're not doing anything else, or if you're already in the animation, then your current animation will be skill 1
+        if      (allSkills[0].activationCondition() || allSkills[0].isInSkillAnimation())
             return AnimationState.SKILLONE;
 
         else if (allSkills[1].activationCondition() || allSkills[1].isInSkillAnimation())
@@ -374,6 +371,8 @@ public class Player extends Sprite
     {
         this.gold = gold;
     }
+    
+    protected void setSkillArrayObject(Skill[] skillArray) {this.allSkills = skillArray;}
     
     public Skill[] getAllSkills()
     {

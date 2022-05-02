@@ -2,13 +2,11 @@ package com.shlad.berserk.Sprites;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Array;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Tools.Skill;
+import com.shlad.berserk.Tools.Skills.DeathSkill;
 import com.shlad.berserk.Tools.Skills.NullSkill;
 
 public class Imp extends Enemy
@@ -17,8 +15,9 @@ public class Imp extends Enemy
     private Skill noSkill2 = new NullSkill(this, 2);
     private Skill noSkill3 = new NullSkill(this, 3);
     private Skill noSkill4 = new NullSkill(this, 4);
+    private Skill death =   new DeathSkill(this);
     
-    private Skill[] allSkills = new Skill[]{noSkill1, noSkill2, noSkill3, noSkill4};
+    private Skill[] allSkills = new Skill[]{noSkill1, noSkill2, noSkill3, noSkill4, death};
     
     private final int WIDTH = 33;
     private final int HEIGHT = 25;
@@ -37,29 +36,32 @@ public class Imp extends Enemy
     
         Array<TextureRegion> frames = new Array<>();
         for (int i = 0; i < 6; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 25, WIDTH, HEIGHT));}
-        playerRun = new Animation<>(0.1f, frames);
+        enemyRun = new Animation<>(0.1f, frames);
         frames.clear();
     
         for (int i = 0; i < 11; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 4 + 75, WIDTH, HEIGHT));}
-        playerSkillOne = new Animation<>(0.1f, frames);
+        enemySkillOne = new Animation<>(0.1f, frames);
+        frames.clear();
+    
+        for (int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + 100, WIDTH, HEIGHT));}
+        enemyDying = new Animation<>(0.15f, frames);
         frames.clear();
         
+        enemyJump = new TextureRegion(getTexture(), 1, 2 + 25, WIDTH, HEIGHT);
         
-        playerJump = new TextureRegion(getTexture(), 1, 2 + 25, WIDTH, HEIGHT);
+        enemyFall = enemyJump;
         
-        playerFall = playerJump;
+        enemyIdle = new TextureRegion(getTexture(), 1, 1     , WIDTH, HEIGHT);
         
-        playerIdle = new TextureRegion(getTexture(), 1, 1     , WIDTH, HEIGHT);
-        
-        playerSkillTwo = playerRun;
-        playerSkillThree = playerRun;
-        playerSkillFour = playerRun;
+        enemySkillTwo = enemyRun;
+        enemySkillThree = enemyRun;
+        enemySkillFour = enemyRun;
         
         
         defineEnemyRadius(11.5f);
         
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
-        setRegion(playerIdle);
+        setRegion(enemyIdle);
         fixture.setUserData("player");
     }
 }
