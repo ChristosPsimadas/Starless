@@ -17,6 +17,7 @@ public class Berserk extends Game
 	public static final short JUMP_PAD_BIT = 4;
 	public static final short WALL_BIT = 8;
 	public static final short HITSCAN_BULLET_BIT = 16;
+	public static final short ENEMY_BIT = 32;
 	
 	
 	public SpriteBatch batch;

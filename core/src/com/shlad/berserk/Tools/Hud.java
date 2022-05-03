@@ -7,18 +7,22 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.Player;
+import com.shlad.berserk.Tools.Skills.Bullets.DoubleTapBullet;
+import com.shlad.berserk.Tools.Skills.DoubleTap;
 
 public class Hud
 {
     public Stage stage;
     private Viewport viewport;
     private Player player;
+    ShapeRenderer shapeRenderer = new ShapeRenderer();
     BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
     
     Pixmap cursorImage = new Pixmap(Gdx.files.internal("crosshair.png"));
@@ -37,7 +41,6 @@ public class Hud
     
     public void updateHealth()
     {
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
     
@@ -66,13 +69,27 @@ public class Hud
 
     private void updateSkills()
     {
-
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
-        shapeRenderer.rect((Berserk.V_WIDTH / 2f) - 60, Berserk.V_HEIGHT - 353, 116, 30);
-        shapeRenderer.end();
+        
+//            shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
+//            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//            shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
+//            shapeRenderer.rect((Berserk.V_WIDTH / 2f) - 60, Berserk.V_HEIGHT - 353, 116, 30);
+//            //What the hell
+//            shapeRenderer.line(player.getX(), player.getY(), 200, 200);
+//            shapeRenderer.end();
+    
+//        shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
+//        shapeRenderer.line(new Vector2(player.getX() / Berserk.PPM, player.getY() / Berserk.PPM), new Vector2((player.getX() + 30f) / Berserk.PPM, player.getY()  / Berserk.PPM));
+//        for (DoubleTapBullet bullet : ((DoubleTap)player.getAllSkills()[0]).bullets)
+//        {
+//            System.out.println("bullet: " + bullet.originPoint.x);
+//            System.out.println("bullet end :" + bullet.endPoint.x);
+//            System.out.println("player: " + player.getX());
+//            shapeRenderer.line(bullet.originPoint, bullet.endPoint);
+//        }
+//        shapeRenderer.end();
         
         
         stage.getBatch().setProjectionMatrix(stage.getCamera().combined);

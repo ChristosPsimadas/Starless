@@ -3,11 +3,15 @@ package com.shlad.berserk.Tools.Skills;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
+import com.shlad.berserk.Tools.Skills.Bullets.DoubleTapBullet;
 
 public class DoubleTap extends Skill
 {
+    public Array<DoubleTapBullet> bullets = new Array<>();
+    
     public DoubleTap(Player player)
     {
         super(player);
@@ -23,7 +27,7 @@ public class DoubleTap extends Skill
     @Override
     public void activate()
     {
-        System.out.println("Shoot");
+        bullets.add(new DoubleTapBullet(player));
         player.b2body.setLinearVelocity(0f, 0f);
         this.setInSkillAnimation(true);
         this.setTimePassedSinceLastUsed(0);
@@ -32,6 +36,7 @@ public class DoubleTap extends Skill
     @Override
     public void skillEnded()
     {
+        bullets.clear();
         this.setInSkillAnimation(false);
     }
     

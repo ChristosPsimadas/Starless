@@ -3,10 +3,12 @@ package com.shlad.berserk.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -51,6 +53,8 @@ public class PlayScreen implements Screen
     private final Music music;
     
     private Hud hud;
+    
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
     
     public PlayScreen(Berserk game)
     {
@@ -155,6 +159,12 @@ public class PlayScreen implements Screen
         enemy.draw(game.batch);
         game.batch.end();
     
+        shapeRenderer.setProjectionMatrix(gameCam.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.CHARTREUSE);
+        shapeRenderer.line(player.getX() + 20 / Berserk.PPM, player.getY() + 8 / Berserk.PPM, player.getX() - 20, player.getY());
+        shapeRenderer.end();
+        
         //render the physics lines
         b2dr.render(world, gameCam.combined);
         

@@ -64,6 +64,5 @@ public class Imp extends Enemy
         
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
         setRegion(enemyIdle);
-        fixture.setUserData("player");
     }
 }

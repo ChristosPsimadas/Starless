@@ -211,11 +211,11 @@ public abstract class Enemy extends Sprite
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / Berserk.PPM);
-        fdef.filter.categoryBits = Berserk.PLAYER_BIT;
+        fdef.filter.categoryBits = Berserk.ENEMY_BIT;
         fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT;
         
         fdef.shape = shape;
-        fixture = b2bodyEnemy.createFixture(fdef);
+        b2bodyEnemy.createFixture(fdef).setUserData(this);
     }
     
     public Skill[] getAllSkills()

@@ -16,15 +16,28 @@ public class WorldContactListener implements ContactListener
         
         if (fixA.getUserData() == "player" || fixB.getUserData() == "player")
         {
-                              //if fixA is player then head is fixA, if fixA is not player then head is fixB
-            Fixture head = fixA.getUserData() == "player" ? fixA : fixB;
-            Fixture object = head.equals(fixA) ? fixB : fixA;
+                              //if fixA is player then player is fixA, if fixA is not player then player is fixB
+            Fixture player = fixA.getUserData() == "player" ? fixA : fixB;
+            Fixture object = player.equals(fixA) ? fixB : fixA;
             
             //object.getUserData() != null && InteractiveTileObject.class.isAssignableFrom(object.getUserData().getClass())
             if ((object.getUserData()) instanceof InteractiveTileObject)
             {
-                ((InteractiveTileObject) object.getUserData()).onTouch(head.getBody());
+                ((InteractiveTileObject) object.getUserData()).onTouch(player.getBody());
             }
+        }
+        
+        switch (collisionIdentifier)
+        {
+            case Berserk.ENEMY_BIT | Berserk.JUMP_PAD_BIT:
+                
+                Fixture enemy = fixA.getFilterData().categoryBits == Berserk.ENEMY_BIT ? fixA : fixB;
+                Fixture object = enemy.equals(fixA) ? fixB : fixA;
+    
+                ((InteractiveTileObject) object.getUserData()).onTouch(enemy.getBody());
+                break;
+            
+                
         }
         
         
