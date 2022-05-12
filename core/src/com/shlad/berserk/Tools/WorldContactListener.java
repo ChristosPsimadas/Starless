@@ -2,7 +2,9 @@ package com.shlad.berserk.Tools;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.InteractiveTileObject;
+import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
 
 public class WorldContactListener implements ContactListener
 {
@@ -37,7 +39,24 @@ public class WorldContactListener implements ContactListener
                 ((InteractiveTileObject) object.getUserData()).onTouch(enemy.getBody());
                 break;
             
+            case Berserk.BULLET_BIT | Berserk.WALL_BIT:
+                Fixture bulletWallCollision = fixA.getFilterData().categoryBits == Berserk.BULLET_BIT ? fixA : fixB;
+                Fixture wall = bulletWallCollision.equals(fixA) ? fixB : fixA;
+    
+                ((B2BulletCreator)bulletWallCollision.getUserData()).setToBeDestroyed();
+                System.out.println("bullet hit wall");
+                break;
+    
+            case Berserk.BULLET_BIT | Berserk.ENEMY_BIT:
+                System.out.println("bullet touched enemy");
                 
+                Fixture bulletEnemyCollision = fixA.getFilterData().categoryBits == Berserk.BULLET_BIT ? fixA : fixB;
+                Fixture enemyBulletCollision = bulletEnemyCollision.equals(fixA) ? fixB : fixA;
+    
+                ((Enemy)enemyBulletCollision.getUserData()).removeHealth((((B2BulletCreator)bulletEnemyCollision.getUserData()).damage));
+                ((B2BulletCreator)bulletEnemyCollision.getUserData()).setToBeDestroyed();
+                break;
+    
         }
         
         

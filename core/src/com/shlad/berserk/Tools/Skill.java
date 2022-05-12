@@ -24,6 +24,8 @@ public class Skill
     
     protected Player player;
     protected Enemy enemy;
+    
+    protected double damagePercent;
 
     public Skill(String name, String textureFilePath, float coolDownSeconds, int skillNumber)
     {

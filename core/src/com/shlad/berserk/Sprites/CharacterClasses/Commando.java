@@ -1,23 +1,19 @@
 package com.shlad.berserk.Sprites.CharacterClasses;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
-import com.shlad.berserk.Tools.Skills.Bullets.DoubleTapBullet;
+import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
 import com.shlad.berserk.Tools.Skills.DodgeRoll;
 import com.shlad.berserk.Tools.Skills.DoubleTap;
 import com.shlad.berserk.Tools.Skills.FullMetalJacket;
 import com.shlad.berserk.Tools.Skills.SuppressiveFire;
+
+import java.util.ArrayList;
 
 public class Commando extends Player
 {
@@ -30,6 +26,8 @@ public class Commando extends Player
     
     private final int WIDTH = 38;
     private final int HEIGHT = 12;
+    
+    public ArrayList<B2BulletCreator> bullets = new ArrayList<>();
 
     public Commando(PlayScreen screen)
     {
@@ -79,14 +77,5 @@ public class Commando extends Player
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
         setRegion(playerIdle);
         fixture.setUserData("player");
-    }
-
-    public void updateBullets(float dt)
-    {
-        for (DoubleTapBullet bullet : ((DoubleTap)doubleTap).bullets)
-        {
-            bullet.update(dt);
-        }
-
     }
 }

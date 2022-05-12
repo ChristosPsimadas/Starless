@@ -3,11 +3,9 @@ package com.shlad.berserk.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -23,8 +21,7 @@ import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
 import com.shlad.berserk.Tools.B2WorldCreator;
 import com.shlad.berserk.Tools.Hud;
-import com.shlad.berserk.Tools.Skills.Bullets.DoubleTapBullet;
-import com.shlad.berserk.Tools.Timer;
+import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
 import com.shlad.berserk.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen
@@ -110,6 +107,20 @@ public class PlayScreen implements Screen
     
     }
     
+    public void removeBullets()
+    {
+        for (int i = 0; i < player.bullets.size(); i++)
+        {
+            if (player.bullets.get(i).isToBeDestroyed())
+            {
+                System.out.println("removed bullet");
+                world.destroyBody(player.bullets.get(i).getBody());
+                player.bullets.remove(i);
+                i--;
+            }
+        }
+    }
+    
     //update the game world
     public void update(float deltaTime)
     {
@@ -122,9 +133,20 @@ public class PlayScreen implements Screen
         {
             enemy.update(deltaTime);
         }
-
-        player.updateBullets(deltaTime);
-
+        
+        for (int i = 0; i < player.bullets.size(); i++)
+        {
+            if (player.bullets.get(i).isToBeDestroyed())
+            {
+                System.out.println("removed bullet");
+                world.destroyBody(player.bullets.get(i).getBody());
+                player.bullets.remove(i);
+                i--;
+            }
+        }
+        
+        removeBullets();
+        
         gameCam.position.x = player.b2body.getPosition().x;
         gameCam.position.y = player.b2body.getPosition().y;
 
@@ -148,9 +170,6 @@ public class PlayScreen implements Screen
         Gdx.gl.glClearColor(0.3f, 0.45f, 0.74f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        //game.batch.begin();
-        //game.batch.draw(backgroundTexture, 0, gameCam.position.y - 1.04f, gameCam.viewportWidth, gameCam.viewportHeight);
-        //game.batch.end();
         //render the game map
         renderer.render();
     
@@ -161,12 +180,10 @@ public class PlayScreen implements Screen
         for (Enemy enemy : new Array.ArrayIterator<>(allEnemies))
             enemy.draw(game.batch);
 
-        //for (DoubleTapBullet bullet : player.getAllSkills()[0].)
-
         game.batch.end();
         
         //render the physics lines
-    //    b2dr.render(world, gameCam.combined);
+        b2dr.render(world, gameCam.combined);
         
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.updateHealth();
