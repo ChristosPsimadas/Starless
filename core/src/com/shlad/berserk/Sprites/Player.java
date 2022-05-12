@@ -62,11 +62,14 @@ public class Player extends Sprite
     
     protected Skill[] allSkills;
 
+    public PlayScreen screen;
+
     //Should find a way to make it not ask for region name
     public Player(PlayScreen screen, String packName, String regionName)
     {
         super(new TextureAtlas(packName).findRegion(regionName));
         this.world = screen.getWorld();
+        this.screen = screen;
 
         currentState = AnimationState.STANDING;
         previousState = AnimationState.STANDING;
@@ -126,6 +129,8 @@ public class Player extends Sprite
         
         setPosition(this.b2body.getPosition().x - getWidth() / 2, this.b2body.getPosition().y - getHeight() / 2 + 2.5f/ Berserk.PPM);
         setRegion(getFrame(dt));
+
+
     }
     
     public TextureRegion getFrame(float dt)

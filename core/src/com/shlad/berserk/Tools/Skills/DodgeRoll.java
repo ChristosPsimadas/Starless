@@ -47,7 +47,7 @@ public class DodgeRoll extends Skill
     @Override
     public void skillEnded()
     {
-        player.b2body.getFixtureList().get(0).getFilterData().maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT;
+        player.b2body.getFixtureList().get(0).getFilterData().maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_BIT;
         this.setInSkillAnimation(false);
     }
     

@@ -26,7 +26,7 @@ public class Imp extends Enemy
     {
         super(screen, "enemySprites/impSprites.pack", "impSpritePhotoshop");
         this.setSkillArrayObject(allSkills);
-        maxHealth = 300;
+        maxHealth = 120;
         currentHealth = maxHealth;
         healthPerLevel = 40;
         healthRegen = 0;

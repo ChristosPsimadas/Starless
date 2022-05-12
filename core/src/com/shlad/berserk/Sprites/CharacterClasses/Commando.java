@@ -13,6 +13,7 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
+import com.shlad.berserk.Tools.Skills.Bullets.DoubleTapBullet;
 import com.shlad.berserk.Tools.Skills.DodgeRoll;
 import com.shlad.berserk.Tools.Skills.DoubleTap;
 import com.shlad.berserk.Tools.Skills.FullMetalJacket;
@@ -78,5 +79,14 @@ public class Commando extends Player
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
         setRegion(playerIdle);
         fixture.setUserData("player");
+    }
+
+    public void updateBullets(float dt)
+    {
+        for (DoubleTapBullet bullet : ((DoubleTap)doubleTap).bullets)
+        {
+            bullet.update(dt);
+        }
+
     }
 }

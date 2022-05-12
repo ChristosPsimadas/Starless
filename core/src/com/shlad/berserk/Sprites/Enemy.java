@@ -1,9 +1,11 @@
 package com.shlad.berserk.Sprites;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
@@ -75,7 +77,6 @@ public abstract class Enemy extends Sprite
     
     protected void setSkillArrayObject(Skill[] skillArray) {this.allSkills = skillArray;}
     
-    
     public void update(float dt)
     {
         if (!destroyed)
@@ -107,7 +108,25 @@ public abstract class Enemy extends Sprite
             setRegion(getFrame(dt));
         }
     }
-    
+
+    public void drawHealth(ShapeRenderer shapeRenderer)
+    {
+        if (!destroyed)
+        {
+            //Dark outline part of health bar
+            shapeRenderer.setColor(new Color(35 / 255f, 45 / 255f, 61 / 255f, 1f));
+            shapeRenderer.rect(b2bodyEnemy.getPosition().x - 15f / Berserk.PPM, b2bodyEnemy.getPosition().y + 14f / Berserk.PPM, 32 / Berserk.PPM, 4 / Berserk.PPM);
+
+            //Draw darker inside for the health bar
+            shapeRenderer.setColor(new Color(15 / 255f, 19 / 255f, 26 / 255f, 1f));
+            shapeRenderer.rect(b2bodyEnemy.getPosition().x - 14f / Berserk.PPM, b2bodyEnemy.getPosition().y + 15.1f / Berserk.PPM, 30 / Berserk.PPM, 2 / Berserk.PPM);
+
+            //Green part of health bar
+            shapeRenderer.setColor(new Color(193 / 255f, 18 / 255f, 18 / 255f, 1f));
+            shapeRenderer.rect(b2bodyEnemy.getPosition().x - 14f / Berserk.PPM, b2bodyEnemy.getPosition().y + 15.1f / Berserk.PPM, (30 / Berserk.PPM) * getCurrentHealthAsPercent(), 2 / Berserk.PPM);
+        }
+    }
+
     public TextureRegion getFrame(float dt)
     {
         currentStateEnemy = getAnimationState();
@@ -213,7 +232,7 @@ public abstract class Enemy extends Sprite
         shape.setRadius(radius / Berserk.PPM);
         fdef.filter.categoryBits = Berserk.ENEMY_BIT;
         fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT;
-        
+
         fdef.shape = shape;
         b2bodyEnemy.createFixture(fdef).setUserData(this);
     }
@@ -232,5 +251,19 @@ public abstract class Enemy extends Sprite
     public double getCurrentHealth()
     {
         return currentHealth;
+    }
+
+    public double getMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public float getCurrentHealthAsPercent()
+    {
+        if (currentHealth <= 0)
+        {
+            return 0;
+        }
+        return (float) currentHealth / (float) maxHealth;
     }
 }

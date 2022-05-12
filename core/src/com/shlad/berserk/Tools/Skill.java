@@ -3,6 +3,7 @@ package com.shlad.berserk.Tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Player;
@@ -74,6 +75,14 @@ public class Skill
     public void draw(Hud hud)
     {
         hud.stage.getBatch().draw(skillImg, drawLocationX(), drawLocationY(), TEXTURESIZE, TEXTURESIZE);
+    }
+
+    public void drawCooldown(Hud hud)
+    {
+        hud.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        hud.shapeRenderer.setColor(128 / 256f, 128 / 256f, 128 / 256f, 0.1f);
+        hud.shapeRenderer.rect(drawLocationX(), drawLocationY(),TEXTURESIZE, TEXTURESIZE);
+        hud.shapeRenderer.end();
     }
     
     public float getCoolDownSeconds()

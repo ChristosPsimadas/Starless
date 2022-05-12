@@ -14,20 +14,23 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.CharacterClasses.Commando;
+import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
 import com.shlad.berserk.Tools.B2WorldCreator;
 import com.shlad.berserk.Tools.Hud;
+import com.shlad.berserk.Tools.Skills.Bullets.DoubleTapBullet;
 import com.shlad.berserk.Tools.Timer;
 import com.shlad.berserk.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen
 {
     private final Berserk game;
-    
+
     private final OrthographicCamera gameCam;
     private final Viewport gamePort;
     
@@ -53,9 +56,11 @@ public class PlayScreen implements Screen
     private final Music music;
     
     private Hud hud;
-    
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
-    
+
+    public ShapeRenderer shapeRenderer;
+
+    private Array<Enemy> allEnemies = new Array<>();
+
     public PlayScreen(Berserk game)
     {
         
@@ -65,6 +70,8 @@ public class PlayScreen implements Screen
         mapLoader = new TmxMapLoader();
         map1 = mapLoader.load("newMapUnfinished.tmx");
         renderer = new OrthogonalTiledMapRenderer(map1, 1 / Berserk.PPM);
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(gameCam.combined);
         
         //timer = new Timer(game.batch);
         winText = new Texture(Gdx.files.internal("congratulations.png"));
@@ -90,6 +97,7 @@ public class PlayScreen implements Screen
         
         player = new Commando(this);
         enemy = new Imp(this);
+        allEnemies.add(enemy);
         
         this.hud = new Hud(game.batch, player);
         
@@ -109,22 +117,13 @@ public class PlayScreen implements Screen
         //user input first
         player.handlePlayerInput(deltaTime);
         player.update(deltaTime);
-        enemy.update(deltaTime);
 
-        //handleInput(deltaTime);
+        for (Enemy enemy : new Array.ArrayIterator<>(allEnemies))
+        {
+            enemy.update(deltaTime);
+        }
 
-        //timer.setTime(deltaTime);
-        
-        
-        //Makes it such that the camera follows the player, but only in multiple-of-4 increments
-        //For example, if jumpKing is at position 3, then the remainder is 3. The game cam gets set to 2 + 3 - 3, because
-        //jumpKing has not left the screen yet since leaving the screen means passing the 4th mark.
-        //gameCam.position.x = 2 + (int) player.b2body.getPosition().x - (int) player.b2body.getPosition().x % 4;
-        //gameCam.position.y = (int) player.b2body.getPosition().y - ((((int) player.b2body.getPosition().y * 100) % 208) / 100);
-        
-        //Since the height of one screen is 2.08, and we cannot modulo a float, we convert it to an integer 208 by multiplying everything by 100
-        //Then do all modulo divisions, and then divide by 100 at the end
-        //gameCam.position.y = 1.04f + (((player.b2body.getPosition().y * 100) - (player.b2body.getPosition().y * 100 % 208)) / 100);
+        player.updateBullets(deltaTime);
 
         gameCam.position.x = player.b2body.getPosition().x;
         gameCam.position.y = player.b2body.getPosition().y;
@@ -142,6 +141,8 @@ public class PlayScreen implements Screen
     {
         //separate update logic from render
         update(delta);
+
+
         
         //Clear the screen and make it light blue
         Gdx.gl.glClearColor(0.3f, 0.45f, 0.74f, 1);
@@ -156,21 +157,33 @@ public class PlayScreen implements Screen
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         player.draw(game.batch);
-        enemy.draw(game.batch);
+
+        for (Enemy enemy : new Array.ArrayIterator<>(allEnemies))
+            enemy.draw(game.batch);
+
+        //for (DoubleTapBullet bullet : player.getAllSkills()[0].)
+
         game.batch.end();
-    
-        shapeRenderer.setProjectionMatrix(gameCam.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.CHARTREUSE);
-        shapeRenderer.line(player.getX() + 20 / Berserk.PPM, player.getY() + 8 / Berserk.PPM, player.getX() - 20, player.getY());
-        shapeRenderer.end();
         
         //render the physics lines
-        b2dr.render(world, gameCam.combined);
+    //    b2dr.render(world, gameCam.combined);
         
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.updateHealth();
         hud.stage.draw();
+
+        shapeRenderer.setProjectionMatrix(gameCam.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        for (Enemy enemy : new Array.ArrayIterator<>(allEnemies))
+        {
+            enemy.drawHealth(shapeRenderer);
+        }
+        shapeRenderer.end();
+    }
+
+
+    public OrthographicCamera getGameCam() {
+        return gameCam;
     }
     
     @Override
