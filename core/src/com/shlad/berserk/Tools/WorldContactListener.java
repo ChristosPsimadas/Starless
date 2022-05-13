@@ -52,9 +52,14 @@ public class WorldContactListener implements ContactListener
                 
                 Fixture bulletEnemyCollision = fixA.getFilterData().categoryBits == Berserk.BULLET_BIT ? fixA : fixB;
                 Fixture enemyBulletCollision = bulletEnemyCollision.equals(fixA) ? fixB : fixA;
-    
+                
                 ((Enemy)enemyBulletCollision.getUserData()).removeHealth((((B2BulletCreator)bulletEnemyCollision.getUserData()).damage));
-                ((B2BulletCreator)bulletEnemyCollision.getUserData()).setToBeDestroyed();
+                
+                if (!(((B2BulletCreator)bulletEnemyCollision.getUserData()).piercing))
+                {
+                    ((B2BulletCreator) bulletEnemyCollision.getUserData()).setToBeDestroyed();
+                }
+                
                 break;
     
         }

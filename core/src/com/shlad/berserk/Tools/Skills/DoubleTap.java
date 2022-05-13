@@ -3,6 +3,7 @@ package com.shlad.berserk.Tools.Skills;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 import com.shlad.berserk.Sprites.CharacterClasses.Commando;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
@@ -24,7 +25,8 @@ public class DoubleTap extends Skill
         this.skillImg = new Texture("commandoSkill1.png");
         this.animationDuration = coolDownSeconds;
         this.nameOfAnimationState = Player.AnimationState.SKILLONE;
-        this.damagePercent = 1f;
+        
+        this.damagePercent = 0.7f;
     }
 
     @Override
@@ -37,9 +39,24 @@ public class DoubleTap extends Skill
     }
     
     @Override
+    public void inSkillAnimationEffects()
+    {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run()
+            {
+                System.out.println("new bullet added");
+                player.bullets.add(new B2BulletCreator(player, damagePercent));
+            }
+        }, coolDownSeconds / 2);
+        
+    }
+    
+    @Override
     public void skillEnded()
     {
         this.setInSkillAnimation(false);
+        this.timeInAnimation = 0;
     }
     
     @Override

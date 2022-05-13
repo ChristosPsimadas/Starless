@@ -33,7 +33,9 @@ public class Commando extends Player
 
     public Commando(PlayScreen screen)
     {
-        super(screen, "playerSpritesNewest/commandoStandardized.pack", "commandoStandard");
+        //super(screen, "playerSpritesNewest/commandoStandardized.pack", "commandoStandard");
+        super(screen, "playerSpritesNoBG/commandoNoBG.pack", "commandoStandardNoBG");
+    
         this.setSkillArrayObject(allSkillObjects);
         maxHealth = 110;
         currentHealth = maxHealth;

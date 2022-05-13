@@ -16,11 +16,14 @@ public class B2BulletCreator
     
     public double damage;
     
+    public boolean piercing;
+    
     
     public B2BulletCreator(Player player, double damagePercent)
     {
         this.world = player.screen.getWorld();
         this.movingRight = player.runningRight;
+        this.piercing = false;
         
         this.damage = player.getDamage() * damagePercent;
     
@@ -39,6 +42,35 @@ public class B2BulletCreator
         fdef.filter.categoryBits = Berserk.BULLET_BIT;
         fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.ENEMY_BIT | Berserk.WALL_BIT;
     
+        shape.setRadius(1f / Berserk.PPM);
+        fdef.shape = shape;
+        body.createFixture(fdef).setUserData(this);
+        moveBullet(5);
+    }
+    
+    public B2BulletCreator(Player player, double damagePercent, boolean piercing)
+    {
+        this.world = player.screen.getWorld();
+        this.movingRight = player.runningRight;
+        this.piercing = piercing;
+        
+        this.damage = player.getDamage() * damagePercent;
+        
+        BodyDef bdef = new BodyDef();
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.bullet = true;
+        bdef.position.set(player.b2body.getPosition().x, player.b2body.getPosition().y);
+        
+        body = world.createBody(bdef);
+        body.setGravityScale(0);
+        
+        fdef.isSensor = true;
+        fdef.filter.categoryBits = Berserk.BULLET_BIT;
+        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.ENEMY_BIT | Berserk.WALL_BIT;
+        
         shape.setRadius(1f / Berserk.PPM);
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);

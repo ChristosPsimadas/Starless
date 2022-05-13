@@ -87,7 +87,9 @@ public class Player extends Sprite
             if (skill.activationCondition())
             {
                 skill.activate();
+                skill.inSkillAnimationEffects();
             }
+            
         }
         
         //If you're in a different animation then you're locked in and can't move
@@ -126,7 +128,6 @@ public class Player extends Sprite
         
         setPosition(this.b2body.getPosition().x - getWidth() / 2, this.b2body.getPosition().y - getHeight() / 2 + 2.5f/ Berserk.PPM);
         setRegion(getFrame(dt));
-
 
     }
     

@@ -24,7 +24,8 @@ public class Imp extends Enemy
     
     public Imp(PlayScreen screen)
     {
-        super(screen, "enemySprites/impSprites.pack", "impSpritePhotoshop");
+        //super(screen, "enemySprites/impSprites.pack", "impSpritePhotoshop");
+        super(screen, "enemySpritesNoBG/impSpriteNoBG.pack", "impSpritePhotoshopNoBG");
         this.setSkillArrayObject(allSkills);
         maxHealth = 120;
         currentHealth = maxHealth;

@@ -150,22 +150,12 @@ public class PlayScreen implements Screen
         //user input first
         player.handlePlayerInput(deltaTime);
         player.update(deltaTime);
+        //System.out.println(player.getAllSkills()[0].timeInAnimation);
 
         for (Enemy enemy : new Array.ArrayIterator<>(allEnemies))
         {
             enemy.update(deltaTime);
         }
-        
-//        for (int i = 0; i < player.bullets.size(); i++)
-//        {
-//            if (player.bullets.get(i).isToBeDestroyed())
-//            {
-//                System.out.println("removed bullet");
-//                world.destroyBody(player.bullets.get(i).getBody());
-//                player.bullets.remove(i);
-//                i--;
-//            }
-//        }
         
         removeBullets();
         

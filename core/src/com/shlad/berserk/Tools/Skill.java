@@ -17,8 +17,8 @@ public class Skill
     protected int skillNumber;
     protected String name;
 
-    protected float timeInAnimation;
-    private boolean inSkillAnimation;
+    public float timeInAnimation;
+    protected boolean inSkillAnimation;
     protected float timePassedSinceLastUsed;
     protected float animationDuration;
     protected float coolDownSeconds;
@@ -50,7 +50,13 @@ public class Skill
 
     public void activate() {}
     
-    public void skillEnded() {}
+    public void skillEnded()
+    {
+        this.inSkillAnimation = false;
+        this.timeInAnimation = 0;
+    }
+    
+    public void inSkillAnimationEffects() {}
     
     public boolean activationCondition() {return false;}
 
