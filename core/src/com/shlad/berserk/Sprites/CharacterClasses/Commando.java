@@ -28,6 +28,8 @@ public class Commando extends Player
     private final int HEIGHT = 12;
     
     public ArrayList<B2BulletCreator> bullets = new ArrayList<>();
+    public ArrayList<B2BulletCreator> fmjBullets = new ArrayList<>();
+    public ArrayList<B2BulletCreator> suppressiveFireBullets = new ArrayList<>();
 
     public Commando(PlayScreen screen)
     {

@@ -18,6 +18,7 @@ public class DoubleTap extends Skill
         this.player = (Commando) player;
         this.timePassedSinceLastUsed = 0f;
         this.coolDownSeconds = 0.5f;
+        this.timeInAnimation = 0f;
         this.skillNumber = 1;
         this.name = "Double Tap";
         this.skillImg = new Texture("commandoSkill1.png");

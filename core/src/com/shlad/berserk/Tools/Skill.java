@@ -16,7 +16,8 @@ public class Skill
     protected final int TEXTURESIZE = 24;
     protected int skillNumber;
     protected String name;
-    
+
+    protected float timeInAnimation;
     private boolean inSkillAnimation;
     protected float timePassedSinceLastUsed;
     protected float animationDuration;

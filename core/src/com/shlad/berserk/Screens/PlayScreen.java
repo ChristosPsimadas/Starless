@@ -119,6 +119,28 @@ public class PlayScreen implements Screen
                 i--;
             }
         }
+
+        for (int i = 0; i < player.fmjBullets.size(); i++)
+        {
+            if (player.fmjBullets.get(i).isToBeDestroyed())
+            {
+                System.out.println("removed fmj bullet");
+                world.destroyBody(player.fmjBullets.get(i).getBody());
+                player.fmjBullets.remove(i);
+                i--;
+            }
+        }
+
+        for (int i = 0; i < player.suppressiveFireBullets.size(); i++)
+        {
+            if (player.suppressiveFireBullets.get(i).isToBeDestroyed())
+            {
+                System.out.println("removed SF bullet");
+                world.destroyBody(player.suppressiveFireBullets.get(i).getBody());
+                player.suppressiveFireBullets.remove(i);
+                i--;
+            }
+        }
     }
     
     //update the game world
@@ -134,16 +156,16 @@ public class PlayScreen implements Screen
             enemy.update(deltaTime);
         }
         
-        for (int i = 0; i < player.bullets.size(); i++)
-        {
-            if (player.bullets.get(i).isToBeDestroyed())
-            {
-                System.out.println("removed bullet");
-                world.destroyBody(player.bullets.get(i).getBody());
-                player.bullets.remove(i);
-                i--;
-            }
-        }
+//        for (int i = 0; i < player.bullets.size(); i++)
+//        {
+//            if (player.bullets.get(i).isToBeDestroyed())
+//            {
+//                System.out.println("removed bullet");
+//                world.destroyBody(player.bullets.get(i).getBody());
+//                player.bullets.remove(i);
+//                i--;
+//            }
+//        }
         
         removeBullets();
         
