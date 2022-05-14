@@ -46,7 +46,7 @@ public class SuppressiveFire extends Skill
         this.timeInAnimation = 0;
     }
     
-    //This looks nicer, and it works but I literally don't know how, and it also needs double the amount of bullets
+    //This looks nicer, and it works, but I literally don't know how, and it also needs double the amount of bullets
     public void recursiveTimerToAddBullets(int numberOfBulletsLeftToShoot)
     {
         System.out.println("num bullets " + numberOfBulletsLeftToShoot);
@@ -63,39 +63,18 @@ public class SuppressiveFire extends Skill
                     System.out.println("new bullet added");
                     player.bullets.add(new B2BulletCreator(player, damagePercent));
             
-                    recursiveTimerToAddBullets(finalNumberOfBulletsLeftToShoot - 1);
+                    recursiveTimerToAddBullets(finalNumberOfBulletsLeftToShoot);
                 }
             }, animationDuration / 7);
         }
     }
-    
-    public void recursiveTimerToAddBullets2(final int numberOfBulletsLeftToShoot)
-    {
-        System.out.println("num bullets " + numberOfBulletsLeftToShoot);
-        if (numberOfBulletsLeftToShoot > 0)
-        {
-            Timer.schedule(new Timer.Task()
-            {
-                @Override
-                public void run()
-                {
-                    System.out.println("new bullet added");
-                    player.bullets.add(new B2BulletCreator(player, damagePercent));
-                    
-                    recursiveTimerToAddBullets(numberOfBulletsLeftToShoot - 1);
-                }
-            }, animationDuration / 7);
-        }
-    }
-    
     
     @Override
     public void inSkillAnimationEffects()
     {
-        
-        recursiveTimerToAddBullets(14);
-        
-        
+
+        recursiveTimerToAddBullets(7);
+
         // I mean it works but it's an abomination
 //        Timer.schedule(new Timer.Task() {
 //            @Override
