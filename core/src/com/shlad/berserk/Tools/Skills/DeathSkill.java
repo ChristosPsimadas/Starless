@@ -33,7 +33,6 @@ public class DeathSkill extends Skill
     public void activate()
     {
         activated = true;
-        System.out.println("Enemy died");
         enemy.b2bodyEnemy.setLinearVelocity(0f, enemy.b2bodyEnemy.getLinearVelocity().y);
         this.setInSkillAnimation(true);
         this.setTimePassedSinceLastUsed(0);
@@ -46,5 +45,6 @@ public class DeathSkill extends Skill
         enemy.destroyed = true;
         this.setInSkillAnimation(false);
         enemy.worldEnemy.destroyBody(enemy.b2bodyEnemy);
+        enemy.worldEnemy.destroyBody(enemy.b2bodyEnemyMeleeSensor);
     }
 }

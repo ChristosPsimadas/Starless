@@ -64,8 +64,6 @@ public abstract class Enemy extends Sprite
     
     public boolean playerInMeleeRange = false;
     
-    protected Commando player;
-    
     public Enemy(PlayScreen screen, String packName, String regionName)
     {
         super(new TextureAtlas(packName).findRegion(regionName));

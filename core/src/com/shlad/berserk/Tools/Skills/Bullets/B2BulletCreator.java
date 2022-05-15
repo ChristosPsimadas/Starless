@@ -78,6 +78,7 @@ public class B2BulletCreator
     
     public void moveBullet(float speed)
     {
+        System.out.println(movingRight);
         if (movingRight)
         {
             this.body.applyLinearImpulse(new Vector2(speed, 0), this.body.getWorldCenter(), true);
