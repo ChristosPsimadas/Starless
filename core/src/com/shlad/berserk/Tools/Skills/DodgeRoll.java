@@ -4,13 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.shlad.berserk.Berserk;
-import com.shlad.berserk.Sprites.Player;
+import com.shlad.berserk.Sprites.Commando;
 import com.shlad.berserk.Tools.Skill;
 
 public class DodgeRoll extends Skill
 {
-    public DodgeRoll(Player player)
+    public DodgeRoll(Commando player)
     {
         super(player);
         this.timePassedSinceLastUsed = 0f;
@@ -25,8 +24,6 @@ public class DodgeRoll extends Skill
     @Override
     public void activate()
     {
-        System.out.println("Dodge");
-    
         if (player.runningRight)
         {
             player.b2body.applyLinearImpulse(new Vector2(player.getMaxSpeed() * 1.3f, 0), player.b2body.getWorldCenter(), true);
@@ -39,7 +36,6 @@ public class DodgeRoll extends Skill
         }
         
         this.setInSkillAnimation(true);
-        player.b2body.getFixtureList().get(0).getFilterData().maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT  | Berserk.WALL_BIT;
         
         this.setTimePassedSinceLastUsed(0);
     }
@@ -47,9 +43,7 @@ public class DodgeRoll extends Skill
     @Override
     public void skillEnded()
     {
-        player.b2body.getFixtureList().get(0).getFilterData().maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_BIT;
         this.setInSkillAnimation(false);
-        this.timeInAnimation = 0;
     }
     
     @Override

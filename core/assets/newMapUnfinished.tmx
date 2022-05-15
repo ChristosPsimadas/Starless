@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="200" height="120" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="104">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="200" height="120" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="156">
  <tileset firstgid="1" name="insideDungeon" tilewidth="16" tileheight="16" tilecount="672" columns="42">
   <image source="grotto/environment-tiles.png" width="672" height="256"/>
  </tileset>
@@ -27,17 +27,17 @@
    eJzt2UkKwjAYgNGQk3gUj+JRPI24k+qiuil4E49inBDFFIdAQ30PfqQDJYt8i2AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/IsmhvkihnCbdA1c6QPySvbRxTAptjCowIs+pt9+axvDrNzKYHjPfazSHk/3Ds399+1p9cHIPPfx68CY6IMxWvfs0c0H+3R5OXNMSkzrfE4l+vpIz+ZDrMn5nFrU2EenDypRYx9QC31Anj4gTx+Qpw/I0wfk6QMe7dO+38bz/3Bh19NHe33nNJ1WAAAAAKp1BPCVnzs=
   </data>
  </layer>
- <layer id="1" name="backgroundFloors" width="200" height="120">
+ <layer id="1" name="backgroundFloors" width="200" height="120" locked="1">
   <data encoding="base64" compression="zlib">
    eJzt20tu1FAQBdBWrzRLyVIQ/+8ApGQPwICFsIeIRlFmFLG727717HOkO4uCXVVXiprkcAAAAAAAAAAAAAAAAADgXG+P0jXkpW9A9KOz9A2IfnSWvgHRj87SNyD60Vn6BkQ/OkvfgOhHZ+kbEP3oLH0Doh+dpW9A9KOz9A2IfnSWvgHRDwAAAAAAAAAAAAAgL/3700958LvUNJTuhX7QWboX+kFn6V7oB52le/FcP9LPNcr85j73KO/Twe/jY5L0o8ddpZ9bP/5NP3rcVfq59WOe7vtJP59+LE8/9KPr+1zLJf9+537ANegH1PQDah1/5oMu9AMuox9Q0w+o6QfU9ANq+gE1/YCafkBNP6CmH1DTD6jpB9T0A2r6ATX9gJp+QE0/oKYfUNMPqOkH1PQDakv3Y+r3XyJLPc9WJXfVdfb60X9Ha0nffsfZ60f/Ha0lffsdZ68f/Xe0lvTtJ2efeq5us+y8I3LcBNT0Y3u+n/byY0Z+2mNptJ8HYU36ATX9gJp+QE0/oKYfUNMPqOkH1PQDavrRx1K7sJPz2cXlXp7e99WEvH5mLvrRj11c7s3EmbzTj+HYxeXuJs7kXj+GYxeXe3963w8Tcvq6m7nfe+nO2Pn/mdXyHo6POUf65kfaefr9R5rVkp7+vmKNv5tI73Gknafff6RZbUV6jyPtPP3+I81qqqmfzU75fHYJ6T1ucedz7H1Wp7u/mfpOp699sfbzpW9+izufY++zuj8ebqe+03Ofzy4hffNb3Pkce5/V1M9m/+ajfmxi53OYVW/pm9/7zs2qt/TN733nZtVb+ub3vnOz6i1983vf+ZLzmvr/CkvnV+Bz2WtJ37x+bD93x8Ntes7nSs9OP7afrwPvLj072X70Q6TOt4F/vvrSYH6y7eiHSJ1Px/xnaOfmc4P5iYiIiIiISK/8AVSdKQ4=
   </data>
  </layer>
- <layer id="7" name="interactableGraphics" width="200" height="120">
+ <layer id="7" name="interactableGraphics" width="200" height="120" locked="1">
   <data encoding="base64" compression="zlib">
    eJzt2jkNADAMA8AM5Vj+TMKgU6U8ukPg0bIcAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADABPdUJwAAAAAAfrP7AQAAAAAAAAAAAPDibwoAAAAAAAAAAPX8eACAjnQUAAA601cBAAAA9kqP/gIj
   </data>
  </layer>
- <objectgroup id="3" name="Walls">
+ <objectgroup id="3" name="Walls" locked="1">
   <object id="28" x="745" y="1747.59" width="7" height="107.409"/>
   <object id="29" x="848" y="1620.75" width="5.75" height="47"/>
   <object id="30" x="1034.75" y="1620.25" width="5.25" height="48.5"/>
@@ -93,7 +93,7 @@
   <object id="101" x="0" y="0" width="3200" height="2.5"/>
   <object id="103" x="0" y="768" width="1.79142" height="112.352"/>
  </objectgroup>
- <objectgroup id="4" name="Floor">
+ <objectgroup id="4" name="Floor" locked="1">
   <object id="8" x="748.682" y="1840" width="742.955" height="15.9921"/>
   <object id="9" x="848.25" y="1616" width="191.75" height="4.5"/>
   <object id="10" x="1120.44" y="1504" width="175.688" height="3.75"/>
@@ -117,12 +117,137 @@
   <object id="83" x="528.208" y="272.021" width="1647.8" height="3.9578"/>
   <object id="97" x="1056" y="1584" width="48" height="1.625"/>
  </objectgroup>
- <objectgroup id="6" name="JumpPads">
+ <objectgroup id="6" name="JumpPads" locked="1">
   <object id="91" x="784" y="1834.27" width="16" height="5.72727"/>
   <object id="92" x="1951.91" y="1546.32" width="16" height="5.72727"/>
   <object id="93" x="2640.06" y="1770.39" width="16" height="5.72727"/>
   <object id="94" x="2048" y="1226.41" width="16" height="5.72727"/>
   <object id="95" x="192.091" y="1739.07" width="16" height="5.07102"/>
   <object id="96" x="96.1875" y="1339.7" width="16" height="4.41477"/>
+ </objectgroup>
+ <objectgroup id="8" name="NodePoints">
+  <object id="105" x="143.5" y="1322">
+   <point/>
+  </object>
+  <object id="109" x="720" y="1728">
+   <point/>
+  </object>
+  <object id="110" x="240" y="1728">
+   <point/>
+  </object>
+  <object id="111" x="928" y="1600">
+   <point/>
+  </object>
+  <object id="112" x="1200" y="1488">
+   <point/>
+  </object>
+  <object id="113" x="1488" y="1472">
+   <point/>
+  </object>
+  <object id="114" x="1600" y="1472">
+   <point/>
+  </object>
+  <object id="115" x="1712" y="1472">
+   <point/>
+  </object>
+  <object id="116" x="1856" y="1536">
+   <point/>
+  </object>
+  <object id="117" x="1792" y="1312">
+   <point/>
+  </object>
+  <object id="118" x="2128" y="1216">
+   <point/>
+  </object>
+  <object id="119" x="2624" y="1216">
+   <point/>
+  </object>
+  <object id="120" x="2736" y="1552">
+   <point/>
+  </object>
+  <object id="121" x="2976" y="1552">
+   <point/>
+  </object>
+  <object id="123" x="2128" y="1536">
+   <point/>
+  </object>
+  <object id="124" x="3072" y="1264">
+   <point/>
+  </object>
+  <object id="125" x="3008" y="800">
+   <point/>
+  </object>
+  <object id="126" x="3152" y="800">
+   <point/>
+  </object>
+  <object id="127" x="2656" y="736">
+   <point/>
+  </object>
+  <object id="132" x="2224" y="736">
+   <point/>
+  </object>
+  <object id="133" x="1792" y="736">
+   <point/>
+  </object>
+  <object id="134" x="1360" y="736">
+   <point/>
+  </object>
+  <object id="135" x="1008" y="736">
+   <point/>
+  </object>
+  <object id="136" x="768" y="736">
+   <point/>
+  </object>
+  <object id="137" x="448" y="672">
+   <point/>
+  </object>
+  <object id="138" x="128" y="672">
+   <point/>
+  </object>
+  <object id="139" x="32" y="864">
+   <point/>
+  </object>
+  <object id="140" x="624" y="256">
+   <point/>
+  </object>
+  <object id="141" x="816" y="256">
+   <point/>
+  </object>
+  <object id="142" x="1024" y="256">
+   <point/>
+  </object>
+  <object id="143" x="1184" y="256">
+   <point/>
+  </object>
+  <object id="144" x="400" y="1216">
+   <point/>
+  </object>
+  <object id="145" x="560" y="1216">
+   <point/>
+  </object>
+  <object id="146" x="704" y="1216">
+   <point/>
+  </object>
+  <object id="147" x="928" y="1216">
+   <point/>
+  </object>
+  <object id="148" x="1072" y="1216">
+   <point/>
+  </object>
+  <object id="150" x="1200" y="1824">
+   <point/>
+  </object>
+  <object id="151" x="480" y="1728">
+   <point/>
+  </object>
+  <object id="153" x="2064" y="256">
+   <point/>
+  </object>
+  <object id="154" x="1648" y="256">
+   <point/>
+  </object>
+  <object id="155" x="1392" y="256">
+   <point/>
+  </object>
  </objectgroup>
 </map>

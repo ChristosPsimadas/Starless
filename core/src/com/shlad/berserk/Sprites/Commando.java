@@ -13,7 +13,7 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Tools.Skill;
 
-public class Player extends Sprite
+public class Commando extends Sprite
 {
     public enum AnimationState {FALLING, JUMPING, STANDING, RUNNING, SKILLONE, SKILLTWO, SKILLTHREE, SKILLFOUR}
     
@@ -62,7 +62,7 @@ public class Player extends Sprite
     public PlayScreen screen;
 
     //Should find a way to make it not ask for region name
-    public Player(PlayScreen screen, String packName, String regionName)
+    public Commando(PlayScreen screen, String packName, String regionName)
     {
         super(new TextureAtlas(packName).findRegion(regionName));
         this.world = screen.getWorld();
@@ -232,7 +232,7 @@ public class Player extends Sprite
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / Berserk.PPM);
         fdef.filter.categoryBits = Berserk.PLAYER_BIT;
-        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_BIT;
+        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_BIT | Berserk.ENEMY_SENSOR_MELEE_BIT;
 
         fdef.shape = shape;
         fixture = b2body.createFixture(fdef);

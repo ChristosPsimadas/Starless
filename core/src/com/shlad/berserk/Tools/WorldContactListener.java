@@ -44,11 +44,11 @@ public class WorldContactListener implements ContactListener
                 Fixture wall = bulletWallCollision.equals(fixA) ? fixB : fixA;
     
                 ((B2BulletCreator)bulletWallCollision.getUserData()).setToBeDestroyed();
-                System.out.println("bullet hit wall");
+                //System.out.println("bullet hit wall");
                 break;
     
             case Berserk.BULLET_BIT | Berserk.ENEMY_BIT:
-                System.out.println("bullet touched enemy");
+                //System.out.println("bullet touched enemy");
                 
                 Fixture bulletEnemyCollision = fixA.getFilterData().categoryBits == Berserk.BULLET_BIT ? fixA : fixB;
                 Fixture enemyBulletCollision = bulletEnemyCollision.equals(fixA) ? fixB : fixA;
@@ -59,6 +59,18 @@ public class WorldContactListener implements ContactListener
                 {
                     ((B2BulletCreator) bulletEnemyCollision.getUserData()).setToBeDestroyed();
                 }
+                break;
+                
+            case Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.PLAYER_BIT:
+    
+                System.out.println("player inside enemy radius");
+    
+                Fixture playerInsideEnemyRadius = fixA.getFilterData().categoryBits == Berserk.PLAYER_BIT ? fixA : fixB;
+                Fixture enemyFighting = playerInsideEnemyRadius.equals(fixA) ? fixB : fixA;
+    
+                ((Enemy)enemyFighting.getUserData()).playerInMeleeRange = true;
+                
+                
                 
                 break;
     
@@ -70,7 +82,24 @@ public class WorldContactListener implements ContactListener
     @Override
     public void endContact(Contact contact)
     {
+        Fixture fixA = contact.getFixtureA();
+        Fixture fixB = contact.getFixtureB();
     
+        int collisionIdentifier = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
+    
+        switch (collisionIdentifier)
+        {
+            case Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.PLAYER_BIT:
+        
+                System.out.println("player left enemy radius");
+        
+                Fixture playerInsideEnemyRadius = fixA.getFilterData().categoryBits == Berserk.PLAYER_BIT ? fixA : fixB;
+                Fixture enemyFighting = playerInsideEnemyRadius.equals(fixA) ? fixB : fixA;
+    
+                ((Enemy)enemyFighting.getUserData()).playerInMeleeRange = false;
+                break;
+        }
+        
     }
     
     @Override

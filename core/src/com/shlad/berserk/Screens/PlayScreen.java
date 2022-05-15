@@ -21,7 +21,6 @@ import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
 import com.shlad.berserk.Tools.B2WorldCreator;
 import com.shlad.berserk.Tools.Hud;
-import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
 import com.shlad.berserk.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen
@@ -41,7 +40,7 @@ public class PlayScreen implements Screen
     //shows us fixtures and rigid bodies, so we see what's going on
     private final Box2DDebugRenderer b2dr;
     
-    private Commando player;
+    public Commando player;
     private Imp enemy;
 
     private final Music backgroundMusic;
@@ -198,7 +197,7 @@ public class PlayScreen implements Screen
         b2dr.render(world, gameCam.combined);
         
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.updateHealth();
+        hud.updateHud();
         hud.stage.draw();
 
         shapeRenderer.setProjectionMatrix(gameCam.combined);

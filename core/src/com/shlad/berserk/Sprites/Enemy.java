@@ -20,6 +20,7 @@ public abstract class Enemy extends Sprite
     
     public World worldEnemy;
     public Body b2bodyEnemy;
+    public Body b2bodyEnemyMeleeSensor;
     protected TextureRegion enemyIdle;
     protected TextureRegion enemyJump;
     protected TextureRegion enemyFall;
@@ -36,7 +37,7 @@ public abstract class Enemy extends Sprite
     protected float stateTimer;
     protected boolean runningRight;
     
-    protected float maxSpeed = 1.4f;
+    protected float maxSpeed = 1f;
     
     protected double maxHealth = 1;
     protected double currentHealth = 1;
@@ -61,6 +62,9 @@ public abstract class Enemy extends Sprite
     
     public boolean destroyed;
     
+    public boolean playerInMeleeRange = false;
+    
+    protected Commando player;
     
     public Enemy(PlayScreen screen, String packName, String regionName)
     {
@@ -75,12 +79,14 @@ public abstract class Enemy extends Sprite
         destroyed = false;
     }
     
+    
     protected void setSkillArrayObject(Skill[] skillArray) {this.allSkills = skillArray;}
     
     public void update(float dt)
     {
         if (!destroyed)
         {
+            b2bodyEnemyMeleeSensor.setTransform(b2bodyEnemy.getPosition().x, b2bodyEnemy.getPosition().y, 0);
             
             for (Skill skill : allSkills)
             {
@@ -200,7 +206,19 @@ public abstract class Enemy extends Sprite
     {
     
         if (allSkills[4].activationCondition() || allSkills[4].isInSkillAnimation())
+        {
+            b2bodyEnemy.setLinearVelocity(0, 0);
             return AnimationStateEnemy.DYING;
+        }
+
+        else if (currentHealth <= 0)
+            return AnimationStateEnemy.DEAD;
+        
+        else if (allSkills[1].activationCondition() || allSkills[1].isInSkillAnimation())
+            return AnimationStateEnemy.SKILLTWO;
+        
+        else if (allSkills[0].activationCondition() || allSkills[0].isInSkillAnimation())
+            return AnimationStateEnemy.SKILLONE;
         
         else if (b2bodyEnemy.getLinearVelocity().y != 0)
             return AnimationStateEnemy.JUMPING;
@@ -210,9 +228,6 @@ public abstract class Enemy extends Sprite
         
         else if (b2bodyEnemy.getLinearVelocity().x != 0)
             return AnimationStateEnemy.RUNNING;
-        
-        else if (currentHealth < 0)
-            return AnimationStateEnemy.DEAD;
         
         else
             return AnimationStateEnemy.STANDING;
@@ -235,6 +250,27 @@ public abstract class Enemy extends Sprite
 
         fdef.shape = shape;
         b2bodyEnemy.createFixture(fdef).setUserData(this);
+    }
+    
+    public void defineMeleeRangeRadius(float rangeOfAttack)
+    {
+        BodyDef bdef = new BodyDef();
+        
+        bdef.position.set(this.b2bodyEnemy.getPosition().x, this.b2bodyEnemy.getPosition().y);
+        bdef.type = BodyDef.BodyType.StaticBody;
+        
+        b2bodyEnemyMeleeSensor = worldEnemy.createBody(bdef);
+        
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(rangeOfAttack / Berserk.PPM);
+        fdef.filter.categoryBits = Berserk.ENEMY_SENSOR_MELEE_BIT;
+        fdef.filter.maskBits = Berserk.PLAYER_BIT;
+        fdef.isSensor = true;
+        
+        fdef.shape = shape;
+        b2bodyEnemyMeleeSensor.createFixture(fdef).setUserData(this);
+        
     }
     
     public Skill[] getAllSkills()
@@ -270,5 +306,10 @@ public abstract class Enemy extends Sprite
     public void removeHealth(double howMuchHealth)
     {
         this.currentHealth -= howMuchHealth;
+    }
+    
+    public float getMaxSpeed()
+    {
+        return maxSpeed;
     }
 }

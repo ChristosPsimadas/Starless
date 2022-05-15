@@ -13,19 +13,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
-import com.shlad.berserk.Sprites.Player;
+import com.shlad.berserk.Sprites.Commando;
 
 public class Hud
 {
     public Stage stage;
     private Viewport viewport;
-    private Player player;
+    private Commando player;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
 
     Pixmap cursorImage = new Pixmap(Gdx.files.internal("crosshair.png"));
     
-    public Hud(SpriteBatch spriteBatch, Player player)
+    public Hud(SpriteBatch spriteBatch, Commando player)
     {
         viewport = new FitViewport(Berserk.V_WIDTH, Berserk.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spriteBatch);
@@ -37,7 +37,7 @@ public class Hud
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursorImage, 0, 0));
     }
     
-    public void updateHealth()
+    public void updateHud()
     {
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -67,14 +67,15 @@ public class Hud
 
     private void updateSkills()
     {
+        
+        //Draws grey box behind skills
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
         shapeRenderer.rect((Berserk.V_WIDTH / 2f) - 60, Berserk.V_HEIGHT - 353, 116, 30);
-        //What the hell
-        shapeRenderer.line(player.getX() + 20 / Berserk.PPM, player.getY() + 8 / Berserk.PPM, player.getX() - 20, player.getY());
         shapeRenderer.end();
         
         
+        //Draws the number for the cooldown on each skill
         stage.getBatch().begin();
         for (Skill skill : player.getAllSkills())
         {
@@ -88,13 +89,14 @@ public class Hud
             }
         }
         stage.getBatch().end();
-
+        
+        
         //Add translucent box around skill when it is on cooldown.
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 0.8f);
-
+        
         for (Skill skill : player.getAllSkills())
         {
             if (!skill.isCoolDownOver())

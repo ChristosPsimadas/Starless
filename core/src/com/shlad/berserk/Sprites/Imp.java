@@ -5,28 +5,34 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
+import com.shlad.berserk.Sprites.EnemyAI.GroundMeleeAI;
 import com.shlad.berserk.Tools.Skill;
 import com.shlad.berserk.Tools.Skills.DeathSkill;
+import com.shlad.berserk.Tools.Skills.EnemySkills.AbyssalSlash;
+import com.shlad.berserk.Tools.Skills.EnemySkills.Teleport;
 import com.shlad.berserk.Tools.Skills.NullSkill;
 
 public class Imp extends Enemy
 {
-    private Skill noSkill1 = new NullSkill(this, 1);
-    private Skill noSkill2 = new NullSkill(this, 2);
+    private Skill abyssalSlash = new AbyssalSlash(this);
+    private Skill teleport = new Teleport(this);
     private Skill noSkill3 = new NullSkill(this, 3);
     private Skill noSkill4 = new NullSkill(this, 4);
     private Skill death =   new DeathSkill(this);
     
-    private Skill[] allSkills = new Skill[]{noSkill1, noSkill2, noSkill3, noSkill4, death};
+    private Skill[] allSkills = new Skill[]{abyssalSlash, teleport, noSkill3, noSkill4, death};
     
     private final int WIDTH = 33;
     private final int HEIGHT = 25;
+    
+    public GroundMeleeAI impAI;
     
     public Imp(PlayScreen screen)
     {
         //super(screen, "enemySprites/impSprites.pack", "impSpritePhotoshop");
         super(screen, "enemySpritesNoBG/impSpriteNoBG.pack", "impSpritePhotoshopNoBG");
         this.setSkillArrayObject(allSkills);
+        this.impAI =  new GroundMeleeAI(this, screen.player);
         maxHealth = 120;
         currentHealth = maxHealth;
         healthPerLevel = 40;
@@ -44,6 +50,10 @@ public class Imp extends Enemy
         enemySkillOne = new Animation<>(0.1f, frames);
         frames.clear();
     
+        for (int i = 0; i < 3; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 3 + 50, WIDTH, HEIGHT));}
+        enemySkillTwo = new Animation<>(0.3f, frames);
+        frames.clear();
+    
         for (int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + 100, WIDTH, HEIGHT));}
         enemyDying = new Animation<>(0.15f, frames);
         frames.clear();
@@ -56,14 +66,22 @@ public class Imp extends Enemy
         
         enemyDead = new TextureRegion(getTexture(), 239, 5 + 100, WIDTH, HEIGHT);
         
-        enemySkillTwo = enemyRun;
+        
         enemySkillThree = enemyRun;
         enemySkillFour = enemyRun;
         
-        
         defineEnemyRadius(10f);
+        defineMeleeRangeRadius(22f);
         
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
         setRegion(enemyIdle);
+    }
+    
+    @Override
+    public void update(float dt)
+    {
+        super.update(dt);
+        impAI.updateAI();
+        
     }
 }

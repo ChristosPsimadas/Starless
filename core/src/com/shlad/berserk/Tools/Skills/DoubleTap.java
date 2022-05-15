@@ -4,27 +4,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
-import com.shlad.berserk.Sprites.CharacterClasses.Commando;
-import com.shlad.berserk.Sprites.Player;
+import com.shlad.berserk.Sprites.Commando;
 import com.shlad.berserk.Tools.Skill;
 import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
 
 public class DoubleTap extends Skill
 {
-    private Commando player;
+    private com.shlad.berserk.Sprites.CharacterClasses.Commando player;
     
-    public DoubleTap(Player player)
+    public DoubleTap(Commando player)
     {
         super(player);
-        this.player = (Commando) player;
+        this.player = (com.shlad.berserk.Sprites.CharacterClasses.Commando) player;
         this.timePassedSinceLastUsed = 0f;
         this.coolDownSeconds = 0.5f;
-        this.timeInAnimation = 0f;
         this.skillNumber = 1;
         this.name = "Double Tap";
         this.skillImg = new Texture("commandoSkill1.png");
         this.animationDuration = coolDownSeconds;
-        this.nameOfAnimationState = Player.AnimationState.SKILLONE;
+        this.nameOfAnimationState = Commando.AnimationState.SKILLONE;
         
         this.damagePercent = 0.7f;
     }
@@ -56,7 +54,6 @@ public class DoubleTap extends Skill
     public void skillEnded()
     {
         this.setInSkillAnimation(false);
-        this.timeInAnimation = 0;
     }
     
     @Override

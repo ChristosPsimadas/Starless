@@ -1,0 +1,12 @@
+
+commandoFull.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+commandoFullSet
+  rotate: false
+  xy: 0, 0
+  size: 587, 118
+  orig: 587, 118
+  offset: 0, 0
+  index: -1

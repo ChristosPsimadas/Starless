@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
+import com.shlad.berserk.Sprites.EnemyAI.GroundMeleeAI;
 import com.shlad.berserk.Sprites.JumpPad;
 
 public class B2WorldCreator
@@ -26,7 +27,8 @@ public class B2WorldCreator
         //3 is wall
         //4 is Floor
         //5 is the jump pads
-        //6 is for objects
+        //6 is for nodes for certain enemy pathfinding
+        
         
         //I'm going jerma yoinky sploinky crazy for bitwise operations
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class))
@@ -71,6 +73,11 @@ public class B2WorldCreator
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             new JumpPad(screen, rect);
         }
-        
+    
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class))
+        {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            GroundMeleeAI.teleportNodes.add(rect);
+        }
     }
 }

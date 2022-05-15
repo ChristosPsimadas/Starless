@@ -3,24 +3,23 @@ package com.shlad.berserk.Tools.Skills;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.shlad.berserk.Sprites.CharacterClasses.Commando;
-import com.shlad.berserk.Sprites.Player;
+import com.shlad.berserk.Sprites.Commando;
 import com.shlad.berserk.Tools.Skill;
 import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
 
 public class FullMetalJacket extends Skill
 {
-    private Commando player;
+    private com.shlad.berserk.Sprites.CharacterClasses.Commando player;
     
-    public FullMetalJacket(Player player)
+    public FullMetalJacket(Commando player)
     {
         super(player);
-        this.player = (Commando) player;
+        this.player = (com.shlad.berserk.Sprites.CharacterClasses.Commando) player;
         this.timePassedSinceLastUsed = 0f;
         this.coolDownSeconds = 2f;
         this.animationDuration = 0.5f;
         this.skillNumber = 2;
-        this.name = "Dodge Roll";
+        this.name = "Full Metal Jacket";
         this.skillImg = new Texture("commandoSkill2.png");
         
         this.damagePercent = 1.6f;
@@ -39,7 +38,6 @@ public class FullMetalJacket extends Skill
     public void skillEnded()
     {
         this.setInSkillAnimation(false);
-        this.timeInAnimation = 0;
     }
     
     @Override

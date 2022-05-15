@@ -3,8 +3,7 @@ package com.shlad.berserk.Tools.Skills.Bullets;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
-import com.shlad.berserk.Screens.PlayScreen;
-import com.shlad.berserk.Sprites.Player;
+import com.shlad.berserk.Sprites.Commando;
 
 public class B2BulletCreator
 {
@@ -19,7 +18,7 @@ public class B2BulletCreator
     public boolean piercing;
     
     
-    public B2BulletCreator(Player player, double damagePercent)
+    public B2BulletCreator(Commando player, double damagePercent)
     {
         this.world = player.screen.getWorld();
         this.movingRight = player.runningRight;
@@ -48,7 +47,7 @@ public class B2BulletCreator
         moveBullet(5);
     }
     
-    public B2BulletCreator(Player player, double damagePercent, boolean piercing)
+    public B2BulletCreator(Commando player, double damagePercent, boolean piercing)
     {
         this.world = player.screen.getWorld();
         this.movingRight = player.runningRight;

@@ -3,27 +3,25 @@ package com.shlad.berserk.Tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.Enemy;
-import com.shlad.berserk.Sprites.Player;
+import com.shlad.berserk.Sprites.Commando;
 
 public class Skill
 {
-    protected Player.AnimationState nameOfAnimationState;
+    protected Commando.AnimationState nameOfAnimationState;
 
     protected Texture skillImg;
     protected final int TEXTURESIZE = 24;
     protected int skillNumber;
     protected String name;
-
-    public float timeInAnimation;
+    
     protected boolean inSkillAnimation;
     protected float timePassedSinceLastUsed;
     protected float animationDuration;
     protected float coolDownSeconds;
     
-    protected Player player;
+    protected Commando player;
     protected Enemy enemy;
     
     protected double damagePercent;
@@ -38,7 +36,7 @@ public class Skill
         this.name = name;
     }
     
-    public Skill(Player player)
+    public Skill(Commando player)
     {
         this.player = player;
     }
@@ -53,7 +51,6 @@ public class Skill
     public void skillEnded()
     {
         this.inSkillAnimation = false;
-        this.timeInAnimation = 0;
     }
     
     public void inSkillAnimationEffects() {}
@@ -84,14 +81,6 @@ public class Skill
     public void draw(Hud hud)
     {
         hud.stage.getBatch().draw(skillImg, drawLocationX(), drawLocationY(), TEXTURESIZE, TEXTURESIZE);
-    }
-
-    public void drawCooldown(Hud hud)
-    {
-        hud.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        hud.shapeRenderer.setColor(128 / 256f, 128 / 256f, 128 / 256f, 0.1f);
-        hud.shapeRenderer.rect(drawLocationX(), drawLocationY(),TEXTURESIZE, TEXTURESIZE);
-        hud.shapeRenderer.end();
     }
     
     public float getCoolDownSeconds()
@@ -128,19 +117,19 @@ public class Skill
     {
         if (this.skillNumber == 1)
         {
-            return (player.currentState != Player.AnimationState.SKILLTWO && player.currentState != Player.AnimationState.SKILLTHREE && player.currentState != Player.AnimationState.SKILLFOUR);
+            return (player.currentState != Commando.AnimationState.SKILLTWO && player.currentState != Commando.AnimationState.SKILLTHREE && player.currentState != Commando.AnimationState.SKILLFOUR);
         }
         else if (this.skillNumber == 2)
         {
-            return (player.currentState != Player.AnimationState.SKILLONE && player.currentState != Player.AnimationState.SKILLTHREE && player.currentState != Player.AnimationState.SKILLFOUR);
+            return (player.currentState != Commando.AnimationState.SKILLONE && player.currentState != Commando.AnimationState.SKILLTHREE && player.currentState != Commando.AnimationState.SKILLFOUR);
         }
         else if (this.skillNumber == 3)
         {
-            return (player.currentState != Player.AnimationState.SKILLONE && player.currentState != Player.AnimationState.SKILLTWO   && player.currentState != Player.AnimationState.SKILLFOUR);
+            return (player.currentState != Commando.AnimationState.SKILLONE && player.currentState != Commando.AnimationState.SKILLTWO   && player.currentState != Commando.AnimationState.SKILLFOUR);
         }
         else if (this.skillNumber == 4)
         {
-            return (player.currentState != Player.AnimationState.SKILLONE && player.currentState != Player.AnimationState.SKILLTWO   && player.currentState != Player.AnimationState.SKILLTHREE);
+            return (player.currentState != Commando.AnimationState.SKILLONE && player.currentState != Commando.AnimationState.SKILLTWO   && player.currentState != Commando.AnimationState.SKILLTHREE);
         }
         else return true;
     }
@@ -166,9 +155,9 @@ public class Skill
         else return true;
     }
     
-    public static boolean checkIfNotInAnyAnimation(Player player)
+    public static boolean checkIfNotInAnyAnimation(Commando player)
     {
-        return (player.currentState != Player.AnimationState.SKILLONE && player.currentState != Player.AnimationState.SKILLTWO && player.currentState != Player.AnimationState.SKILLTHREE && player.currentState != Player.AnimationState.SKILLFOUR);
+        return (player.currentState != Commando.AnimationState.SKILLONE && player.currentState != Commando.AnimationState.SKILLTWO && player.currentState != Commando.AnimationState.SKILLTHREE && player.currentState != Commando.AnimationState.SKILLFOUR);
     }
     
     public static boolean checkIfNotInAnyAnimation(Enemy enemy)

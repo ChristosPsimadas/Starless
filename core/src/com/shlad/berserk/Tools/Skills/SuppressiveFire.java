@@ -4,19 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
-import com.shlad.berserk.Sprites.CharacterClasses.Commando;
-import com.shlad.berserk.Sprites.Player;
+import com.shlad.berserk.Sprites.Commando;
 import com.shlad.berserk.Tools.Skill;
 import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
 
 public class SuppressiveFire extends Skill
 {
-    private Commando player;
+    private com.shlad.berserk.Sprites.CharacterClasses.Commando player;
 
-    public SuppressiveFire(Player player)
+    public SuppressiveFire(Commando player)
     {
         super(player);
-        this.player = (Commando) player;
+        this.player = (com.shlad.berserk.Sprites.CharacterClasses.Commando) player;
         this.timePassedSinceLastUsed = 0f;
         this.coolDownSeconds = 5f;
         this.animationDuration = 1.5f;
@@ -43,10 +42,9 @@ public class SuppressiveFire extends Skill
     public void skillEnded()
     {
         this.setInSkillAnimation(false);
-        this.timeInAnimation = 0;
     }
     
-    //This looks nicer, and it works, but I literally don't know how, and it also needs double the amount of bullets
+    //Omg I actually used recursion lets go.
     public void recursiveTimerToAddBullets(int numberOfBulletsLeftToShoot)
     {
         System.out.println("num bullets " + numberOfBulletsLeftToShoot);
@@ -72,74 +70,7 @@ public class SuppressiveFire extends Skill
     @Override
     public void inSkillAnimationEffects()
     {
-
         recursiveTimerToAddBullets(7);
-
-        // I mean it works but it's an abomination
-//        Timer.schedule(new Timer.Task() {
-//            @Override
-//            public void run()
-//            {
-//                System.out.println("new bullet added");
-//                player.bullets.add(new B2BulletCreator(player, damagePercent));
-//
-//                Timer.schedule(new Timer.Task() {
-//                    @Override
-//                    public void run()
-//                    {
-//                        System.out.println("new bullet added");
-//                        player.bullets.add(new B2BulletCreator(player, damagePercent));
-//
-//                        Timer.schedule(new Timer.Task() {
-//                            @Override
-//                            public void run()
-//                            {
-//                                System.out.println("new bullet added");
-//                                player.bullets.add(new B2BulletCreator(player, damagePercent));
-//
-//                                Timer.schedule(new Timer.Task() {
-//                                    @Override
-//                                    public void run()
-//                                    {
-//                                        System.out.println("new bullet added");
-//                                        player.bullets.add(new B2BulletCreator(player, damagePercent));
-//
-//
-//                                        Timer.schedule(new Timer.Task() {
-//                                            @Override
-//                                            public void run()
-//                                            {
-//                                                System.out.println("new bullet added");
-//                                                player.bullets.add(new B2BulletCreator(player, damagePercent));
-//
-//                                                Timer.schedule(new Timer.Task() {
-//                                                    @Override
-//                                                    public void run()
-//                                                    {
-//                                                        System.out.println("new bullet added");
-//                                                        player.bullets.add(new B2BulletCreator(player, damagePercent));
-//
-//                                                        Timer.schedule(new Timer.Task() {
-//                                                            @Override
-//                                                            public void run()
-//                                                            {
-//                                                                System.out.println("new bullet added");
-//                                                                player.bullets.add(new B2BulletCreator(player, damagePercent));
-//
-//                                                            }
-//                                                        }, animationDuration / 7);
-//                                                    }
-//                                                }, animationDuration / 7);
-//                                            }
-//                                        }, animationDuration / 7);
-//                                    }
-//                                }, animationDuration / 7);
-//                            }
-//                        }, animationDuration / 7);
-//                    }
-//                }, animationDuration / 7);
-//            }
-//        }, animationDuration / 7);
     }
     
     @Override
