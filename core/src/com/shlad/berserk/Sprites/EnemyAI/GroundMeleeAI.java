@@ -4,21 +4,21 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.Enemy;
-import com.shlad.berserk.Sprites.Commando;
+import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
 
 import java.util.ArrayList;
 
 public class GroundMeleeAI
 {
-    public Commando player;
+    public Player player;
     public Enemy enemy;
     
     public static ArrayList<Rectangle> teleportNodes = new ArrayList<>();
     
     public float distanceFromPlayer;
     
-    public GroundMeleeAI(Enemy enemy, Commando player)
+    public GroundMeleeAI(Enemy enemy, Player player)
     {
         this.enemy = enemy;
         this.player = player;
@@ -49,7 +49,7 @@ public class GroundMeleeAI
     {
         distanceFromPlayer = (float) Math.sqrt(Math.pow(player.b2body.getPosition().x - enemy.b2bodyEnemy.getPosition().x, 2) + Math.pow(player.b2body.getPosition().y - enemy.b2bodyEnemy.getPosition().y, 2));
         
-        if (distanceFromPlayer < 4 && !enemy.playerInMeleeRange && Skill.checkIfNotInAnyAnimation(enemy))
+        if (distanceFromPlayer > 0.3f  && distanceFromPlayer < 4 && !enemy.playerInMeleeRange && Skill.checkIfNotInAnyAnimation(enemy))
         {
                                             //Greater than means the enemy is to the right, so it has to move left, which is negative
             if (enemy.b2bodyEnemy.getPosition().x > player.b2body.getPosition().x && enemy.b2bodyEnemy.getLinearVelocity().x >= -enemy.getMaxSpeed())

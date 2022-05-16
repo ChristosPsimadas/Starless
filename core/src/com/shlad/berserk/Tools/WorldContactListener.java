@@ -4,7 +4,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.InteractiveTileObject;
+import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
+import com.shlad.berserk.Tools.Skills.Bullets.B2MeleeCreator;
 
 public class WorldContactListener implements ContactListener
 {
@@ -37,6 +39,7 @@ public class WorldContactListener implements ContactListener
                 Fixture object = enemy.equals(fixA) ? fixB : fixA;
     
                 ((InteractiveTileObject) object.getUserData()).onTouch(enemy.getBody());
+                
                 break;
             
             case Berserk.BULLET_BIT | Berserk.WALL_BIT:
@@ -44,11 +47,10 @@ public class WorldContactListener implements ContactListener
                 Fixture wall = bulletWallCollision.equals(fixA) ? fixB : fixA;
     
                 ((B2BulletCreator)bulletWallCollision.getUserData()).setToBeDestroyed();
-                //System.out.println("bullet hit wall");
+                
                 break;
     
             case Berserk.BULLET_BIT | Berserk.ENEMY_BIT:
-                //System.out.println("bullet touched enemy");
                 
                 Fixture bulletEnemyCollision = fixA.getFilterData().categoryBits == Berserk.BULLET_BIT ? fixA : fixB;
                 Fixture enemyBulletCollision = bulletEnemyCollision.equals(fixA) ? fixB : fixA;
@@ -59,24 +61,29 @@ public class WorldContactListener implements ContactListener
                 {
                     ((B2BulletCreator) bulletEnemyCollision.getUserData()).setToBeDestroyed();
                 }
+                
                 break;
                 
             case Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.PLAYER_BIT:
-    
-                System.out.println("player inside enemy radius");
-    
                 Fixture playerInsideEnemyRadius = fixA.getFilterData().categoryBits == Berserk.PLAYER_BIT ? fixA : fixB;
                 Fixture enemyFighting = playerInsideEnemyRadius.equals(fixA) ? fixB : fixA;
     
                 ((Enemy)enemyFighting.getUserData()).playerInMeleeRange = true;
                 
-                
-                
                 break;
     
+                
+            case Berserk.ENEMY_MELEE_BIT | Berserk.PLAYER_BIT:
+        
+                Fixture playerHitByMelee = fixA.getFilterData().categoryBits == Berserk.PLAYER_BIT ? fixA : fixB;
+                Fixture enemyMeleeBody = playerHitByMelee.equals(fixA) ? fixB : fixA;
+    
+                ((Player)playerHitByMelee.getUserData()).removeHealth(((B2MeleeCreator)enemyMeleeBody.getUserData()).damage);
+                
+                ((B2MeleeCreator)enemyMeleeBody.getUserData()).setToBeDestroyed();
+                
+                break;
         }
-        
-        
     }
     
     @Override
@@ -90,9 +97,6 @@ public class WorldContactListener implements ContactListener
         switch (collisionIdentifier)
         {
             case Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.PLAYER_BIT:
-        
-                System.out.println("player left enemy radius");
-        
                 Fixture playerInsideEnemyRadius = fixA.getFilterData().categoryBits == Berserk.PLAYER_BIT ? fixA : fixB;
                 Fixture enemyFighting = playerInsideEnemyRadius.equals(fixA) ? fixB : fixA;
     

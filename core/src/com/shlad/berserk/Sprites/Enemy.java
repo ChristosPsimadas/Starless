@@ -35,7 +35,7 @@ public abstract class Enemy extends Sprite
     protected Fixture fixture;
     
     protected float stateTimer;
-    protected boolean runningRight;
+    public boolean runningRight;
     
     protected float maxSpeed = 1f;
     
@@ -309,5 +309,10 @@ public abstract class Enemy extends Sprite
     public float getMaxSpeed()
     {
         return maxSpeed;
+    }
+    
+    public double getDamage()
+    {
+        return damage;
     }
 }

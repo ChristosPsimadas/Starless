@@ -7,10 +7,13 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.EnemyAI.GroundMeleeAI;
 import com.shlad.berserk.Tools.Skill;
+import com.shlad.berserk.Tools.Skills.Bullets.B2MeleeCreator;
 import com.shlad.berserk.Tools.Skills.DeathSkill;
 import com.shlad.berserk.Tools.Skills.EnemySkills.AbyssalSlash;
 import com.shlad.berserk.Tools.Skills.EnemySkills.Teleport;
 import com.shlad.berserk.Tools.Skills.NullSkill;
+
+import java.util.ArrayList;
 
 public class Imp extends Enemy
 {
@@ -26,6 +29,8 @@ public class Imp extends Enemy
     private final int HEIGHT = 25;
     
     public GroundMeleeAI impAI;
+    
+    public ArrayList<B2MeleeCreator> abyssalSlashes = new ArrayList<>();
     
     public Imp(PlayScreen screen)
     {
@@ -71,7 +76,7 @@ public class Imp extends Enemy
         enemySkillFour = enemyRun;
         
         defineEnemyRadius(10f);
-        defineMeleeRangeRadius(22f);
+        defineMeleeRangeRadius(27f);
         
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
         setRegion(enemyIdle);

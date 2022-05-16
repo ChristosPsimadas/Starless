@@ -42,14 +42,10 @@ public class PlayScreen implements Screen
     
     public Commando player;
     private Imp enemy;
-
-    private final Music backgroundMusic;
+    
     private final Texture backgroundTexture;
     
     public static boolean won = false;
-    
-    private final Texture winText;
-    private final Music music;
     
     private Hud hud;
 
@@ -69,16 +65,10 @@ public class PlayScreen implements Screen
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(gameCam.combined);
         
-        //timer = new Timer(game.batch);
-        winText = new Texture(Gdx.files.internal("congratulations.png"));
-        music = Gdx.audio.newMusic(Gdx.files.internal("congratulations.mp3"));
-        music.setLooping(false);
-        
         backgroundTexture = new Texture("stringstar fields/background_0.png");
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
         //Set gamecam to be centered at the start of the map
-        //still should use this even tho it's centered on jumpKing because it centers the y height
         gameCam.position.set(gamePort.getWorldWidth() / 2.0f, gamePort.getWorldHeight() / 2.0f, 0);
 
         //Gravity , sleep objects at rest
@@ -86,10 +76,6 @@ public class PlayScreen implements Screen
         b2dr = new Box2DDebugRenderer();
         
         new B2WorldCreator(this);
-    
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("backgroundSound.mp3"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
         
         player = new Commando(this);
         enemy = new Imp(this);
@@ -112,7 +98,7 @@ public class PlayScreen implements Screen
         {
             if (player.bullets.get(i).isToBeDestroyed())
             {
-                System.out.println("removed bullet");
+                //System.out.println("removed bullet");
                 world.destroyBody(player.bullets.get(i).getBody());
                 player.bullets.remove(i);
                 i--;
@@ -123,7 +109,7 @@ public class PlayScreen implements Screen
         {
             if (player.fmjBullets.get(i).isToBeDestroyed())
             {
-                System.out.println("removed fmj bullet");
+                //System.out.println("removed fmj bullet");
                 world.destroyBody(player.fmjBullets.get(i).getBody());
                 player.fmjBullets.remove(i);
                 i--;
@@ -134,10 +120,26 @@ public class PlayScreen implements Screen
         {
             if (player.suppressiveFireBullets.get(i).isToBeDestroyed())
             {
-                System.out.println("removed SF bullet");
+                //System.out.println("removed SF bullet");
                 world.destroyBody(player.suppressiveFireBullets.get(i).getBody());
                 player.suppressiveFireBullets.remove(i);
                 i--;
+            }
+        }
+        
+        for (Enemy enemy : allEnemies)
+        {
+            if (enemy instanceof Imp)
+            {
+                for (int i = 0; i < ((Imp)enemy).abyssalSlashes.size(); i++)
+                {
+                    if (((Imp)enemy).abyssalSlashes.get(i).isToBeDestroyed())
+                    {
+                        world.destroyBody(((Imp)enemy).abyssalSlashes.get(i).getBody());
+                        ((Imp)enemy).abyssalSlashes.remove(i);
+                        i--;
+                    }
+                }
             }
         }
     }
@@ -254,7 +256,6 @@ public class PlayScreen implements Screen
         renderer.dispose();
         world.dispose();
         b2dr.dispose();
-        backgroundMusic.dispose();
         backgroundTexture.dispose();
         hud.stage.dispose();
         player.getTexture().dispose();

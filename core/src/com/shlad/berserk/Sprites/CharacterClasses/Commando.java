@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
+import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
 import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
 import com.shlad.berserk.Tools.Skills.DodgeRoll;
@@ -14,7 +15,7 @@ import com.shlad.berserk.Tools.Skills.SuppressiveFire;
 
 import java.util.ArrayList;
 
-public class Commando extends com.shlad.berserk.Sprites.Commando
+public class Commando extends Player
 {
     
     private Skill doubleTap = new DoubleTap(this);
@@ -79,6 +80,6 @@ public class Commando extends com.shlad.berserk.Sprites.Commando
     
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
         setRegion(playerIdle);
-        fixture.setUserData("player");
+        fixture.setUserData(this);
     }
 }

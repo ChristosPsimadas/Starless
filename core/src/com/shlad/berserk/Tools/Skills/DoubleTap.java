@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
-import com.shlad.berserk.Sprites.Commando;
+import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
 import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
 
@@ -12,7 +12,7 @@ public class DoubleTap extends Skill
 {
     private com.shlad.berserk.Sprites.CharacterClasses.Commando player;
     
-    public DoubleTap(Commando player)
+    public DoubleTap(Player player)
     {
         super(player);
         this.player = (com.shlad.berserk.Sprites.CharacterClasses.Commando) player;
@@ -22,7 +22,7 @@ public class DoubleTap extends Skill
         this.name = "Double Tap";
         this.skillImg = new Texture("commandoSkill1.png");
         this.animationDuration = coolDownSeconds;
-        this.nameOfAnimationState = Commando.AnimationState.SKILLONE;
+        this.nameOfAnimationState = Player.AnimationState.SKILLONE;
         
         this.damagePercent = 0.7f;
     }
@@ -43,7 +43,6 @@ public class DoubleTap extends Skill
             @Override
             public void run()
             {
-                System.out.println("new bullet added");
                 player.bullets.add(new B2BulletCreator(player, damagePercent));
             }
         }, coolDownSeconds / 2);

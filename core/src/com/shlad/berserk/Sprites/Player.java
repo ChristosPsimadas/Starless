@@ -13,7 +13,7 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Tools.Skill;
 
-public class Commando extends Sprite
+public class Player extends Sprite
 {
     public enum AnimationState {FALLING, JUMPING, STANDING, RUNNING, SKILLONE, SKILLTWO, SKILLTHREE, SKILLFOUR}
     
@@ -62,7 +62,7 @@ public class Commando extends Sprite
     public PlayScreen screen;
 
     //Should find a way to make it not ask for region name
-    public Commando(PlayScreen screen, String packName, String regionName)
+    public Player(PlayScreen screen, String packName, String regionName)
     {
         super(new TextureAtlas(packName).findRegion(regionName));
         this.world = screen.getWorld();
@@ -114,8 +114,6 @@ public class Commando extends Sprite
 
     public void update(float dt)
     {
-        //IT WORKS LETS FUGGING GOOOOOOOO
-        
         //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
         
         for (Skill skill : allSkills)
@@ -232,7 +230,7 @@ public class Commando extends Sprite
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / Berserk.PPM);
         fdef.filter.categoryBits = Berserk.PLAYER_BIT;
-        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_BIT | Berserk.ENEMY_SENSOR_MELEE_BIT;
+        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_BIT | Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.ENEMY_MELEE_BIT;
 
         fdef.shape = shape;
         fixture = b2body.createFixture(fdef);
@@ -263,10 +261,7 @@ public class Commando extends Sprite
         return currentHealth;
     }
     
-    public void setCurrentHealth(double currentHealth)
-    {
-        this.currentHealth = currentHealth;
-    }
+    public void removeHealth(double howMuchHealth) {currentHealth -= howMuchHealth;}
     
     public double getHealthPerLevel()
     {

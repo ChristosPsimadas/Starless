@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
-import com.shlad.berserk.Sprites.Commando;
+import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
 import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
 
@@ -12,7 +12,7 @@ public class SuppressiveFire extends Skill
 {
     private com.shlad.berserk.Sprites.CharacterClasses.Commando player;
 
-    public SuppressiveFire(Commando player)
+    public SuppressiveFire(Player player)
     {
         super(player);
         this.player = (com.shlad.berserk.Sprites.CharacterClasses.Commando) player;

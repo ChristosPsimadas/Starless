@@ -4,12 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.shlad.berserk.Sprites.Commando;
+import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
 
 public class DodgeRoll extends Skill
 {
-    public DodgeRoll(Commando player)
+    public DodgeRoll(Player player)
     {
         super(player);
         this.timePassedSinceLastUsed = 0f;

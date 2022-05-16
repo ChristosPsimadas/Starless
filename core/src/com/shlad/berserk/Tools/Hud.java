@@ -13,19 +13,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
-import com.shlad.berserk.Sprites.Commando;
+import com.shlad.berserk.Sprites.Player;
 
 public class Hud
 {
     public Stage stage;
     private Viewport viewport;
-    private Commando player;
+    private Player player;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
 
     Pixmap cursorImage = new Pixmap(Gdx.files.internal("crosshair.png"));
     
-    public Hud(SpriteBatch spriteBatch, Commando player)
+    public Hud(SpriteBatch spriteBatch, Player player)
     {
         viewport = new FitViewport(Berserk.V_WIDTH, Berserk.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spriteBatch);
