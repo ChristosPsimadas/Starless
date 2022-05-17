@@ -2,6 +2,7 @@ package com.shlad.berserk.Sprites;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
@@ -32,19 +33,21 @@ public class Imp extends Enemy
     
     public ArrayList<B2MeleeCreator> abyssalSlashes = new ArrayList<>();
     
-    public Imp(PlayScreen screen)
+    public Imp(PlayScreen screen, float spawnPointX, float spawnPointY)
     {
         //super(screen, "enemySprites/impSprites.pack", "impSpritePhotoshop");
         super(screen, "enemySpritesNoBG/impSpriteNoBG.pack", "impSpritePhotoshopNoBG");
         this.setSkillArrayObject(allSkills);
         this.impAI =  new GroundMeleeAI(this, screen.player);
-        maxHealth = 120;
+        maxHealth = 80;
         currentHealth = maxHealth;
-        healthPerLevel = 40;
+        healthPerLevel = 20;
         healthRegen = 0;
         healthRegenPerLevel = 0;
-        damage = 12;
+        damage = 8;
         damagePerLevel = 3;
+        directorCost = 10;
+        maxSpeed = MathUtils.random(0.8f, 1.1f);
     
         Array<TextureRegion> frames = new Array<>();
         for (int i = 0; i < 6; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 25, WIDTH, HEIGHT));}
@@ -75,7 +78,7 @@ public class Imp extends Enemy
         enemySkillThree = enemyRun;
         enemySkillFour = enemyRun;
         
-        defineEnemyRadius(10f);
+        defineEnemyRadius(10f, spawnPointX, spawnPointY);
         defineMeleeRangeRadius(27f);
         
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);

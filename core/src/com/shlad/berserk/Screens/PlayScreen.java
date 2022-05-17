@@ -20,8 +20,11 @@ import com.shlad.berserk.Sprites.CharacterClasses.Commando;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
 import com.shlad.berserk.Tools.B2WorldCreator;
+import com.shlad.berserk.Tools.GameDirector;
 import com.shlad.berserk.Tools.Hud;
 import com.shlad.berserk.Tools.WorldContactListener;
+
+import java.util.Random;
 
 public class PlayScreen implements Screen
 {
@@ -51,7 +54,12 @@ public class PlayScreen implements Screen
 
     public ShapeRenderer shapeRenderer;
 
-    private Array<Enemy> allEnemies = new Array<>();
+    private GameDirector gameDirector;
+    public Array<Enemy> allEnemies = new Array<>();
+    
+    private final Music song;
+    
+    private String[] musicFilePaths = new String[]{"music/barber.mp3", "music/theme.mp3", "music/theme2.mp3"};
 
     public PlayScreen(Berserk game)
     {
@@ -77,11 +85,18 @@ public class PlayScreen implements Screen
         
         new B2WorldCreator(this);
         
+        song = Gdx.audio.newMusic(Gdx.files.internal(musicFilePaths[new Random().nextInt(musicFilePaths.length)]));
+        song.setVolume(0.5f);
+        song.setLooping(true);
+        song.play();
+        
         player = new Commando(this);
-        enemy = new Imp(this);
-        allEnemies.add(enemy);
+        
+        gameDirector = new GameDirector(this);
         
         this.hud = new Hud(game.batch, player);
+        
+        
         
         world.setContactListener(new WorldContactListener());
     }
@@ -147,7 +162,6 @@ public class PlayScreen implements Screen
     //update the game world
     public void update(float deltaTime)
     {
-        
         //user input first
         player.handlePlayerInput(deltaTime);
         player.update(deltaTime);
@@ -169,6 +183,8 @@ public class PlayScreen implements Screen
         
         gameCam.update();
         renderer.setView(gameCam);
+    
+        gameDirector.directorUpdate(deltaTime);
     }
     
     @Override

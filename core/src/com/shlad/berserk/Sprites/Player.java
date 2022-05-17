@@ -116,7 +116,7 @@ public class Player extends Sprite
     public void update(float dt)
     {
         //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
-        b2EnemySpawnRadius.setTransform(b2body.getPosition().x,b2body.getPosition().y, 0);
+        //b2EnemySpawnRadius.setTransform(b2body.getPosition().x,b2body.getPosition().y, 0);
 
         for (Skill skill : allSkills)
         {

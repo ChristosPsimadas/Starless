@@ -36,7 +36,7 @@ public class Commando extends Player
         //super(screen, "playerSpritesNewest/commandoStandardized.pack", "commandoStandard");
         super(screen, "playerSpritesNoBG2/commandoFull.pack", "commandoFullSet");
 
-        defineEnemySpawnRadius();
+        //defineEnemySpawnRadius();
 
         this.setSkillArrayObject(allSkillObjects);
         maxHealth = 110;

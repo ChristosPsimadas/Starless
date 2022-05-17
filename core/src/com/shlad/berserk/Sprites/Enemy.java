@@ -58,6 +58,8 @@ public abstract class Enemy extends Sprite
     
     protected int gold;
     
+    public int directorCost;
+    
     protected Skill[] allSkills;
     
     public boolean destroyed;
@@ -231,11 +233,11 @@ public abstract class Enemy extends Sprite
             return AnimationStateEnemy.STANDING;
     }
     
-    public void defineEnemyRadius(float radius)
+    public void defineEnemyRadius(float radius, float spawnPointX, float spawnPointY)
     {
         BodyDef bdef = new BodyDef();
         //Starting position
-        bdef.position.set(352 / Berserk.PPM, 190 / Berserk.PPM);
+        bdef.position.set(spawnPointX / Berserk.PPM, spawnPointY / Berserk.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         
         b2bodyEnemy = worldEnemy.createBody(bdef);

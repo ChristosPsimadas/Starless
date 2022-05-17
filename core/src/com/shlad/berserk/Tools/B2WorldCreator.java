@@ -78,6 +78,7 @@ public class B2WorldCreator
         {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             GroundMeleeAI.teleportNodes.add(rect);
+            GameDirector.spawnLocations.add(rect);
         }
     }
 }
