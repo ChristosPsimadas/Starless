@@ -7,7 +7,7 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.EnemyAI.GroundMeleeAI;
 import com.shlad.berserk.Tools.Skill;
-import com.shlad.berserk.Tools.Skills.Bullets.B2MeleeCreator;
+import com.shlad.berserk.Tools.Skills.B2Creators.B2MeleeCreator;
 import com.shlad.berserk.Tools.Skills.DeathSkill;
 import com.shlad.berserk.Tools.Skills.EnemySkills.AbyssalSlash;
 import com.shlad.berserk.Tools.Skills.EnemySkills.Teleport;

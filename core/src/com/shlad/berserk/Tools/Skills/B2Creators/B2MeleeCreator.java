@@ -1,4 +1,4 @@
-package com.shlad.berserk.Tools.Skills.Bullets;
+package com.shlad.berserk.Tools.Skills.B2Creators;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;

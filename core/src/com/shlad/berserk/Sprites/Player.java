@@ -22,6 +22,7 @@ public class Player extends Sprite
     
     public World world;
     public Body b2body;
+    public Body b2EnemySpawnRadius;
     protected TextureRegion playerIdle;
     protected TextureRegion playerJump;
     protected TextureRegion playerFall;
@@ -115,7 +116,8 @@ public class Player extends Sprite
     public void update(float dt)
     {
         //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
-        
+        b2EnemySpawnRadius.setTransform(b2body.getPosition().x,b2body.getPosition().y, 0);
+
         for (Skill skill : allSkills)
         {
             if (skill.isInSkillAnimation() && skill.hasAnimationEnded())
@@ -234,6 +236,25 @@ public class Player extends Sprite
 
         fdef.shape = shape;
         fixture = b2body.createFixture(fdef);
+    }
+
+    public void defineEnemySpawnRadius()
+    {
+        BodyDef bdef = new BodyDef();
+
+        bdef.type = BodyDef.BodyType.StaticBody;
+
+        b2EnemySpawnRadius = world.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(250 / Berserk.PPM);
+        fdef.filter.categoryBits = Berserk.PLAYER_ENEMY_SENSOR_BIT;
+        fdef.filter.maskBits = Berserk.ENEMY_SPAWN_POSITION_BIT;
+        fdef.isSensor = true;
+
+        fdef.shape = shape;
+        b2EnemySpawnRadius.createFixture(fdef).setUserData(this);
     }
     
     public float getMaxSpeed()

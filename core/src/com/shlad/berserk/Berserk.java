@@ -20,6 +20,9 @@ public class Berserk extends Game
 	public static final short ENEMY_BIT = 32;
 	public static final short ENEMY_SENSOR_MELEE_BIT = 64;
 	public static final short ENEMY_MELEE_BIT = 128;
+	public static final short PLAYER_ENEMY_SENSOR_BIT = 256;
+	public static final short ENEMY_SPAWN_POSITION_BIT = 512;
+
 	
 	
 	public SpriteBatch batch;

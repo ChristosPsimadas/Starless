@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
-import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
+import com.shlad.berserk.Tools.Skills.B2Creators.B2BulletCreator;
 
 public class DoubleTap extends Skill
 {

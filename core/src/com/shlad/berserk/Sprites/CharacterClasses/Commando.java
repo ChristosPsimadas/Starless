@@ -7,7 +7,7 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
-import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
+import com.shlad.berserk.Tools.Skills.B2Creators.B2BulletCreator;
 import com.shlad.berserk.Tools.Skills.DodgeRoll;
 import com.shlad.berserk.Tools.Skills.DoubleTap;
 import com.shlad.berserk.Tools.Skills.FullMetalJacket;
@@ -35,7 +35,9 @@ public class Commando extends Player
     {
         //super(screen, "playerSpritesNewest/commandoStandardized.pack", "commandoStandard");
         super(screen, "playerSpritesNoBG2/commandoFull.pack", "commandoFullSet");
-    
+
+        defineEnemySpawnRadius();
+
         this.setSkillArrayObject(allSkillObjects);
         maxHealth = 110;
         currentHealth = maxHealth;

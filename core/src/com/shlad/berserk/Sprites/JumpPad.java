@@ -21,7 +21,7 @@ public class JumpPad extends InteractiveTileObject
     @Override
     public void onTouch(Body playerBody)
     {
-        playerBody.applyLinearImpulse(new Vector2(0, 10.2f), playerBody.getWorldCenter(), true);
+        playerBody.applyLinearImpulse(new Vector2(0, 5.2f), playerBody.getWorldCenter(), true);
     }
     
     

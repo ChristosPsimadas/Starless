@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
-import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
+import com.shlad.berserk.Tools.Skills.B2Creators.B2BulletCreator;
 
 public class FullMetalJacket extends Skill
 {

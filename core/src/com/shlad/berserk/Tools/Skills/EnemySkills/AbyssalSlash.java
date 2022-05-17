@@ -1,14 +1,11 @@
 package com.shlad.berserk.Tools.Skills.EnemySkills;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Timer;
-import com.shlad.berserk.Sprites.CharacterClasses.Commando;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
 import com.shlad.berserk.Tools.Skill;
-import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
-import com.shlad.berserk.Tools.Skills.Bullets.B2MeleeCreator;
+import com.shlad.berserk.Tools.Skills.B2Creators.B2MeleeCreator;
 
 public class AbyssalSlash extends Skill
 {

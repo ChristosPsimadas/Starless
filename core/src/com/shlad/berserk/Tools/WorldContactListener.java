@@ -5,8 +5,8 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.InteractiveTileObject;
 import com.shlad.berserk.Sprites.Player;
-import com.shlad.berserk.Tools.Skills.Bullets.B2BulletCreator;
-import com.shlad.berserk.Tools.Skills.Bullets.B2MeleeCreator;
+import com.shlad.berserk.Tools.Skills.B2Creators.B2BulletCreator;
+import com.shlad.berserk.Tools.Skills.B2Creators.B2MeleeCreator;
 
 public class WorldContactListener implements ContactListener
 {
@@ -18,21 +18,15 @@ public class WorldContactListener implements ContactListener
         
         int collisionIdentifier = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
         
-        if (fixA.getUserData() == "player" || fixB.getUserData() == "player")
-        {
-                              //if fixA is player then player is fixA, if fixA is not player then player is fixB
-            Fixture player = fixA.getUserData() == "player" ? fixA : fixB;
-            Fixture object = player.equals(fixA) ? fixB : fixA;
-            
-            //object.getUserData() != null && InteractiveTileObject.class.isAssignableFrom(object.getUserData().getClass())
-            if ((object.getUserData()) instanceof InteractiveTileObject)
-            {
-                ((InteractiveTileObject) object.getUserData()).onTouch(player.getBody());
-            }
-        }
-        
         switch (collisionIdentifier)
         {
+            case Berserk.PLAYER_BIT | Berserk.JUMP_PAD_BIT:
+                Fixture playerJumpPad = fixA.getFilterData().categoryBits == Berserk.PLAYER_BIT ? fixA : fixB;
+                Fixture jumpPad = playerJumpPad.equals(fixA) ? fixB : fixA;
+
+                ((InteractiveTileObject) jumpPad.getUserData()).onTouch(playerJumpPad.getBody());
+
+
             case Berserk.ENEMY_BIT | Berserk.JUMP_PAD_BIT:
                 
                 Fixture enemy = fixA.getFilterData().categoryBits == Berserk.ENEMY_BIT ? fixA : fixB;
