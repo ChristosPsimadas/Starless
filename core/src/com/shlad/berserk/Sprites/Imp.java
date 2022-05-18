@@ -46,7 +46,7 @@ public class Imp extends Enemy
         healthRegenPerLevel = 0;
         damage = 8;
         damagePerLevel = 3;
-        directorCost = 10;
+        directorCost = 15;
         maxSpeed = MathUtils.random(0.8f, 1.1f);
     
         Array<TextureRegion> frames = new Array<>();

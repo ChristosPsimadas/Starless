@@ -50,7 +50,7 @@ public class WorldContactListener implements ContactListener
                 Fixture enemyBulletCollision = bulletEnemyCollision.equals(fixA) ? fixB : fixA;
                 
                 ((Enemy)enemyBulletCollision.getUserData()).removeHealth((((B2BulletCreator)bulletEnemyCollision.getUserData()).damage));
-                
+
                 if (!(((B2BulletCreator)bulletEnemyCollision.getUserData()).piercing))
                 {
                     ((B2BulletCreator) bulletEnemyCollision.getUserData()).setToBeDestroyed();

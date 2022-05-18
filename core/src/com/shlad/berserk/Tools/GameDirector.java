@@ -28,7 +28,6 @@ public class GameDirector
         this.player = screen.player;
         this.directorPoints = 0;
         this.timePassedSinceSpawned = 0;
-        //this.imp = new Imp(screen);
     }
     
     public float distanceFormula(float x1, float x2, float y1, float y2)
@@ -57,20 +56,18 @@ public class GameDirector
     {
         System.out.println("points reset");
         directorPoints = 30;
-        randomTimeForSpawn = MathUtils.random(25f, 45f);
+        randomTimeForSpawn = MathUtils.random(25f, 35f);
     }
     
     public void chooseEnemyToSpawn()
     {
         Rectangle spawnPoint = closestNode();
-        
         while (directorPoints > 0)
         {
             screen.allEnemies.add(new Imp(screen, spawnPoint.x, spawnPoint.y));
-            directorPoints -= 10;
+            directorPoints -= 15;
             timePassedSinceSpawned = 0;
         }
-        
     }
     
     public void directorUpdate(float deltaTime)
