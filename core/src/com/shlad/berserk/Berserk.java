@@ -20,10 +20,6 @@ public class Berserk extends Game
 	public static final short ENEMY_BIT = 32;
 	public static final short ENEMY_SENSOR_MELEE_BIT = 64;
 	public static final short ENEMY_MELEE_BIT = 128;
-	public static final short PLAYER_ENEMY_SENSOR_BIT = 256;
-	public static final short ENEMY_SPAWN_POSITION_BIT = 512;
-
-	
 	
 	public SpriteBatch batch;
 	
@@ -42,6 +38,8 @@ public class Berserk extends Game
 		//Delegates render to whichever screen is currently up
 		super.render();
 	}
+	
+	public static float distanceFormula(float x1, float x2, float y1, float y2) {return (float) Math.sqrt( Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));}
 	
 	@Override
 	public void dispose ()

@@ -90,6 +90,14 @@ public class Imp extends Enemy
     {
         super.update(dt);
         impAI.updateAI();
+        if (destroyed)
+        {
+            for (B2MeleeCreator meleeHitBox : abyssalSlashes)
+            {
+                meleeHitBox.setToBeDestroyed();
+            }
+            abyssalSlashes.clear();
+        }
         
     }
 }

@@ -32,7 +32,10 @@ public class AbyssalSlash extends Skill
             @Override
             public void run()
             {
-                imp.abyssalSlashes.add(new B2MeleeCreator(imp, damagePercent));
+                if (!imp.destroyed)
+                {
+                    imp.abyssalSlashes.add(new B2MeleeCreator(imp, damagePercent));
+                }
             }
         }, coolDownSeconds / 3);
         

@@ -8,7 +8,10 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.EnemyAI.GroundMeleeAI;
+import com.shlad.berserk.Sprites.InteractableObjects.Chest;
 import com.shlad.berserk.Sprites.JumpPad;
+
+import java.util.Random;
 
 public class B2WorldCreator
 {
@@ -79,6 +82,12 @@ public class B2WorldCreator
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             GroundMeleeAI.teleportNodes.add(rect);
             GameDirector.spawnLocations.add(rect);
+        }
+    
+        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class))
+        {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            PlayScreen.chests.add(new Chest(screen, rect));
         }
     }
 }
