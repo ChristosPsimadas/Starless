@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Items.Brotein;
+import com.shlad.berserk.Items.Item;
 import com.shlad.berserk.Sprites.CharacterClasses.Commando;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
@@ -30,7 +32,7 @@ import java.util.Random;
 
 public class PlayScreen implements Screen
 {
-    private final Berserk game;
+    public final Berserk game;
 
     private final OrthographicCamera gameCam;
     private final Viewport gamePort;
@@ -63,7 +65,9 @@ public class PlayScreen implements Screen
     private String[] musicFilePaths = new String[]{"music/barber.mp3", "music/theme.mp3", "music/theme2.mp3"};
     
      public static ArrayList<Chest> chests = new ArrayList<>();
-    
+     
+     public static ArrayList<Item> spawnedItems = new ArrayList<>();
+     
     public PlayScreen(Berserk game)
     {
         
@@ -77,6 +81,7 @@ public class PlayScreen implements Screen
         shapeRenderer.setProjectionMatrix(gameCam.combined);
         
         backgroundTexture = new Texture("stringstar fields/background_0.png");
+        
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
         //Set gamecam to be centered at the start of the map
@@ -169,13 +174,17 @@ public class PlayScreen implements Screen
         //user input first
         player.handlePlayerInput(deltaTime);
         player.update(deltaTime);
-        //System.out.println(player.getAllSkills()[0].timeInAnimation);
-
+        
         for (Enemy enemy : new Array.ArrayIterator<>(allEnemies))
         {
             enemy.update(deltaTime);
         }
-    
+        
+        for (Item items : spawnedItems)
+        {
+            items.updateItem(deltaTime);
+        }
+        
         for (int i = 0; i < allEnemies.size; i++)
         {
             if (allEnemies.get(i).destroyed)
@@ -214,7 +223,6 @@ public class PlayScreen implements Screen
     
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
-        player.draw(game.batch);
 
         for (Enemy enemy : new Array.ArrayIterator<>(allEnemies))
             enemy.draw(game.batch);
@@ -222,12 +230,19 @@ public class PlayScreen implements Screen
         for (Chest chest : chests)
             chest.draw(game.batch);
         
+        
+        for (Item itemOnFloor : spawnedItems)
+        {
+            itemOnFloor.draw(game.batch);
+        }
+        
+        player.draw(game.batch);
         game.batch.end();
         
         //render the physics lines
         b2dr.render(world, gameCam.combined);
         
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        
         hud.updateHud();
         hud.stage.draw();
 
@@ -240,10 +255,7 @@ public class PlayScreen implements Screen
         shapeRenderer.end();
     }
 
-
-    public OrthographicCamera getGameCam() {
-        return gameCam;
-    }
+    
     
     @Override
     public void resize(int width, int height)

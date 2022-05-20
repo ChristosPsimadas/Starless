@@ -39,30 +39,33 @@ public abstract class Enemy extends Sprite
     
     protected float maxSpeed = 1f;
     
-    protected double maxHealth = 1;
+    protected double currentMaxHealth = 1;
+    protected double baseMaxHealth = 1;
     protected double currentHealth = 1;
     protected double healthPerLevel = 0;
     
-    protected double healthRegen = 0;
+    protected double currentHealthRegen = 0;
+    protected double baseHealthRegen = 0;
     protected double healthRegenPerLevel = 0;
     
-    protected double damage = 1;
+    protected double currentDamage = 1;
+    protected double baseDamage = 0;
     protected double damagePerLevel = 0;
     
-    protected double armor = 0;
+    protected double currentArmor = 0;
+    protected double baseArmor = 0;
     protected double armorPerLevel = 0;
     
-    protected int level = 1;
-    protected double xp;
-    protected double xpToLevelUp;
+    public static int level = 1;
     
-    protected int gold;
+    protected int goldDropped;
     
     public int directorCost;
     
     protected Skill[] allSkills;
     
     public boolean destroyed;
+    public PlayScreen screen;
     
     public boolean playerInMeleeRange = false;
     
@@ -70,6 +73,7 @@ public abstract class Enemy extends Sprite
     {
         super(new TextureAtlas(packName).findRegion(regionName));
         this.worldEnemy = screen.getWorld();
+        this.screen = screen;
     
         currentStateEnemy = AnimationStateEnemy.STANDING;
         previousStateEnemy = AnimationStateEnemy.STANDING;
@@ -82,11 +86,20 @@ public abstract class Enemy extends Sprite
     
     protected void setSkillArrayObject(Skill[] skillArray) {this.allSkills = skillArray;}
     
+    public void updateLevels()
+    {
+        currentDamage = baseDamage + damagePerLevel * (level - 1);
+        currentMaxHealth = baseMaxHealth + healthPerLevel * (level - 1);
+    }
+    
     public void update(float dt)
     {
+        updateLevels();
         if (!destroyed)
         {
             b2bodyEnemyMeleeSensor.setTransform(b2bodyEnemy.getPosition().x, b2bodyEnemy.getPosition().y, 0);
+            
+            
             
             for (Skill skill : allSkills)
             {
@@ -289,9 +302,9 @@ public abstract class Enemy extends Sprite
         return currentHealth;
     }
 
-    public double getMaxHealth()
+    public double getCurrentMaxHealth()
     {
-        return maxHealth;
+        return currentMaxHealth;
     }
 
     public float getCurrentHealthAsPercent()
@@ -300,8 +313,10 @@ public abstract class Enemy extends Sprite
         {
             return 0;
         }
-        return (float) currentHealth / (float) maxHealth;
+        return (float) currentHealth / (float) currentMaxHealth;
     }
+    
+    public int getGoldDropped() {return goldDropped;}
     
     public void removeHealth(double howMuchHealth)
     {
@@ -313,8 +328,8 @@ public abstract class Enemy extends Sprite
         return maxSpeed;
     }
     
-    public double getDamage()
+    public double getCurrentDamage()
     {
-        return damage;
+        return currentDamage;
     }
 }

@@ -20,6 +20,7 @@ public class GameDirector
     private Player player;
     private float timePassedSinceSpawned;
     private float randomTimeForSpawn = 8f;
+    public float diffCoefficient = 0;
     
     public GameDirector(PlayScreen screen)
     {
@@ -51,6 +52,8 @@ public class GameDirector
         
         return closestNode;
     }
+    
+    //CALC DIFFICULT COEFF
     
     public void resetPoints()
     {

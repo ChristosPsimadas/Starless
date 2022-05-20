@@ -10,8 +10,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Items.Item;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Tools.Skill;
+
+import java.util.ArrayList;
 
 public class Player extends Sprite
 {
@@ -38,17 +41,21 @@ public class Player extends Sprite
     
     protected float maxSpeed = 1.4f;
     
-    protected double maxHealth = 1;
+    protected double currentMaxHealth = 1;
+    protected double baseMaxHealth = 1;
     protected double currentHealth = 1;
     protected double healthPerLevel = 0;
     
-    protected double healthRegen = 0;
+    protected double currentHealthRegen = 0;
+    protected double baseHealthRegen = 0;
     protected double healthRegenPerLevel = 0;
     
-    protected double damage = 1;
+    protected double currentDamage = 1;
+    protected double baseDamage = 0;
     protected double damagePerLevel = 0;
     
-    protected double armor = 0;
+    protected double currentArmor = 0;
+    protected double baseArmor = 0;
     protected double armorPerLevel = 0;
     
     protected int level = 1;
@@ -58,6 +65,8 @@ public class Player extends Sprite
     protected int gold;
     
     protected Skill[] allSkills;
+    
+    protected ArrayList<Item> items;
 
     public PlayScreen screen;
 
@@ -67,11 +76,16 @@ public class Player extends Sprite
         super(new TextureAtlas(packName).findRegion(regionName));
         this.world = screen.getWorld();
         this.screen = screen;
-
+        
         currentState = AnimationState.STANDING;
         previousState = AnimationState.STANDING;
         stateTimer = 0;
         runningRight = true;
+        
+        gold = 0;
+        xp = 0;
+        xpToLevelUp = 40;
+        
     }
     
     public void handlePlayerInput(float deltaTime)
@@ -112,8 +126,23 @@ public class Player extends Sprite
         }
     }
 
+    public void updateLevels()
+    {
+        if (xp >= xpToLevelUp)
+        {
+            level++;
+            xp = 0;
+            xpToLevelUp = xpToLevelUp * 1.13;
+        }
+        
+        currentDamage = baseDamage + damagePerLevel * (level - 1);
+        currentMaxHealth = baseMaxHealth + healthPerLevel * (level - 1);
+        currentHealthRegen = baseHealthRegen + healthRegenPerLevel * (level - 1);
+    }
+    
     public void update(float dt)
     {
+        updateLevels();
         //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
         for (Skill skill : allSkills)
         {
@@ -122,6 +151,12 @@ public class Player extends Sprite
                 skill.skillEnded();
             }
         }
+        
+        if (currentHealth < 0)
+            currentHealth = 0;
+        
+        if (currentHealth < currentMaxHealth)
+            currentHealth += currentHealthRegen * dt;
         
         setPosition(this.b2body.getPosition().x - getWidth() / 2, this.b2body.getPosition().y - getHeight() / 2 + 2.5f/ Berserk.PPM);
         setRegion(getFrame(dt));
@@ -245,20 +280,22 @@ public class Player extends Sprite
         this.maxSpeed = maxSpeed;
     }
     
-    public double getMaxHealth()
+    public double getCurrentMaxHealth()
     {
-        return maxHealth;
+        return currentMaxHealth;
     }
     
     public void increaseMaxHealth(double health)
     {
-        this.maxHealth += health;
+        this.currentMaxHealth += health;
     }
     
     public double getCurrentHealth()
     {
         return currentHealth;
     }
+    
+    public void addHealth(double howMuchHealth) {currentHealth += howMuchHealth;}
     
     public void removeHealth(double howMuchHealth) {currentHealth -= howMuchHealth;}
     
@@ -272,14 +309,14 @@ public class Player extends Sprite
         this.healthPerLevel = healthPerLevel;
     }
     
-    public double getHealthRegen()
+    public double getCurrentHealthRegen()
     {
-        return healthRegen;
+        return currentHealthRegen;
     }
     
-    public void setHealthRegen(double healthRegen)
+    public void setCurrentHealthRegen(double currentHealthRegen)
     {
-        this.healthRegen = healthRegen;
+        this.currentHealthRegen = currentHealthRegen;
     }
     
     public double getHealthRegenPerLevel()
@@ -292,14 +329,14 @@ public class Player extends Sprite
         this.healthRegenPerLevel = healthRegenPerLevel;
     }
     
-    public double getDamage()
+    public double getCurrentDamage()
     {
-        return damage;
+        return currentDamage;
     }
     
-    public void setDamage(double damage)
+    public void setCurrentDamage(double currentDamage)
     {
-        this.damage = damage;
+        this.currentDamage = currentDamage;
     }
     
     public double getDamagePerlevel()
@@ -312,14 +349,14 @@ public class Player extends Sprite
         this.damagePerLevel = damagePerlevel;
     }
     
-    public double getArmor()
+    public double getCurrentArmor()
     {
-        return armor;
+        return currentArmor;
     }
     
-    public void setArmor(double armor)
+    public void setCurrentArmor(double currentArmor)
     {
-        this.armor = armor;
+        this.currentArmor = currentArmor;
     }
     
     public double getArmorPerLevel()
@@ -347,9 +384,9 @@ public class Player extends Sprite
         return xp;
     }
     
-    public void setXp(double xp)
+    public void increaseXP(double xp)
     {
-        this.xp = xp;
+        this.xp += xp;
     }
     
     public double getXpToLevelUp()
@@ -367,9 +404,14 @@ public class Player extends Sprite
         return gold;
     }
     
-    public void setGold(int gold)
+    public void removeGold(int goldRemoved)
     {
-        this.gold = gold;
+        this.gold -= goldRemoved;
+    }
+    
+    public void addGold(int gold)
+    {
+        this.gold += gold;
     }
     
     protected void setSkillArrayObject(Skill[] skillArray) {this.allSkills = skillArray;}

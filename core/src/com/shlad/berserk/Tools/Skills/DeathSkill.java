@@ -33,6 +33,8 @@ public class DeathSkill extends Skill
     public void activate()
     {
         activated = true;
+        enemy.screen.player.addGold(enemy.directorCost);
+        enemy.screen.player.increaseXP(enemy.directorCost);
         enemy.b2bodyEnemy.setLinearVelocity(0f, enemy.b2bodyEnemy.getLinearVelocity().y);
         this.setInSkillAnimation(true);
         this.setTimePassedSinceLastUsed(0);

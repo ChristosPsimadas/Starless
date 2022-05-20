@@ -24,7 +24,7 @@ public class B2BulletCreator
         this.movingRight = player.runningRight;
         this.piercing = false;
         
-        this.damage = player.getDamage() * damagePercent;
+        this.damage = player.getCurrentDamage() * damagePercent;
     
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
@@ -53,7 +53,7 @@ public class B2BulletCreator
         this.movingRight = player.runningRight;
         this.piercing = piercing;
         
-        this.damage = player.getDamage() * damagePercent;
+        this.damage = player.getCurrentDamage() * damagePercent;
         
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();

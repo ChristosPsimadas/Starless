@@ -1,10 +1,7 @@
 package com.shlad.berserk.Tools;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -22,6 +19,7 @@ public class Hud
     private Player player;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
+    Texture gold = new Texture("itemTextures/money.png");
 
     Pixmap cursorImage = new Pixmap(Gdx.files.internal("crosshair.png"));
     
@@ -52,15 +50,34 @@ public class Hud
         
         //Green part of health bar
         shapeRenderer.setColor(new Color(126/255f, 219/255f, 107/255f, 1f));
-        shapeRenderer.rect(Berserk.V_WIDTH / 2f - 75, Berserk.V_HEIGHT - 370, 150 * (float) player.getCurrentHealth() / (float) player.getMaxHealth(), 10);
+        shapeRenderer.rect(Berserk.V_WIDTH / 2f - 75, Berserk.V_HEIGHT - 370, 150 * (float) player.getCurrentHealth() / (float) player.getCurrentMaxHealth(), 10);
+        
+        //XP Bar
+        //Dark outline part of xp bar
+        shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
+        shapeRenderer.rect(Berserk.V_WIDTH / 2f - 77, Berserk.V_HEIGHT - 400 + 18, 154, 8);
+    
+        //Draw darker inside for the xp bar
+        shapeRenderer.setColor(new Color(15/255f, 19/255f, 26/255f, 1f));
+        shapeRenderer.rect(Berserk.V_WIDTH / 2f - 75, Berserk.V_HEIGHT - 398 + 18, 150, 4);
+    
+        //Blue part of xp bar
+        shapeRenderer.setColor(new Color(87/255f, 219/255f, 255/255f, 1f));
+        shapeRenderer.rect(Berserk.V_WIDTH / 2f - 75, Berserk.V_HEIGHT - 398 + 18, 150 * (float) player.getXp() / (float) player.getXpToLevelUp(), 4);
+        
         
         shapeRenderer.end();
         
         stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
         stage.getBatch().begin();
-        font.getData().setScale(0.30f);
+        stage.getBatch().draw(gold, Berserk.V_WIDTH / 40f, Berserk.V_HEIGHT - 40);
+    
+        font.getData().setScale(0.5f);
         font.setColor(Color.WHITE);
-        font.draw(stage.getBatch(), "" + (int) player.getCurrentHealth() + "/" + (int) player.getMaxHealth(), Berserk.V_WIDTH / 2f - 18, Berserk.V_HEIGHT - 361);
+        font.draw(stage.getBatch(), "$" + player.getGold(), Berserk.V_WIDTH / 18f, Berserk.V_HEIGHT - 24);
+        
+        font.getData().setScale(0.30f);
+        font.draw(stage.getBatch(), "" + (int) player.getCurrentHealth() + "/" + (int) player.getCurrentMaxHealth(), Berserk.V_WIDTH / 2f - 18, Berserk.V_HEIGHT - 361);
         stage.getBatch().end();
         updateSkills();
     }

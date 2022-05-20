@@ -1,5 +1,7 @@
 package com.shlad.berserk.Sprites.InteractableObjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -8,8 +10,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Items.Brotein;
+import com.shlad.berserk.Items.Item;
 import com.shlad.berserk.Screens.PlayScreen;
+import com.shlad.berserk.Tools.Skills.B2Creators.B2BulletCreator;
 
 import java.util.ArrayList;
 
@@ -28,11 +34,13 @@ public class Chest extends Sprite
     private TextureRegion chestClosed;
     private TextureRegion chestOpen;
     private TextureRegion chestClosedHighlighted;
-    private Animation<TextureRegion> chestOpening;
+    public Animation<TextureRegion> chestOpening;
+    
+    private Item item;
     
     protected float stateTimer;
     
-    private boolean opened;
+    public boolean opened;
     public boolean opening;
     
     private final int WIDTH = 39;
@@ -42,6 +50,8 @@ public class Chest extends Sprite
     
     private float locationX, locationY;
     
+    private int goldCost;
+    
     public Chest(PlayScreen screen, Rectangle rect)
     {
         super(new TextureAtlas("chestSprites/chestSprites.pack").findRegion("chestSpritePS"));
@@ -49,8 +59,9 @@ public class Chest extends Sprite
         this.map = screen.getMap();
         this.rect = rect;
         this.screen = screen;
-        this.locationX = rect.x / Berserk.PPM;
-        this.locationY = rect.y / Berserk.PPM;
+        this.locationX = (rect.x + 10) / Berserk.PPM;
+        this.locationY = (rect.y + 5) / Berserk.PPM;
+        goldCost = 25;
         
         currentState = AnimationState.CLOSED;
         previousState = AnimationState.CLOSED;
@@ -60,11 +71,14 @@ public class Chest extends Sprite
         opened = false;
         opening = false;
         
+        this.item = new Brotein(screen, this);
+        
         Array<TextureRegion> frames = new Array<>();
-        for (int i = 0; i < 6; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 39, WIDTH, HEIGHT));}
+        for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 22, WIDTH, HEIGHT));}
         chestOpening = new Animation<>(0.2f, frames);
-        chestOpen = new TextureRegion(frames.get(frames.size - 1));
         frames.clear();
+    
+        chestOpen = new TextureRegion(getTexture(), 5 + 156, 2 + 22, WIDTH, HEIGHT);
         
         chestClosed = new TextureRegion(getTexture(), 1, 1, WIDTH, HEIGHT);
         
@@ -81,19 +95,45 @@ public class Chest extends Sprite
         if (opened)
             return AnimationState.OPENED;
         
-        else if (opening)
+        else if (openCondition() || currentState == AnimationState.OPENING)
             return AnimationState.OPENING;
         
-        else if (Berserk.distanceFormula(screen.player.b2body.getPosition().x, locationX, screen.player.b2body.getPosition().y, locationY) < 0.2)
+        else if (Berserk.distanceFormula(screen.player.b2body.getPosition().x, locationX, screen.player.b2body.getPosition().y, locationY) < 0.5)
             return AnimationState.CLOSEDHIGHLIGHTED;
         
         else
             return AnimationState.CLOSED;
     }
     
+    private boolean openCondition()
+    {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && this.currentState == AnimationState.CLOSEDHIGHLIGHTED && (screen.player.getGold() - goldCost >= 0))
+        {
+            this.currentState = AnimationState.OPENING;
+            screen.player.removeGold(goldCost);
+            
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run()
+                {
+                    PlayScreen.spawnedItems.add(item);
+                }
+            }, 0.4f);
+            
+            
+            return true;
+        }
+        return false;
+    }
+    
     public TextureRegion getFrame(float dt)
     {
         currentState = getAnimationState();
+        
+        if (currentState == AnimationState.OPENING && stateTimer >= 1.2)
+        {
+            return chestOpen;
+        }
         
         TextureRegion region;
         
@@ -110,7 +150,7 @@ public class Chest extends Sprite
             case CLOSEDHIGHLIGHTED:
                 region = chestClosedHighlighted;
                 break;
-                
+    
             case OPENED:
             default:
                 region = chestOpen;
@@ -122,9 +162,19 @@ public class Chest extends Sprite
         return region;
     }
     
+    public void checkOpenChest()
+    {
+        if (openCondition())
+        {
+            opening = true;
+        }
+    }
+    
     public void update(float deltaTime)
     {
         setPosition(rect.x / Berserk.PPM, (rect.y - 17) / Berserk.PPM);
+        checkOpenChest();
+        
         setRegion(getFrame(deltaTime));
     }
 }

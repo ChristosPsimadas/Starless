@@ -39,14 +39,24 @@ public class Imp extends Enemy
         super(screen, "enemySpritesNoBG/impSpriteNoBG.pack", "impSpritePhotoshopNoBG");
         this.setSkillArrayObject(allSkills);
         this.impAI =  new GroundMeleeAI(this, screen.player);
-        maxHealth = 80;
-        currentHealth = maxHealth;
+        
+        currentMaxHealth = 80;
+        baseMaxHealth = 80;
+        currentHealth = currentMaxHealth;
         healthPerLevel = 20;
-        healthRegen = 0;
+        
+        
+        baseHealthRegen = 0;
+        currentHealthRegen = 0;
         healthRegenPerLevel = 0;
-        damage = 8;
+        
+        baseDamage = 8;
+        currentDamage = 8;
         damagePerLevel = 3;
+        
+        
         directorCost = 15;
+        goldDropped = directorCost;
         maxSpeed = MathUtils.random(0.8f, 1.1f);
     
         Array<TextureRegion> frames = new Array<>();

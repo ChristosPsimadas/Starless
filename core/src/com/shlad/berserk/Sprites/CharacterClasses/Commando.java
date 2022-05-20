@@ -33,18 +33,21 @@ public class Commando extends Player
 
     public Commando(PlayScreen screen)
     {
-        //super(screen, "playerSpritesNewest/commandoStandardized.pack", "commandoStandard");
         super(screen, "playerSpritesNoBG2/commandoFull.pack", "commandoFullSet");
 
-        //defineEnemySpawnRadius();
-
         this.setSkillArrayObject(allSkillObjects);
-        maxHealth = 110;
-        currentHealth = maxHealth;
+        
+        currentMaxHealth = 110;
+        baseMaxHealth = 110;
+        currentHealth = currentMaxHealth;
         healthPerLevel = 33;
-        healthRegen = 1;
-        healthRegenPerLevel = 0.2;
-        damage = 12;
+        
+        baseHealthRegen = 0.8;
+        currentHealthRegen = 0.8;
+        healthRegenPerLevel = 0.1;
+        
+        baseDamage = 12;
+        currentDamage = 12;
         damagePerLevel = 2.4;
     
         //The sprites begin at 0, 0. The sprites should have 1 pixel padding on each side, which is why there is a plus 1.

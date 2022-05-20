@@ -17,7 +17,7 @@ public class B2MeleeCreator
         this.world = enemy.worldEnemy;
         this.movingRight = enemy.runningRight;
         
-        this.damage = enemy.getDamage() * damagePercent;
+        this.damage = enemy.getCurrentDamage() * damagePercent;
     
         BodyDef bdef =new BodyDef();
         FixtureDef fdef = new FixtureDef();
