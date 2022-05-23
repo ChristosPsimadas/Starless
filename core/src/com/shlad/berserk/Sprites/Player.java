@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Player extends Sprite
 {
-    public enum AnimationState {FALLING, JUMPING, STANDING, RUNNING, SKILLONE, SKILLTWO, SKILLTHREE, SKILLFOUR}
+    public enum AnimationState {FALLING, JUMPING, STANDING, RUNNING, SKILLONE, SKILLTWO, SKILLTHREE, SKILLFOUR, DYING, DEAD}
     
     public AnimationState currentState;
     public AnimationState previousState;
@@ -28,6 +28,8 @@ public class Player extends Sprite
     protected TextureRegion playerIdle;
     protected TextureRegion playerJump;
     protected TextureRegion playerFall;
+    protected TextureRegion playerDead;
+    protected Animation<TextureRegion> playerDying;
     protected Animation<TextureRegion> playerRun;
     protected Animation<TextureRegion> playerSkillOne;
     protected Animation<TextureRegion> playerSkillTwo;
@@ -38,6 +40,8 @@ public class Player extends Sprite
     
     protected float stateTimer;
     public boolean runningRight;
+    
+    public boolean dead;
     
     protected float maxSpeed = 1.4f;
     
@@ -65,12 +69,10 @@ public class Player extends Sprite
     protected int gold;
     
     protected Skill[] allSkills;
-    
     protected ArrayList<Item> items;
 
     public PlayScreen screen;
 
-    //Should find a way to make it not ask for region name
     public Player(PlayScreen screen, String packName, String regionName)
     {
         super(new TextureAtlas(packName).findRegion(regionName));
@@ -86,42 +88,46 @@ public class Player extends Sprite
         xp = 0;
         xpToLevelUp = 40;
         
+        dead = false;
     }
     
     public void handlePlayerInput(float deltaTime)
     {
         
-        for (Skill skill : allSkills)
+        if (!dead)
         {
-            skill.setTimePassedSinceLastUsed(skill.getTimePassedSinceLastUsed() + deltaTime);
-        }
+            for (Skill skill : allSkills)
+            {
+                skill.setTimePassedSinceLastUsed(skill.getTimePassedSinceLastUsed() + deltaTime);
+            }
+    
+            for (Skill skill : allSkills)
+            {
+                if (skill.activationCondition())
+                {
+                    skill.activate();
+                    skill.inSkillAnimationEffects();
+                }
         
-        for (Skill skill : allSkills)
-        {
-            if (skill.activationCondition())
-            {
-                skill.activate();
-                skill.inSkillAnimationEffects();
             }
-            
-        }
-        
-        //If you're in a different animation then you're locked in and can't move
-        if (Skill.checkIfNotInAnyAnimation(this))
-        {
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && (this.b2body.getLinearVelocity().x <= maxSpeed))
+    
+            //If you're in a different animation then you're locked in and can't move
+            if (Skill.checkIfNotInAnyAnimation(this))
             {
-                this.b2body.applyLinearImpulse(new Vector2(maxSpeed / 4, 0), this.b2body.getWorldCenter(), true);
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.A) && (this.b2body.getLinearVelocity().x >= -maxSpeed))
-            {
-                this.b2body.applyLinearImpulse(new Vector2(-maxSpeed / 4, 0), this.b2body.getWorldCenter(), true);
-            }
-            //Should change to account for double jumps
-            //Actually instead add a separate method for calculating double jumps, and it would only work when you're in the air
-            if ((Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) && this.b2body.getLinearVelocity().y == 0)
-            {
-                this.b2body.applyLinearImpulse(new Vector2(0, 4.5f), this.b2body.getWorldCenter(), true);
+                if (Gdx.input.isKeyPressed(Input.Keys.D) && (this.b2body.getLinearVelocity().x <= maxSpeed))
+                {
+                    this.b2body.applyLinearImpulse(new Vector2(maxSpeed / 4, 0), this.b2body.getWorldCenter(), true);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.A) && (this.b2body.getLinearVelocity().x >= -maxSpeed))
+                {
+                    this.b2body.applyLinearImpulse(new Vector2(-maxSpeed / 4, 0), this.b2body.getWorldCenter(), true);
+                }
+                //Should change to account for double jumps
+                //Actually instead add a separate method for calculating double jumps, and it would only work when you're in the air
+                if ((Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) && this.b2body.getLinearVelocity().y == 0)
+                {
+                    this.b2body.applyLinearImpulse(new Vector2(0, 4.5f), this.b2body.getWorldCenter(), true);
+                }
             }
         }
     }
@@ -142,24 +148,29 @@ public class Player extends Sprite
     
     public void update(float dt)
     {
-        updateLevels();
+        
         //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
-        for (Skill skill : allSkills)
+        if (!dead)
         {
-            if (skill.isInSkillAnimation() && skill.hasAnimationEnded())
+            updateLevels();
+            
+            for (Skill skill : allSkills)
             {
-                skill.skillEnded();
+                if (skill.isInSkillAnimation() && skill.hasAnimationEnded())
+                {
+                    skill.skillEnded();
+                }
             }
+    
+            if (currentHealth < 0)
+                currentHealth = 0;
+    
+            if (currentHealth < currentMaxHealth)
+                currentHealth += currentHealthRegen * dt;
+    
+            setPosition(this.b2body.getPosition().x - getWidth() / 2, this.b2body.getPosition().y - getHeight() / 2 + 2.5f / Berserk.PPM);
+            setRegion(getFrame(dt));
         }
-        
-        if (currentHealth < 0)
-            currentHealth = 0;
-        
-        if (currentHealth < currentMaxHealth)
-            currentHealth += currentHealthRegen * dt;
-        
-        setPosition(this.b2body.getPosition().x - getWidth() / 2, this.b2body.getPosition().y - getHeight() / 2 + 2.5f/ Berserk.PPM);
-        setRegion(getFrame(dt));
 
     }
     
@@ -199,6 +210,14 @@ public class Player extends Sprite
                 region = playerSkillFour.getKeyFrame(stateTimer, true);
                 break;
                 
+            case DYING:
+                region = playerDying.getKeyFrame(stateTimer, false);
+                break;
+                
+            case DEAD:
+                region = playerDead;
+                break;
+                
             case STANDING:
             default:
                 region = playerIdle;
@@ -226,8 +245,13 @@ public class Player extends Sprite
     
     public AnimationState getAnimationState()
     {
+        
+        if (allSkills[4].activationCondition() || allSkills[4].isInSkillAnimation())
+            return AnimationState.DYING;
+        else if (currentHealth <= 0 || dead)
+            return AnimationState.DEAD;
         //Check if you click left click, and if you're on the floor, and if you're not doing anything else, or if you're already in the animation, then your current animation will be skill 1
-        if      (allSkills[0].activationCondition() || allSkills[0].isInSkillAnimation())
+        else if (allSkills[0].activationCondition() || allSkills[0].isInSkillAnimation())
             return AnimationState.SKILLONE;
 
         else if (allSkills[1].activationCondition() || allSkills[1].isInSkillAnimation())
@@ -264,7 +288,7 @@ public class Player extends Sprite
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / Berserk.PPM);
         fdef.filter.categoryBits = Berserk.PLAYER_BIT;
-        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_BIT | Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.ENEMY_MELEE_BIT;
+        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.ENEMY_MELEE_BIT;
 
         fdef.shape = shape;
         fixture = b2body.createFixture(fdef);

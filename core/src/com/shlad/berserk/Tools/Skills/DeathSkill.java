@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.Enemy;
+import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
 
 public class DeathSkill extends Skill
@@ -20,7 +21,6 @@ public class DeathSkill extends Skill
         this.name = "Death";
         this.skillImg = new Texture("nullSkill.png");
         this.activated = false;
-        
     }
     
     @Override

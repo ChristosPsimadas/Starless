@@ -61,7 +61,7 @@ public class WorldContactListener implements ContactListener
             case Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.PLAYER_BIT:
                 Fixture playerInsideEnemyRadius = fixA.getFilterData().categoryBits == Berserk.PLAYER_BIT ? fixA : fixB;
                 Fixture enemyFighting = playerInsideEnemyRadius.equals(fixA) ? fixB : fixA;
-    
+                
                 ((Enemy)enemyFighting.getUserData()).playerInMeleeRange = true;
                 
                 break;

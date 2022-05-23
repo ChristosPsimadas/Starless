@@ -49,6 +49,12 @@ public class GroundMeleeAI
     {
         distanceFromPlayer = (float) Math.sqrt(Math.pow(player.b2body.getPosition().x - enemy.b2bodyEnemy.getPosition().x, 2) + Math.pow(player.b2body.getPosition().y - enemy.b2bodyEnemy.getPosition().y, 2));
         
+        //I have to hardcode this because physics ^%$&^%$ sucks;
+        if (distanceFromPlayer < 0.25f)
+            enemy.playerInMeleeRange = true;
+        if (distanceFromPlayer > 0.27f)
+            enemy.playerInMeleeRange = false;
+        
         if (distanceFromPlayer > 0.3f  && distanceFromPlayer < 4 && !enemy.playerInMeleeRange && Skill.checkIfNotInAnyAnimation(enemy))
         {
                                             //Greater than means the enemy is to the right, so it has to move left, which is negative

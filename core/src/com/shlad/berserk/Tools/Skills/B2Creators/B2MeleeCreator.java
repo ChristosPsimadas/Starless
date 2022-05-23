@@ -37,7 +37,7 @@ public class B2MeleeCreator
         fdef.filter.categoryBits = Berserk.ENEMY_MELEE_BIT;
         fdef.filter.maskBits = Berserk.PLAYER_BIT;
         
-        shape.setRadius(10f / Berserk.PPM);
+        shape.setRadius(25f / Berserk.PPM);
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);
     }

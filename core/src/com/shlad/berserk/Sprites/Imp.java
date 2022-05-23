@@ -35,7 +35,6 @@ public class Imp extends Enemy
     
     public Imp(PlayScreen screen, float spawnPointX, float spawnPointY)
     {
-        //super(screen, "enemySprites/impSprites.pack", "impSpritePhotoshop");
         super(screen, "enemySpritesNoBG/impSpriteNoBG.pack", "impSpritePhotoshopNoBG");
         this.setSkillArrayObject(allSkills);
         this.impAI =  new GroundMeleeAI(this, screen.player);
@@ -45,7 +44,6 @@ public class Imp extends Enemy
         currentHealth = currentMaxHealth;
         healthPerLevel = 20;
         
-        
         baseHealthRegen = 0;
         currentHealthRegen = 0;
         healthRegenPerLevel = 0;
@@ -53,7 +51,6 @@ public class Imp extends Enemy
         baseDamage = 8;
         currentDamage = 8;
         damagePerLevel = 3;
-        
         
         directorCost = 15;
         goldDropped = directorCost;

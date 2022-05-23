@@ -3,46 +3,46 @@ package com.shlad.berserk.Tools.Skills.EnemySkills;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 import com.shlad.berserk.Sprites.Enemy;
-import com.shlad.berserk.Sprites.Imp;
+import com.shlad.berserk.Sprites.Parent;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
 import com.shlad.berserk.Tools.Skills.B2Creators.B2MeleeCreator;
 
-public class AbyssalSlash extends Skill
+public class Smash extends Skill
 {
-    private Imp imp;
+    private Parent parent;
     private Player player;
     
-    public AbyssalSlash(Enemy enemy)
+    public Smash(Enemy enemy)
     {
         super(enemy);
-        this.imp = (Imp) enemy;
+        this.parent = (Parent) enemy;
         this.player = enemy.screen.player;
         this.timePassedSinceLastUsed = 0f;
-        this.coolDownSeconds = 1.7f;
+        this.coolDownSeconds = 2.4f;
         this.animationDuration = 1.1f;
         this.skillNumber = 1;
-        this.name = "Abyssal Slash";
+        this.name = "Smash";
         this.skillImg = new Texture("iconsSkill/48x48/skill_icons18.png");
-    
-        this.damagePercent = 1.6f;
+        
+        this.damagePercent = 3.5f;
     }
     
     @Override
     public void activate()
     {
-        System.out.println("imp hitting");
+        
         Timer.schedule(new Timer.Task() {
             @Override
             public void run()
             {
-                if (!imp.destroyed)
+                if (!parent.destroyed)
                 {
-                    imp.abyssalSlashes.add(new B2MeleeCreator(imp, damagePercent));
+                    parent.smashes.add(new B2MeleeCreator(parent, damagePercent));
                 }
             }
-        }, coolDownSeconds / 3);
-        
+        }, animationDuration / 2);
+    
         this.setInSkillAnimation(true);
         this.setTimePassedSinceLastUsed(0);
     }
@@ -52,7 +52,7 @@ public class AbyssalSlash extends Skill
     {
         super.skillEnded();
         
-        for (B2MeleeCreator meleeBody : imp.abyssalSlashes)
+        for (B2MeleeCreator meleeBody : parent.smashes)
         {
             meleeBody.setToBeDestroyed();
         }
@@ -61,6 +61,6 @@ public class AbyssalSlash extends Skill
     @Override
     public boolean activationCondition()
     {
-        return (imp.playerInMeleeRange && (this.isCoolDownOver()) && (this.checkIfInOtherAnimationEnemy()) && !imp.destroyed && !player.dead);
+        return (parent.playerInMeleeRange && (this.isCoolDownOver()) && (this.checkIfInOtherAnimationEnemy()) && !parent.destroyed && !player.dead);
     }
 }

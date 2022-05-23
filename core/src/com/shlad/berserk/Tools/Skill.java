@@ -86,7 +86,7 @@ public class Skill
     public float getCoolDownSeconds()
     {
         return coolDownSeconds;
-    }
+    } 
     
     public boolean isInSkillAnimation()
     {

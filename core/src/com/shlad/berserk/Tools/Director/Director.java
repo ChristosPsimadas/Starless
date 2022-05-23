@@ -12,10 +12,11 @@ public class Director
     protected Player player;
     
     public float timeInMinutes;
-    protected float difficultCoefficient;
+    public static float difficultCoefficient;
     
     protected float stageFactor;
     protected int stagesCompleted;
+    protected boolean disabled;
     
     public Director(PlayScreen screen)
     {
@@ -23,9 +24,11 @@ public class Director
         this.directorCredits = 0;
         this.player = screen.player;
         this.timeInMinutes = 0;
-        this.difficultCoefficient = 0;
+        this.disabled = false;
         this.stageFactor = 1.15f;
         this.stagesCompleted = 1;
+    
+        difficultCoefficient = 0;
     }
     
     public void updateTime(float deltaTime)
@@ -44,5 +47,10 @@ public class Director
         Enemy.level = 1 + (int) (difficultCoefficient / 0.33);
     }
     
-    //public void
+    public int calcChestCost()
+    {
+        return (int) (25 * Math.pow(difficultCoefficient, 1.25));
+    }
+    
+    
 }

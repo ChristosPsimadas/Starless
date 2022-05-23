@@ -7,11 +7,8 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skill;
+import com.shlad.berserk.Tools.Skills.*;
 import com.shlad.berserk.Tools.Skills.B2Creators.B2BulletCreator;
-import com.shlad.berserk.Tools.Skills.DodgeRoll;
-import com.shlad.berserk.Tools.Skills.DoubleTap;
-import com.shlad.berserk.Tools.Skills.FullMetalJacket;
-import com.shlad.berserk.Tools.Skills.SuppressiveFire;
 
 import java.util.ArrayList;
 
@@ -22,7 +19,8 @@ public class Commando extends Player
     private Skill fullMetalJacket = new FullMetalJacket(this);
     private Skill dodgeRoll = new DodgeRoll(this);
     private Skill suppressiveFire = new SuppressiveFire(this);
-    private Skill[] allSkillObjects = new Skill[]{doubleTap, fullMetalJacket, dodgeRoll, suppressiveFire};
+    private Skill death = new DeathSkillPlayer(this);
+    private Skill[] allSkillObjects = new Skill[]{doubleTap, fullMetalJacket, dodgeRoll, suppressiveFire, death};
     
     private final int WIDTH = 38;
     private final int HEIGHT = 12;
@@ -80,6 +78,12 @@ public class Commando extends Player
         for (int i = 0; i < 15; i++){frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 8 + 84, WIDTH, HEIGHT));}
         playerSkillFour = new Animation<>(suppressiveFire.getAnimationDuration() / 15f, frames);
         frames.clear();
+    
+        for (int i = 0; i < 5; i++){frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 9 + 96, WIDTH, HEIGHT));}
+        playerDying = new Animation<>(0.1f, frames);
+        frames.clear();
+        
+        playerDead = new TextureRegion(getTexture(), 1 + 4 + (4 * WIDTH), 9 + 96, WIDTH, HEIGHT);
     
         definePlayer(4.5f);
     
