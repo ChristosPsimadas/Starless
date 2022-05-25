@@ -60,12 +60,13 @@ public abstract class Enemy extends Sprite
     
     protected int goldDropped;
     
-    public int directorCost;
-    
     protected Skill[] allSkills;
     
     public boolean destroyed;
     public PlayScreen screen;
+    
+    public int directorCost;
+    public float directorWeight;
     
     public boolean playerInMeleeRange = false;
     
