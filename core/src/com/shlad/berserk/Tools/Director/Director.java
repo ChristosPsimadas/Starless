@@ -17,8 +17,10 @@ public class Director
     protected float stageFactor;
     protected int stagesCompleted;
     protected boolean disabled;
-    
-    public Director(PlayScreen screen)
+
+    protected Enemy[] spawnPool;
+
+    public Director(PlayScreen screen, Enemy[] spawnPool)
     {
         this.screen = screen;
         this.directorCredits = 0;

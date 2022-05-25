@@ -18,7 +18,6 @@ public abstract class InteractiveTileObject
     
     public InteractiveTileObject(PlayScreen screen, Rectangle bounds)
     {
-        
         this.world = screen.getWorld();
         this.map = screen.getMap();
         this.bounds = bounds;
