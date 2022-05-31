@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
+import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
+import com.shlad.berserk.Sprites.Parent;
 import com.shlad.berserk.Sprites.Player;
 
 import java.util.ArrayList;
@@ -15,12 +17,19 @@ public class GameDirector
     public static ArrayList<Rectangle> spawnLocations = new ArrayList<>();
     
     public int directorPoints;
-    private PlayScreen screen;
-    private World world;
-    private Player player;
-    private float timePassedSinceSpawned;
-    private float randomTimeForSpawn = 8f;
+    protected PlayScreen screen;
+    protected World world;
+    protected Player player;
+    protected float timePassedSinceSpawned;
+    protected float randomTimeForSpawn = 8f;
     public float diffCoefficient = 0;
+    
+    private float timeInMinutes;
+    public static float difficultCoefficient;
+    
+    protected float stageFactor;
+    protected int stagesCompleted;
+    protected boolean disabled;
     
     public GameDirector(PlayScreen screen)
     {
@@ -64,18 +73,59 @@ public class GameDirector
     
     public void chooseEnemyToSpawn()
     {
+        double spawnNum = Math.random();
+        
         Rectangle spawnPoint = closestNode();
         while (directorPoints > 0)
         {
-            screen.allEnemies.add(new Imp(screen, spawnPoint.x, spawnPoint.y));
-            directorPoints -= 15;
-            timePassedSinceSpawned = 0;
+            if (spawnNum > 0.3)
+                spawnImp(spawnPoint);
+            else
+                spawnParent(spawnPoint);
         }
+    }
+    
+    public void spawnParent(Rectangle spawnPoint)
+    {
+        screen.allEnemies.add(new Parent(screen, spawnPoint.x, spawnPoint.y));
+        directorPoints -= 30;
+        timePassedSinceSpawned=0;
+    }
+    
+    public void spawnImp(Rectangle spawnPoint)
+    {
+        screen.allEnemies.add(new Imp(screen, spawnPoint.x, spawnPoint.y));
+        directorPoints -= 15;
+        timePassedSinceSpawned=0;
+    }
+    
+    public void updateTime(float deltaTime)
+    {
+        timeInMinutes += deltaTime / 60;
+    }
+    
+    public void calculateDifficultyCoefficient()
+    {
+        stageFactor = (float) Math.pow(1.15, stagesCompleted);
+        difficultCoefficient = (float) (1 + timeInMinutes * 0.1012) * stageFactor;
+    }
+    
+    public void calcEnemyLevel()
+    {
+        Enemy.level = (int) (1 + (int) (difficultCoefficient / 0.33));
+    }
+    
+    public static int calcChestCost()
+    {
+        return (int) (25 * Math.pow(difficultCoefficient, 1.25));
     }
     
     public void directorUpdate(float deltaTime)
     {
         this.timePassedSinceSpawned += deltaTime;
+        updateTime(deltaTime);
+        calculateDifficultyCoefficient();
+        calcEnemyLevel();
         
         chooseEnemyToSpawn();
         
@@ -83,5 +133,7 @@ public class GameDirector
         {
             resetPoints();
         }
+    
+        //System.out.println(calcChestCost());
     }
 }

@@ -38,11 +38,12 @@ public class Imp extends Enemy
         super(screen, "enemySpritesNoBG/impSpriteNoBG.pack", "impSpritePhotoshopNoBG");
         this.setSkillArrayObject(allSkills);
         this.impAI =  new GroundMeleeAI(this, screen.player);
-        
-        currentMaxHealth = 80;
-        baseMaxHealth = 80;
-        currentHealth = currentMaxHealth;
+    
         healthPerLevel = 20;
+        baseMaxHealth = 80;
+        currentMaxHealth = baseMaxHealth + healthPerLevel * (level - 1);
+        currentHealth = currentMaxHealth;
+        
         
         baseHealthRegen = 0;
         currentHealthRegen = 0;

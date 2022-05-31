@@ -124,7 +124,7 @@ public class Director
     
     public void calcEnemyLevel()
     {
-        Enemy.level = 1 + (int) (difficultCoefficient / 0.33);
+        Enemy.level = (int) (1 + (int) (difficultCoefficient / 0.33));
     }
     
     public int calcChestCost()

@@ -22,7 +22,9 @@ import com.shlad.berserk.Sprites.CharacterClasses.Commando;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
 import com.shlad.berserk.Sprites.InteractableObjects.Chest;
+import com.shlad.berserk.Sprites.Parent;
 import com.shlad.berserk.Tools.B2WorldCreator;
+import com.shlad.berserk.Tools.Director.Director;
 import com.shlad.berserk.Tools.GameDirector;
 import com.shlad.berserk.Tools.Hud;
 import com.shlad.berserk.Tools.WorldContactListener;
@@ -34,7 +36,7 @@ public class PlayScreen implements Screen
 {
     public final Berserk game;
 
-    private final OrthographicCamera gameCam;
+    public final OrthographicCamera gameCam;
     private final Viewport gamePort;
     
     //Tiled map stuff
@@ -59,6 +61,7 @@ public class PlayScreen implements Screen
     public ShapeRenderer shapeRenderer;
 
     private GameDirector gameDirector;
+    private Director director;
     public Array<Enemy> allEnemies = new Array<>();
     
     private final Music song;
@@ -67,6 +70,9 @@ public class PlayScreen implements Screen
      public static ArrayList<Chest> chests = new ArrayList<>();
      
      public static ArrayList<Item> spawnedItems = new ArrayList<>();
+     
+     
+     
      
     public PlayScreen(Berserk game)
     {
@@ -86,10 +92,16 @@ public class PlayScreen implements Screen
 
         //Set gamecam to be centered at the start of the map
         gameCam.position.set(gamePort.getWorldWidth() / 2.0f, gamePort.getWorldHeight() / 2.0f, 0);
+        
 
         //Gravity , sleep objects at rest
         world = new World(new Vector2(0, -9.81f), true);
         b2dr = new Box2DDebugRenderer();
+    
+        
+        player = new Commando(this);
+        gameDirector = new GameDirector(this);
+        
         
         new B2WorldCreator(this);
         
@@ -97,10 +109,6 @@ public class PlayScreen implements Screen
         song.setVolume(0.5f);
         song.setLooping(true);
         song.play();
-        
-        player = new Commando(this);
-        
-        gameDirector = new GameDirector(this);
         
         this.hud = new Hud(game.batch, player);
         
@@ -162,6 +170,18 @@ public class PlayScreen implements Screen
                     }
                 }
             }
+            if (enemy instanceof Parent)
+            {
+                for (int i = 0; i < ((Parent)enemy).smashes.size(); i++)
+                {
+                    if (((Parent)enemy).smashes.get(i).isToBeDestroyed())
+                    {
+                        world.destroyBody(((Parent)enemy).smashes.get(i).getBody());
+                        ((Parent)enemy).smashes.remove(i);
+                        i--;
+                    }
+                }
+            }
         }
     }
     
@@ -206,6 +226,7 @@ public class PlayScreen implements Screen
         renderer.setView(gameCam);
     
         gameDirector.directorUpdate(deltaTime);
+        
     }
     
     @Override
@@ -228,7 +249,9 @@ public class PlayScreen implements Screen
             enemy.draw(game.batch);
 
         for (Chest chest : chests)
+        {
             chest.draw(game.batch);
+        }
         
         
         for (Item itemOnFloor : spawnedItems)
@@ -238,6 +261,7 @@ public class PlayScreen implements Screen
         
         player.draw(game.batch);
         game.batch.end();
+        
         
         //render the physics lines
         b2dr.render(world, gameCam.combined);

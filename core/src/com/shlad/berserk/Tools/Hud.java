@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Player;
 
 public class Hud
@@ -72,14 +73,36 @@ public class Hud
         stage.getBatch().begin();
         stage.getBatch().draw(gold, Berserk.V_WIDTH / 40f, Berserk.V_HEIGHT - 40);
     
+        //Draw money
         font.getData().setScale(0.5f);
         font.setColor(Color.WHITE);
         font.draw(stage.getBatch(), "$" + player.getGold(), Berserk.V_WIDTH / 18f, Berserk.V_HEIGHT - 24);
         
+        //Draw player health number
         font.getData().setScale(0.30f);
         font.draw(stage.getBatch(), "" + (int) player.getCurrentHealth() + "/" + (int) player.getCurrentMaxHealth(), Berserk.V_WIDTH / 2f - 18, Berserk.V_HEIGHT - 361);
         stage.getBatch().end();
         updateSkills();
+        updateEnemyLevel();
+    }
+    
+    public void updateEnemyLevel()
+    {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(new Color(81/255f, 101/255f, 133/255f, 1f));
+        shapeRenderer.rect(Berserk.V_WIDTH - 82, Berserk.V_HEIGHT - 47, 34, 34);
+        
+        shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
+        shapeRenderer.rect(Berserk.V_WIDTH - 80, Berserk.V_HEIGHT - 45, 30, 30);
+        shapeRenderer.end();
+        
+        stage.getBatch().begin();
+        font.getData().setScale(0.65f);
+        font.draw(stage.getBatch(), "" + Enemy.level, Berserk.V_WIDTH - 70, Berserk.V_HEIGHT - 23);
+        
+        font.getData().setScale(0.15f);
+        font.draw(stage.getBatch(), "enemy lvl.", Berserk.V_WIDTH - 79, Berserk.V_HEIGHT - 17);
+        stage.getBatch().end();
     }
 
     private void updateSkills()

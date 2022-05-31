@@ -3,6 +3,7 @@ package com.shlad.berserk.Tools;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
@@ -10,7 +11,6 @@ import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.EnemyAI.GroundMeleeAI;
 import com.shlad.berserk.Sprites.InteractableObjects.Chest;
 import com.shlad.berserk.Sprites.JumpPad;
-
 import java.util.Random;
 
 public class B2WorldCreator
@@ -24,6 +24,9 @@ public class B2WorldCreator
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
         Body body;
+        
+        int teleporterSpot = MathUtils.random(1, 25);
+        
         
         fdef.restitution = 0f;
     
@@ -87,7 +90,15 @@ public class B2WorldCreator
         for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class))
         {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            
             PlayScreen.chests.add(new Chest(screen, rect));
+        }
+        
+        //Teleporter1
+        for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class))
+        {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            
         }
     }
 }

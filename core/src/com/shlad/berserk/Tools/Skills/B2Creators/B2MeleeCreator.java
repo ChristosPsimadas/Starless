@@ -42,6 +42,36 @@ public class B2MeleeCreator
         body.createFixture(fdef).setUserData(this);
     }
     
+    public B2MeleeCreator(Enemy enemy, double damagePercent, float size)
+    {
+        this.world = enemy.worldEnemy;
+        this.movingRight = enemy.runningRight;
+        
+        this.damage = enemy.getCurrentDamage() * damagePercent;
+        
+        BodyDef bdef =new BodyDef();
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape= new CircleShape();
+        
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        
+        if (movingRight)
+            bdef.position.set(enemy.b2bodyEnemy.getPosition().x + 0.2f, enemy.b2bodyEnemy.getPosition().y);
+        else
+            bdef.position.set(enemy.b2bodyEnemy.getPosition().x - 0.2f, enemy.b2bodyEnemy.getPosition().y);
+        
+        body = world.createBody(bdef);
+        body.setGravityScale(0);
+        
+        fdef.isSensor = true;
+        fdef.filter.categoryBits = Berserk.ENEMY_MELEE_BIT;
+        fdef.filter.maskBits = Berserk.PLAYER_BIT;
+        
+        shape.setRadius(size / Berserk.PPM);
+        fdef.shape = shape;
+        body.createFixture(fdef).setUserData(this);
+    }
+    
     public void setToBeDestroyed()
     {
         toBeDestroyed = true;

@@ -128,7 +128,7 @@ public abstract class Enemy extends Sprite
             setRegion(getFrame(dt));
         }
     }
-
+    
     public void drawHealth(ShapeRenderer shapeRenderer)
     {
         if (!destroyed)

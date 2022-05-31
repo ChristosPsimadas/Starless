@@ -25,26 +25,29 @@ public class Smash extends Skill
         this.name = "Smash";
         this.skillImg = new Texture("iconsSkill/48x48/skill_icons18.png");
         
-        this.damagePercent = 3.5f;
+        this.damagePercent = 3f;
     }
     
     @Override
     public void activate()
     {
-        
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run()
+        if (!parent.destroyed)
+        {
+            Timer.schedule(new Timer.Task()
             {
-                if (!parent.destroyed)
+                @Override
+                public void run()
                 {
-                    parent.smashes.add(new B2MeleeCreator(parent, damagePercent));
+                    if (!parent.destroyed)
+                    {
+                        parent.smashes.add(new B2MeleeCreator(parent, damagePercent, 30f));
+                    }
                 }
-            }
-        }, animationDuration / 2);
+            }, animationDuration / 2);
     
-        this.setInSkillAnimation(true);
-        this.setTimePassedSinceLastUsed(0);
+            this.setInSkillAnimation(true);
+            this.setTimePassedSinceLastUsed(0);
+        }
     }
     
     @Override
@@ -61,6 +64,6 @@ public class Smash extends Skill
     @Override
     public boolean activationCondition()
     {
-        return (parent.playerInMeleeRange && (this.isCoolDownOver()) && (this.checkIfInOtherAnimationEnemy()) && !parent.destroyed && !player.dead);
+        return (parent.playerInMeleeRange && (this.isCoolDownOver()) && (this.checkIfInOtherAnimationEnemy()) && !parent.destroyed && (parent.currentStateEnemy != Enemy.AnimationStateEnemy.DYING)  && !player.dead);
     }
 }

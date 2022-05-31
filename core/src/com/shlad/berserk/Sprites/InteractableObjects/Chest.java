@@ -2,27 +2,30 @@ package com.shlad.berserk.Sprites.InteractableObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Items.Brotein;
 import com.shlad.berserk.Items.Item;
 import com.shlad.berserk.Screens.PlayScreen;
+import com.shlad.berserk.Tools.GameDirector;
+import com.shlad.berserk.Tools.Hud;
 import com.shlad.berserk.Tools.Skills.B2Creators.B2BulletCreator;
+import com.sun.jndi.ldap.Ber;
 
 import java.util.ArrayList;
 
 public class Chest extends Sprite
 {
-    public static ArrayList<Rectangle> chestSpawnLocations = new ArrayList<>();
-    
     public enum AnimationState {CLOSED, OPENING, OPENED, CLOSEDHIGHLIGHTED}
     
     public AnimationState currentState;
@@ -52,6 +55,11 @@ public class Chest extends Sprite
     
     private int goldCost;
     
+    private Viewport viewport;
+    private Stage stage;
+    
+    private BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
+    
     public Chest(PlayScreen screen, Rectangle rect)
     {
         super(new TextureAtlas("chestSprites/chestSprites.pack").findRegion("chestSpritePS"));
@@ -62,6 +70,10 @@ public class Chest extends Sprite
         this.locationX = (rect.x + 10) / Berserk.PPM;
         this.locationY = (rect.y + 5) / Berserk.PPM;
         goldCost = 25;
+    
+        viewport = new FitViewport(Berserk.V_WIDTH, Berserk.V_HEIGHT, new OrthographicCamera());
+        stage = new Stage(viewport, screen.game.batch);
+        
         
         currentState = AnimationState.CLOSED;
         previousState = AnimationState.CLOSED;
@@ -170,11 +182,14 @@ public class Chest extends Sprite
         }
     }
     
+    
     public void update(float deltaTime)
     {
         setPosition(rect.x / Berserk.PPM, (rect.y - 17) / Berserk.PPM);
         checkOpenChest();
         
         setRegion(getFrame(deltaTime));
+    
+        
     }
 }

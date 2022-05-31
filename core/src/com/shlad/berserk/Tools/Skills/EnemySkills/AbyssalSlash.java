@@ -31,20 +31,24 @@ public class AbyssalSlash extends Skill
     @Override
     public void activate()
     {
-        System.out.println("imp hitting");
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run()
+        if (!imp.destroyed)
+        {
+            System.out.println("imp hitting");
+            Timer.schedule(new Timer.Task()
             {
-                if (!imp.destroyed)
+                @Override
+                public void run()
                 {
-                    imp.abyssalSlashes.add(new B2MeleeCreator(imp, damagePercent));
+                    if (!imp.destroyed)
+                    {
+                        imp.abyssalSlashes.add(new B2MeleeCreator(imp, damagePercent));
+                    }
                 }
-            }
-        }, coolDownSeconds / 3);
-        
-        this.setInSkillAnimation(true);
-        this.setTimePassedSinceLastUsed(0);
+            }, coolDownSeconds / 3);
+    
+            this.setInSkillAnimation(true);
+            this.setTimePassedSinceLastUsed(0);
+        }
     }
     
     @Override
@@ -61,6 +65,6 @@ public class AbyssalSlash extends Skill
     @Override
     public boolean activationCondition()
     {
-        return (imp.playerInMeleeRange && (this.isCoolDownOver()) && (this.checkIfInOtherAnimationEnemy()) && !imp.destroyed && !player.dead);
+        return (imp.playerInMeleeRange && (this.isCoolDownOver()) && (this.checkIfInOtherAnimationEnemy()) && !imp.destroyed && (imp.currentStateEnemy != Enemy.AnimationStateEnemy.DYING) && !player.dead);
     }
 }

@@ -36,11 +36,11 @@ public class Parent extends Enemy
         super(screen, "enemySpritesNoBG/parent/parentSprites.pack", "parent");
         this.setSkillArrayObject(allSkills);
         this.parentAI = new GroundMeleeAI(this, screen.player);
-        
-        currentMaxHealth = 500;
-        baseMaxHealth = 500;
+    
+        baseMaxHealth = 300;
+        healthPerLevel = 70;
+        currentMaxHealth = baseMaxHealth + healthPerLevel * (level - 1);
         currentHealth = currentMaxHealth;
-        healthPerLevel = 170;
         
         baseHealthRegen = 0;
         currentHealthRegen = 0;
@@ -68,11 +68,11 @@ public class Parent extends Enemy
         enemyDying = new Animation<>(0.15f, frames);
         frames.clear();
     
-        enemyJump = new TextureRegion(getTexture(), 1, 2 + 79, WIDTH, HEIGHT);
+        enemyJump = new TextureRegion(getTexture(), 1, 2 + 202, WIDTH, HEIGHT);
     
         enemyFall = enemyJump;
     
-        enemyIdle = new TextureRegion(getTexture(), 1, 1        , WIDTH, HEIGHT);
+        enemyIdle = new TextureRegion(getTexture(), 1, 1      , WIDTH, HEIGHT);
     
         enemyDead = new TextureRegion(getTexture(), 801, 6 + 336, WIDTH, HEIGHT);
     
@@ -80,8 +80,8 @@ public class Parent extends Enemy
         enemySkillThree = enemyRun;
         enemySkillFour = enemyRun;
         
-        defineEnemyRadius(12f, spawnPointX, spawnPointY);
-        defineMeleeRangeRadius(32f);
+        defineEnemyRadius(27f, spawnPointX, spawnPointY);
+        defineMeleeRangeRadius(50f);
     
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
         setRegion(enemyIdle);
