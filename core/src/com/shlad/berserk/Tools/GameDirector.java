@@ -5,10 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
-import com.shlad.berserk.Sprites.Enemy;
-import com.shlad.berserk.Sprites.Imp;
-import com.shlad.berserk.Sprites.Parent;
-import com.shlad.berserk.Sprites.Player;
+import com.shlad.berserk.Sprites.*;
 
 import java.util.ArrayList;
 
@@ -85,18 +82,29 @@ public class GameDirector
         }
     }
     
+    public void spawnBoss()
+    {
+        Rectangle spawnPoint = closestNode();
+        spawnJerma(spawnPoint);
+    }
+    
     public void spawnParent(Rectangle spawnPoint)
     {
         screen.allEnemies.add(new Parent(screen, spawnPoint.x, spawnPoint.y));
         directorPoints -= 30;
-        timePassedSinceSpawned=0;
+        timePassedSinceSpawned = 0;
     }
     
     public void spawnImp(Rectangle spawnPoint)
     {
         screen.allEnemies.add(new Imp(screen, spawnPoint.x, spawnPoint.y));
         directorPoints -= 15;
-        timePassedSinceSpawned=0;
+        timePassedSinceSpawned = 0;
+    }
+    
+    public void spawnJerma(Rectangle spawnPoint)
+    {
+        screen.allEnemies.add(new Jerma(screen, spawnPoint.x, spawnPoint.y));
     }
     
     public void updateTime(float deltaTime)
@@ -133,7 +141,5 @@ public class GameDirector
         {
             resetPoints();
         }
-    
-        //System.out.println(calcChestCost());
     }
 }

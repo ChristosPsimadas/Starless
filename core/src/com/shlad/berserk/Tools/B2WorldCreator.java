@@ -10,6 +10,7 @@ import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.EnemyAI.GroundMeleeAI;
 import com.shlad.berserk.Sprites.InteractableObjects.Chest;
+import com.shlad.berserk.Sprites.InteractableObjects.Teleporter;
 import com.shlad.berserk.Sprites.JumpPad;
 import java.util.Random;
 
@@ -98,7 +99,7 @@ public class B2WorldCreator
         for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class))
         {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            
+            screen.teleporter1 = new Teleporter(screen, rect, 4417 / Berserk.PPM, 1744 / Berserk.PPM);
         }
     }
 }

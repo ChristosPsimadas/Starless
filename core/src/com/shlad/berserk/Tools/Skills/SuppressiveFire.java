@@ -29,8 +29,6 @@ public class SuppressiveFire extends Skill
     @Override
     public void activate()
     {
-        System.out.println("Fourth Shoot");
-        
         player.suppressiveFireBullets.add(new B2BulletCreator(player, 1.2));
 
         player.b2body.setLinearVelocity(0f, 0f);
@@ -47,7 +45,6 @@ public class SuppressiveFire extends Skill
     //Omg I actually used recursion lets go.
     public void recursiveTimerToAddBullets(int numberOfBulletsLeftToShoot)
     {
-        System.out.println("num bullets " + numberOfBulletsLeftToShoot);
         if (numberOfBulletsLeftToShoot > 0)
         {
             numberOfBulletsLeftToShoot -= 1;
@@ -58,7 +55,6 @@ public class SuppressiveFire extends Skill
                 @Override
                 public void run()
                 {
-                    System.out.println("new bullet added");
                     player.bullets.add(new B2BulletCreator(player, damagePercent));
             
                     recursiveTimerToAddBullets(finalNumberOfBulletsLeftToShoot);

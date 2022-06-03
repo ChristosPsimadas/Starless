@@ -233,12 +233,12 @@ public abstract class Enemy extends Sprite
         
         else if (allSkills[0].activationCondition() || allSkills[0].isInSkillAnimation())
             return AnimationStateEnemy.SKILLONE;
+
+        else if (b2bodyEnemy.getLinearVelocity().y < 0)
+            return AnimationStateEnemy.FALLING;
         
         else if (b2bodyEnemy.getLinearVelocity().y != 0)
             return AnimationStateEnemy.JUMPING;
-        
-        else if (b2bodyEnemy.getLinearVelocity().y < 0)
-            return AnimationStateEnemy.FALLING;
         
         else if (b2bodyEnemy.getLinearVelocity().x != 0)
             return AnimationStateEnemy.RUNNING;

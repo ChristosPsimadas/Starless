@@ -22,7 +22,7 @@ public class FullMetalJacket extends Skill
         this.name = "Full Metal Jacket";
         this.skillImg = new Texture("commandoSkill2.png");
         
-        this.damagePercent = 1.6f;
+        this.damagePercent = 2.2f;
     }
     
     @Override

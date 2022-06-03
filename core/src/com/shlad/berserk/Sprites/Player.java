@@ -288,7 +288,7 @@ public class Player extends Sprite
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / Berserk.PPM);
         fdef.filter.categoryBits = Berserk.PLAYER_BIT;
-        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.ENEMY_MELEE_BIT;
+        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.ENEMY_MELEE_BIT | Berserk.TELEPORTER_BIT;
 
         fdef.shape = shape;
         fixture = b2body.createFixture(fdef);

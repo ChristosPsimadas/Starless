@@ -3,6 +3,7 @@ package com.shlad.berserk.Tools;
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.Enemy;
+import com.shlad.berserk.Sprites.InteractableObjects.Teleporter;
 import com.shlad.berserk.Sprites.InteractiveTileObject;
 import com.shlad.berserk.Sprites.Player;
 import com.shlad.berserk.Tools.Skills.B2Creators.B2BulletCreator;
@@ -76,6 +77,12 @@ public class WorldContactListener implements ContactListener
                 
                 ((B2MeleeCreator)enemyMeleeBody.getUserData()).setToBeDestroyed();
                 
+                break;
+                
+            case Berserk.TELEPORTER_BIT | Berserk.PLAYER_BIT:
+                Fixture teleporter = fixA.getFilterData().categoryBits == Berserk.TELEPORTER_BIT ? fixA : fixB;
+    
+                ((Teleporter) teleporter.getUserData()).onTouch();
                 break;
         }
     }

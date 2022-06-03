@@ -22,6 +22,7 @@ import com.shlad.berserk.Sprites.CharacterClasses.Commando;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
 import com.shlad.berserk.Sprites.InteractableObjects.Chest;
+import com.shlad.berserk.Sprites.InteractableObjects.Teleporter;
 import com.shlad.berserk.Sprites.Parent;
 import com.shlad.berserk.Tools.B2WorldCreator;
 import com.shlad.berserk.Tools.Director.Director;
@@ -60,18 +61,18 @@ public class PlayScreen implements Screen
 
     public ShapeRenderer shapeRenderer;
 
-    private GameDirector gameDirector;
+    public GameDirector gameDirector;
     private Director director;
     public Array<Enemy> allEnemies = new Array<>();
     
     private final Music song;
-    private String[] musicFilePaths = new String[]{"music/barber.mp3", "music/theme.mp3", "music/theme2.mp3"};
     
-     public static ArrayList<Chest> chests = new ArrayList<>();
+    public static ArrayList<Chest> chests = new ArrayList<>();
      
-     public static ArrayList<Item> spawnedItems = new ArrayList<>();
+    public static ArrayList<Item> spawnedItems = new ArrayList<>();
      
-     
+    public Teleporter teleporter1;
+    public Teleporter teleporter2;
      
      
     public PlayScreen(Berserk game)
@@ -105,8 +106,8 @@ public class PlayScreen implements Screen
         
         new B2WorldCreator(this);
         
-        song = Gdx.audio.newMusic(Gdx.files.internal(musicFilePaths[new Random().nextInt(musicFilePaths.length)]));
-        song.setVolume(0.5f);
+        song = Gdx.audio.newMusic(Gdx.files.internal("music/theme2.mp3"));
+        song.setVolume(0.35f);
         song.setLooping(true);
         song.play();
         
@@ -226,6 +227,7 @@ public class PlayScreen implements Screen
         renderer.setView(gameCam);
     
         gameDirector.directorUpdate(deltaTime);
+        teleporter1.update();
         
     }
     

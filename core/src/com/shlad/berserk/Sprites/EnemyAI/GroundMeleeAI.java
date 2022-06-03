@@ -49,11 +49,17 @@ public class GroundMeleeAI
     {
         distanceFromPlayer = (float) Math.sqrt(Math.pow(player.b2body.getPosition().x - enemy.b2bodyEnemy.getPosition().x, 2) + Math.pow(player.b2body.getPosition().y - enemy.b2bodyEnemy.getPosition().y, 2));
         
-        //I have to hardcode this because physics ^%$&^%$ sucks;
+        //I have to hardcode this because physics sucks;
         if (distanceFromPlayer < 0.25f)
             enemy.playerInMeleeRange = true;
-        if (distanceFromPlayer > 0.27f)
+        if (distanceFromPlayer >= 0.25f)
             enemy.playerInMeleeRange = false;
+        
+        if (player.b2body.getPosition().y > enemy.b2bodyEnemy.getPosition().y && enemy.b2bodyEnemy.getLinearVelocity().x < 0.1 && enemy.b2bodyEnemy.getLinearVelocity().x > -0.1 && enemy.b2bodyEnemy.getLinearVelocity().y == 0)
+        {
+            enemy.b2bodyEnemy.applyLinearImpulse(new Vector2(0, 4.5f), enemy.b2bodyEnemy.getWorldCenter(), true);
+        }
+        
         
         if (distanceFromPlayer > 0.3f  && distanceFromPlayer < 4 && !enemy.playerInMeleeRange && Skill.checkIfNotInAnyAnimation(enemy))
         {
