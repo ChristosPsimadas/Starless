@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Items.EquipItem;
 import com.shlad.berserk.Items.Item;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Tools.Skill;
@@ -71,6 +72,9 @@ public class Player extends Sprite
     protected Skill[] allSkills;
     protected ArrayList<Item> items;
 
+    public ArrayList<EquipItem> equipItems;
+
+
     public PlayScreen screen;
 
     public Player(PlayScreen screen, String packName, String regionName)
@@ -89,6 +93,8 @@ public class Player extends Sprite
         xpToLevelUp = 40;
         
         dead = false;
+
+        equipItems = new ArrayList<>();
     }
     
     public void handlePlayerInput(float deltaTime)
@@ -172,6 +178,13 @@ public class Player extends Sprite
             setRegion(getFrame(dt));
         }
 
+        for (EquipItem item : equipItems)
+        {
+            if (item.activationConditionItem())
+            {
+                item.effect();
+            }
+        }
     }
     
     public TextureRegion getFrame(float dt)
@@ -311,7 +324,7 @@ public class Player extends Sprite
     
     public void increaseMaxHealth(double health)
     {
-        this.currentMaxHealth += health;
+        this.baseMaxHealth += health;
     }
     
     public double getCurrentHealth()

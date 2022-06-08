@@ -10,6 +10,7 @@ import com.shlad.berserk.Sprites.EnemyAI.GroundMeleeAI;
 import com.shlad.berserk.Tools.Skill;
 import com.shlad.berserk.Tools.Skills.B2Creators.B2MeleeCreator;
 import com.shlad.berserk.Tools.Skills.DeathSkill;
+import com.shlad.berserk.Tools.Skills.EnemySkills.JermaSmash;
 import com.shlad.berserk.Tools.Skills.NullSkill;
 
 import java.util.ArrayList;
@@ -21,14 +22,14 @@ public class Jerma extends Enemy
     
     public GroundMeleeAI jermaAI;
     
-    public ArrayList<B2MeleeCreator> smashes = new ArrayList<>();
+    public ArrayList<B2MeleeCreator> jermaSmashes = new ArrayList<>();
     
-    private Skill noSkill1 = new NullSkill(this, 1);
+    private Skill jermaSmash = new JermaSmash(this);
     private Skill noSkill2 = new NullSkill(this, 2);
     private Skill noSkill3 = new NullSkill(this, 3);
     private Skill noSkill4 = new NullSkill(this, 4);
     private Skill death =   new DeathSkill(this);
-    private Skill[] allSkills = new Skill[]{noSkill1, noSkill2, noSkill3, noSkill4, death};
+    private Skill[] allSkills = new Skill[]{jermaSmash, noSkill2, noSkill3, noSkill4, death};
     
     public Jerma(PlayScreen screen, float spawnPointX, float spawnPointY)
     {
@@ -60,7 +61,7 @@ public class Jerma extends Enemy
         frames.clear();
         
         for (int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 3 + 200, WIDTH, HEIGHT));}
-        enemySkillOne = new Animation<>(0.1f, frames);
+        enemySkillOne = new Animation<>(0.13f, frames);
         frames.clear();
         
         for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 6 + 500, WIDTH, HEIGHT));}
@@ -91,7 +92,13 @@ public class Jerma extends Enemy
     {
         super.update(dt);
         jermaAI.updateAI();
-        //if (destroyed){}
-        
+        if (destroyed)
+        {
+            for (B2MeleeCreator meleeHitBox : jermaSmashes)
+            {
+                meleeHitBox.setToBeDestroyed();
+            }
+            jermaSmashes.clear();
+        }
     }
 }

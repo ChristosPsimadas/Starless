@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,8 +15,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
-import com.shlad.berserk.Items.Brotein;
-import com.shlad.berserk.Items.Item;
+import com.shlad.berserk.Items.*;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Tools.GameDirector;
 import com.shlad.berserk.Tools.Hud;
@@ -40,6 +40,7 @@ public class Chest extends Sprite
     public Animation<TextureRegion> chestOpening;
     
     private Item item;
+    private EquipItem equipItem;
     
     protected float stateTimer;
     
@@ -84,7 +85,16 @@ public class Chest extends Sprite
         opening = false;
         
         this.item = new Brotein(screen, this);
-        
+
+        switch (MathUtils.random(0, 5))
+        {
+            case (1):
+                this.equipItem = new PrePackagedMeat(screen);
+                break;
+            default:
+                this.equipItem = new Lean(screen);
+        }
+
         Array<TextureRegion> frames = new Array<>();
         for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 22, WIDTH, HEIGHT));}
         chestOpening = new Animation<>(0.2f, frames);
@@ -128,7 +138,8 @@ public class Chest extends Sprite
                 @Override
                 public void run()
                 {
-                    PlayScreen.spawnedItems.add(item);
+                    screen.player.equipItems.add(equipItem);
+                    screen.hud.itemObtained(equipItem);
                 }
             }, 0.4f);
             

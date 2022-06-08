@@ -23,6 +23,7 @@ import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
 import com.shlad.berserk.Sprites.InteractableObjects.Chest;
 import com.shlad.berserk.Sprites.InteractableObjects.Teleporter;
+import com.shlad.berserk.Sprites.Jerma;
 import com.shlad.berserk.Sprites.Parent;
 import com.shlad.berserk.Tools.B2WorldCreator;
 import com.shlad.berserk.Tools.Director.Director;
@@ -57,7 +58,7 @@ public class PlayScreen implements Screen
     
     public static boolean won = false;
     
-    private Hud hud;
+    public Hud hud;
 
     public ShapeRenderer shapeRenderer;
 
@@ -179,6 +180,18 @@ public class PlayScreen implements Screen
                     {
                         world.destroyBody(((Parent)enemy).smashes.get(i).getBody());
                         ((Parent)enemy).smashes.remove(i);
+                        i--;
+                    }
+                }
+            }
+            if (enemy instanceof Jerma)
+            {
+                for (int i = 0; i < ((Jerma)enemy).jermaSmashes.size(); i++)
+                {
+                    if (((Jerma)enemy).jermaSmashes.get(i).isToBeDestroyed())
+                    {
+                        world.destroyBody((((Jerma) enemy).jermaSmashes.get(i).getBody()));
+                        ((Jerma)enemy).jermaSmashes.remove(i);
                         i--;
                     }
                 }

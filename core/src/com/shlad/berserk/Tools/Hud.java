@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
+import com.shlad.berserk.Items.EquipItem;
+import com.shlad.berserk.Items.Lean;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Player;
 
@@ -21,6 +23,8 @@ public class Hud
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
     Texture gold = new Texture("itemTextures/money.png");
+
+    public static boolean itemObtained = false;
 
     Pixmap cursorImage = new Pixmap(Gdx.files.internal("crosshair.png"));
     
@@ -35,7 +39,15 @@ public class Hud
         table.setFillParent(true);
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursorImage, 0, 0));
     }
-    
+
+    public void itemObtained(EquipItem item)
+    {
+        stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
+        stage.getBatch().begin();
+        stage.getBatch().draw(item.itemImg, Berserk.V_WIDTH / 2f, Berserk.V_HEIGHT - 40);
+        stage.getBatch().end();
+    }
+
     public void updateHud()
     {
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
@@ -66,7 +78,6 @@ public class Hud
         shapeRenderer.setColor(new Color(87/255f, 219/255f, 255/255f, 1f));
         shapeRenderer.rect(Berserk.V_WIDTH / 2f - 75, Berserk.V_HEIGHT - 398 + 18, 150 * (float) player.getXp() / (float) player.getXpToLevelUp(), 4);
         
-        
         shapeRenderer.end();
         
         stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
@@ -84,6 +95,7 @@ public class Hud
         stage.getBatch().end();
         updateSkills();
         updateEnemyLevel();
+        updatePlayerLevel();
     }
     
     public void updateEnemyLevel()
@@ -103,6 +115,30 @@ public class Hud
         font.getData().setScale(0.15f);
         font.draw(stage.getBatch(), "enemy lvl.", Berserk.V_WIDTH - 79, Berserk.V_HEIGHT - 17);
         stage.getBatch().end();
+    }
+
+    public void updatePlayerLevel()
+    {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(new Color(81/255f, 101/255f, 133/255f, 1f));
+        shapeRenderer.rect((Berserk.V_WIDTH / 2f) - 94, Berserk.V_HEIGHT - 353, 34, 34);
+
+        shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
+        shapeRenderer.rect((Berserk.V_WIDTH / 2f) - 92, Berserk.V_HEIGHT - 351, 30, 30);
+        shapeRenderer.end();
+
+        stage.getBatch().begin();
+        font.getData().setScale(0.65f);
+        font.draw(stage.getBatch(), "" + player.getLevel(), (Berserk.V_WIDTH / 2f) - 80, Berserk.V_HEIGHT - 330);
+
+        font.getData().setScale(0.15f);
+        font.draw(stage.getBatch(), "lvl.", (Berserk.V_WIDTH / 2f) - 88, Berserk.V_HEIGHT - 325);
+        stage.getBatch().end();
+    }
+
+    private void displayItemInfo()
+    {
+
     }
 
     private void updateSkills()
