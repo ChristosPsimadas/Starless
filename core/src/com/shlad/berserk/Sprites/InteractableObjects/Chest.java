@@ -2,7 +2,6 @@ package com.shlad.berserk.Sprites.InteractableObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -17,12 +16,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Items.*;
 import com.shlad.berserk.Screens.PlayScreen;
-import com.shlad.berserk.Tools.GameDirector;
-import com.shlad.berserk.Tools.Hud;
-import com.shlad.berserk.Tools.Skills.B2Creators.B2BulletCreator;
-import com.sun.jndi.ldap.Ber;
-
-import java.util.ArrayList;
 
 public class Chest extends Sprite
 {
@@ -39,7 +32,6 @@ public class Chest extends Sprite
     private TextureRegion chestClosedHighlighted;
     public Animation<TextureRegion> chestOpening;
     
-    private Item item;
     private EquipItem equipItem;
     
     protected float stateTimer;
@@ -83,18 +75,25 @@ public class Chest extends Sprite
         
         opened = false;
         opening = false;
-        
-        this.item = new Brotein(screen, this);
 
+        
         switch (MathUtils.random(0, 5))
         {
             case (1):
-                this.equipItem = new PrePackagedMeat(screen);
+                this.equipItem = new Brotein(screen);
+                break;
+            case (2):
+                this.equipItem = new Lean(screen);
+                break;
+            case (3):
+                this.equipItem = new SajivProteinBar(screen);
                 break;
             default:
-                this.equipItem = new Lean(screen);
+                this.equipItem = new Battery(screen);
+                break;
         }
 
+        
         Array<TextureRegion> frames = new Array<>();
         for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 22, WIDTH, HEIGHT));}
         chestOpening = new Animation<>(0.2f, frames);

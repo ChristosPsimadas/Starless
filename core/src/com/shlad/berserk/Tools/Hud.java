@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
@@ -20,12 +21,14 @@ public class Hud
     public Stage stage;
     private Viewport viewport;
     private Player player;
+    private EquipItem itemToDisplay;
+    private boolean displayItem;
+    
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
     Texture gold = new Texture("itemTextures/money.png");
-
-    public static boolean itemObtained = false;
-
+    
+    
     Pixmap cursorImage = new Pixmap(Gdx.files.internal("crosshair.png"));
     
     public Hud(SpriteBatch spriteBatch, Player player)
@@ -34,6 +37,8 @@ public class Hud
         stage = new Stage(viewport, spriteBatch);
         this.player = player;
     
+        displayItem = false;
+        
         Table table = new Table();
         table.bottom();
         table.setFillParent(true);
@@ -42,13 +47,47 @@ public class Hud
 
     public void itemObtained(EquipItem item)
     {
-        stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
-        stage.getBatch().begin();
-        stage.getBatch().draw(item.itemImg, Berserk.V_WIDTH / 2f, Berserk.V_HEIGHT - 40);
-        stage.getBatch().end();
+        itemToDisplay = item;
+        displayItem = true;
+    }
+    
+    private void display()
+    {
+        if (displayItem)
+        {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 0.3f));
+            shapeRenderer.rect(Berserk.V_WIDTH / 2f - 100, Berserk.V_HEIGHT - 90, 200, 40);
+            shapeRenderer.end();
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+    
+    
+            stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
+            stage.getBatch().begin();
+            stage.getBatch().draw(itemToDisplay.itemImg, Berserk.V_WIDTH / 2f - 94, Berserk.V_HEIGHT - 86, 32, 32);
+            
+            font.getData().setScale(0.4f);
+            font.setColor(Color.WHITE);
+            font.draw(stage.getBatch(), itemToDisplay.itemName, Berserk.V_WIDTH / 2f - 58, Berserk.V_HEIGHT - 58);
+            
+            stage.getBatch().end();
+    
+            //I should change the timer to use delta time instead because its a little glitchy
+            //Keep DT as a float, and when a new Item is picked up, reset it to 0 & then do whatever incrementing it through the other method
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run()
+                {
+                    displayItem = false;
+                }
+            }, 4.5f);
+        }
     }
 
-    public void updateHud()
+    public void updateHud(float deltaTime)
     {
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -93,6 +132,8 @@ public class Hud
         font.getData().setScale(0.30f);
         font.draw(stage.getBatch(), "" + (int) player.getCurrentHealth() + "/" + (int) player.getCurrentMaxHealth(), Berserk.V_WIDTH / 2f - 18, Berserk.V_HEIGHT - 361);
         stage.getBatch().end();
+        
+        display();
         updateSkills();
         updateEnemyLevel();
         updatePlayerLevel();

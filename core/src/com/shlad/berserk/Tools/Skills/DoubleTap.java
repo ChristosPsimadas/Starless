@@ -16,7 +16,7 @@ public class DoubleTap extends Skill
     public DoubleTap(Player player)
     {
         super(player);
-        this.player = (com.shlad.berserk.Sprites.CharacterClasses.Commando) player;
+        this.player = (Commando) player;
         this.timePassedSinceLastUsed = 0f;
         this.coolDownSeconds = 0.5f;
         this.skillNumber = 1;
@@ -31,6 +31,7 @@ public class DoubleTap extends Skill
     @Override
     public void activate()
     {
+        this.coolDownSeconds = animationDuration;
         player.bullets.add(new B2BulletCreator(player, damagePercent));
         player.b2body.setLinearVelocity(0f, 0f);
         this.setInSkillAnimation(true);
@@ -46,7 +47,7 @@ public class DoubleTap extends Skill
             {
                 player.bullets.add(new B2BulletCreator(player, damagePercent));
             }
-        }, coolDownSeconds / 2);
+        }, animationDuration / 2);
         
     }
     

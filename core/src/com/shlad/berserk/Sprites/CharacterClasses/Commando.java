@@ -31,7 +31,7 @@ public class Commando extends Player
 
     public Commando(PlayScreen screen)
     {
-        super(screen, "playerSpritesNoBG2/commandoFull.pack", "commandoFullSet");
+        super(screen, "playerSpritesNoBG2/commandoFinal.pack", "commando");
 
         this.setSkillArrayObject(allSkillObjects);
         
@@ -44,9 +44,9 @@ public class Commando extends Player
         currentHealthRegen = 0.8;
         healthRegenPerLevel = 0.1;
         
-        baseDamage = 12;
-        currentDamage = 12;
-        damagePerLevel = 2.4;
+        baseDamage = 15;
+        currentDamage = 15;
+        damagePerLevel = 4.4;
     
         //The sprites begin at 0, 0. The sprites should have 1 pixel padding on each side, which is why there is a plus 1.
         //The x and y parameters are INCLUSIVE. They include the point 1 etc.
@@ -64,7 +64,7 @@ public class Commando extends Player
         playerIdle = new TextureRegion(getTexture(), 1, 1     , WIDTH, HEIGHT);
         
         for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + 48, WIDTH, HEIGHT));}
-        playerSkillOne = new Animation<>(doubleTap.getCoolDownSeconds() / 5f, frames);
+        playerSkillOne = new Animation<>(doubleTap.getAnimationDuration() / 5f, frames);
         frames.clear();
 
         for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 6 + 60, WIDTH, HEIGHT));}

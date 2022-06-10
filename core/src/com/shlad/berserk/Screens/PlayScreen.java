@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.shlad.berserk.Berserk;
-import com.shlad.berserk.Items.Brotein;
 import com.shlad.berserk.Items.Item;
 import com.shlad.berserk.Sprites.CharacterClasses.Commando;
 import com.shlad.berserk.Sprites.Enemy;
@@ -32,7 +31,6 @@ import com.shlad.berserk.Tools.Hud;
 import com.shlad.berserk.Tools.WorldContactListener;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class PlayScreen implements Screen
 {
@@ -282,7 +280,7 @@ public class PlayScreen implements Screen
         b2dr.render(world, gameCam.combined);
         
         
-        hud.updateHud();
+        hud.updateHud(delta);
         hud.stage.draw();
 
         shapeRenderer.setProjectionMatrix(gameCam.combined);

@@ -2,22 +2,19 @@ package com.shlad.berserk.Items;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.shlad.berserk.Screens.PlayScreen;
-import com.shlad.berserk.Sprites.InteractableObjects.Chest;
-import com.shlad.berserk.Sprites.Player;
 
-public class Brotein extends Item
+public class Brotein extends EquipItem
 {
-    public Brotein(PlayScreen screen, Chest chest)
+    public Brotein(PlayScreen screen)
     {
-        super(screen, chest);
+        super(screen);
         this.itemImg = new Texture("itemTextures/brotein.png");
-        this.description = "Increase health";
+        this.description = "Become swoler to get 25 more hp";
         this.itemName = "Brotein";
         this.hasPassiveEffect = true;
-        
-        defineItem();
+        this.effectApplied = false;
     }
-    
+
     @Override
     public void effect()
     {
@@ -25,12 +22,10 @@ public class Brotein extends Item
         player.addHealth(25);
         effectApplied = true;
     }
-    
-    
-    @Override
-    public boolean activationCondition()
+
+    public boolean activationConditionItem()
     {
-        return false;
+        return !effectApplied;
     }
-    
+
 }

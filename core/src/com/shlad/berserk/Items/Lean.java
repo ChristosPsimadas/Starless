@@ -9,9 +9,9 @@ public class Lean extends EquipItem
     public Lean(PlayScreen screen)
     {
         super(screen);
-        this.itemImg = new Texture("itemIcons/icon3.png");
-        this.description = "I LOVE LEAN";
-        this.itemName = "Lean";
+        this.itemImg = new Texture("itemTextures/TripleShotLean.png");
+        this.description = "I LOVE LEAN I LOVE LEAN I LOVE LEAN";
+        this.itemName = "Triple Shot Lean";
         this.hasPassiveEffect = true;
         this.effectApplied = false;
     }

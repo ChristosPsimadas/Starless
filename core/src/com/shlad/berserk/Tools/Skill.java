@@ -46,6 +46,16 @@ public class Skill
         this.enemy = enemy;
     }
 
+    public void increaseAnimationSpeed(float speedMultiplierLessThanOne)
+    {
+        this.animationDuration *= (1 - speedMultiplierLessThanOne);
+    }
+    
+    public void decreaseCooldown(float percent)
+    {
+        this.coolDownSeconds *= (1 - percent);
+    }
+    
     public void activate() {}
     
     public void skillEnded()

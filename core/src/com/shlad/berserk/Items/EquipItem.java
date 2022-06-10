@@ -11,12 +11,12 @@ import com.shlad.berserk.Sprites.Player;
 public abstract class EquipItem
 {
     public Texture itemImg;
-    protected String itemName;
-    protected String description;
+    public String itemName;
+    public String description;
 
-    protected Screen itemScreen;
-    protected World world;
-    protected Player player;
+    public Screen itemScreen;
+    public World world;
+    public Player player;
 
     public boolean effectApplied;
     public boolean hasPassiveEffect;

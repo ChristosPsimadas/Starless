@@ -19,7 +19,6 @@ public class GameDirector
     protected Player player;
     protected float timePassedSinceSpawned;
     protected float randomTimeForSpawn = 8f;
-    public float diffCoefficient = 0;
     
     private float timeInMinutes;
     public static float difficultCoefficient;
@@ -63,9 +62,11 @@ public class GameDirector
     
     public void resetPoints()
     {
-        System.out.println("points reset");
-        directorPoints = 30;
-        randomTimeForSpawn = MathUtils.random(25f, 35f);
+        
+        directorPoints = (int) (30 * ((Math.pow(difficultCoefficient, 3))));
+        System.out.println(directorPoints + "points");
+        randomTimeForSpawn = MathUtils.random(25f / (float)(Math.pow(difficultCoefficient, 3)) , 35f / (float)(Math.pow(difficultCoefficient, 3)));
+        System.out.println(randomTimeForSpawn);
     }
     
     public void chooseEnemyToSpawn()
@@ -115,12 +116,12 @@ public class GameDirector
     public void calculateDifficultyCoefficient()
     {
         stageFactor = (float) Math.pow(1.15, stagesCompleted);
-        difficultCoefficient = (float) (1 + timeInMinutes * 0.1012) * stageFactor;
+        difficultCoefficient = (float) (1 + timeInMinutes * 0.2012) * stageFactor;
     }
     
     public void calcEnemyLevel()
     {
-        Enemy.level = (int) (1 + (int) (difficultCoefficient / 0.33));
+        Enemy.level = (1 + (int) (Math.pow(difficultCoefficient, 2) / 0.25));
     }
     
     public static int calcChestCost()
