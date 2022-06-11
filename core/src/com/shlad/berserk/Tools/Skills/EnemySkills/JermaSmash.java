@@ -64,7 +64,12 @@ public class JermaSmash extends Skill
     @Override
     public boolean activationCondition()
     {
-        return (jerma.playerInMeleeRange && (this.isCoolDownOver()) && (this.checkIfInOtherAnimationEnemy()) && !jerma.destroyed && (jerma.currentStateEnemy != Enemy.AnimationStateEnemy.DYING)  && !player.dead);
+        return (jerma.playerInMeleeRange
+                && (this.isCoolDownOver())
+                && (this.checkIfInOtherAnimationEnemy())
+                && !jerma.destroyed
+                && (jerma.currentStateEnemy != Enemy.AnimationStateEnemy.DYING)
+                && !player.dead);
     }
 }
 

@@ -37,8 +37,8 @@ public class Parent extends Enemy
         this.setSkillArrayObject(allSkills);
         this.parentAI = new GroundMeleeAI(this, screen.player);
     
-        baseMaxHealth = 300;
-        healthPerLevel = 70;
+        baseMaxHealth = 200;
+        healthPerLevel = 60;
         currentMaxHealth = baseMaxHealth + healthPerLevel * (level - 1);
         currentHealth = currentMaxHealth;
         
@@ -46,9 +46,9 @@ public class Parent extends Enemy
         currentHealthRegen = 0;
         healthRegenPerLevel = 0;
         
-        baseDamage = 16;
+        baseDamage = 15;
         damagePerLevel = 3.2;
-        currentDamage = 16;
+        currentDamage = 15;
         
         directorCost = 30;
         goldDropped = 30;

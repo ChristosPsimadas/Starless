@@ -65,7 +65,7 @@ public class GameDirector
         
         directorPoints = (int) (30 * ((Math.pow(difficultCoefficient, 3))));
         System.out.println(directorPoints + "points");
-        randomTimeForSpawn = MathUtils.random(25f / (float)(Math.pow(difficultCoefficient, 3)) , 35f / (float)(Math.pow(difficultCoefficient, 3)));
+        randomTimeForSpawn = MathUtils.random(30 / (float)(Math.pow(difficultCoefficient, 3)) , 40f / (float)(Math.pow(difficultCoefficient, 3)));
         System.out.println(randomTimeForSpawn);
     }
     

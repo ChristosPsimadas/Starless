@@ -60,6 +60,9 @@ public class DoubleTap extends Skill
     @Override
     public boolean activationCondition()
     {
-        return (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && (this.isCoolDownOver()) && (player.b2body.getLinearVelocity().y == 0) && (this.checkIfInOtherAnimation()));
+        return (Gdx.input.isButtonPressed(Input.Buttons.LEFT)
+                && (this.isCoolDownOver())
+                && (player.b2body.getLinearVelocity().y == 0)
+                && (this.checkIfInOtherAnimation()));
     }
 }

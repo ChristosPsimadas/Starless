@@ -35,14 +35,14 @@ public class Commando extends Player
 
         this.setSkillArrayObject(allSkillObjects);
         
-        currentMaxHealth = 110;
-        baseMaxHealth = 110;
+        currentMaxHealth = 140;
+        baseMaxHealth = 140;
         currentHealth = currentMaxHealth;
-        healthPerLevel = 33;
+        healthPerLevel = 40;
         
-        baseHealthRegen = 0.8;
-        currentHealthRegen = 0.8;
-        healthRegenPerLevel = 0.1;
+        baseHealthRegen = 2.2;
+        currentHealthRegen = 2.2;
+        healthRegenPerLevel = 0.4;
         
         baseDamage = 15;
         currentDamage = 15;
