@@ -1,5 +1,7 @@
 package com.shlad.berserk.Sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -7,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Timer;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Tools.Skill;
@@ -260,7 +263,10 @@ public abstract class Enemy extends Sprite
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / Berserk.PPM);
         fdef.filter.categoryBits = Berserk.ENEMY_BIT;
-        fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.WALL_BIT | Berserk.BULLET_BIT;
+        fdef.filter.maskBits = Berserk.DEFAULT_BIT
+                | Berserk.JUMP_PAD_BIT
+                | Berserk.WALL_BIT
+                | Berserk.BULLET_BIT;
 
         fdef.shape = shape;
         b2bodyEnemy.createFixture(fdef).setUserData(this);
@@ -332,5 +338,14 @@ public abstract class Enemy extends Sprite
     public double getCurrentDamage()
     {
         return currentDamage;
+    }
+    
+    public void disposeSounds()
+    {
+//        attack1_1.dispose();
+//        attack2_1.dispose();
+//        attackTellSound1.dispose();
+//        death1.dispose();
+//        spawn1.dispose();
     }
 }

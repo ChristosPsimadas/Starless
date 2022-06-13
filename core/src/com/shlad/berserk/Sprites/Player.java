@@ -158,6 +158,10 @@ public class Player extends Sprite
         //What this does: if you are in the animation, and say 0.4 seconds have passed, then the animation is over, so it gets set to false
         if (!dead)
         {
+            if (b2body.getPosition().x > 40)
+            {
+                screen.hud.objective = "Survive";
+            }
             updateLevels();
             
             for (Skill skill : allSkills)
@@ -292,7 +296,7 @@ public class Player extends Sprite
     {
         BodyDef bdef = new BodyDef();
         //Starting position
-        bdef.position.set(312 / Berserk.PPM, 190 / Berserk.PPM);
+        bdef.position.set(312 / Berserk.PPM, 820 / Berserk.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         
         b2body = world.createBody(bdef);

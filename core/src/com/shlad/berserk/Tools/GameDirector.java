@@ -14,18 +14,18 @@ public class GameDirector
     public static ArrayList<Rectangle> spawnLocations = new ArrayList<>();
     
     public int directorPoints;
-    protected PlayScreen screen;
-    protected World world;
-    protected Player player;
-    protected float timePassedSinceSpawned;
-    protected float randomTimeForSpawn = 8f;
+    private PlayScreen screen;
+    private World world;
+    private Player player;
+    private float timePassedSinceSpawned;
+    private float randomTimeForSpawn = 8f;
     
     private float timeInMinutes;
     public static float difficultCoefficient;
     
-    protected float stageFactor;
-    protected int stagesCompleted;
-    protected boolean disabled;
+    private float stageFactor;
+    public int stagesCompleted;
+    private boolean disabled;
     
     public GameDirector(PlayScreen screen)
     {

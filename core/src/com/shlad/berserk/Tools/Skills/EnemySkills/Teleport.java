@@ -1,6 +1,7 @@
 package com.shlad.berserk.Tools.Skills.EnemySkills;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Timer;
 import com.shlad.berserk.Berserk;
@@ -31,10 +32,6 @@ public class Teleport extends Skill
     @Override
     public void activate()
     {
-        // this is kind of traugers actually, basically there are nodes that are pre-placed throughout the map in tiled, and
-        // when the player is farther than 4 meters away but closer than 10, the imp will calculate the closest node to the player and teleport there.
-    
-        //System.out.println("imp is teleporting");
         final Rectangle closestNode = imp.impAI.calculateClosestNodeToPlayer();
         this.setInSkillAnimation(true);
         this.setTimePassedSinceLastUsed(0);
@@ -42,7 +39,7 @@ public class Teleport extends Skill
             @Override
             public void run()
             {
-                //System.out.println("imp teleported");
+                //imp.attack2Array[MathUtils.random(0, 2)].play();
                 imp.b2bodyEnemy.setTransform(closestNode.x / Berserk.PPM, closestNode.y / Berserk.PPM, 0);
             }
         }, animationDuration / 3);

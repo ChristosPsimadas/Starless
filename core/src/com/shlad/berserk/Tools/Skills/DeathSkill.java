@@ -3,6 +3,7 @@ package com.shlad.berserk.Tools.Skills;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Player;
@@ -38,6 +39,7 @@ public class DeathSkill extends Skill
         enemy.b2bodyEnemy.setLinearVelocity(0f, enemy.b2bodyEnemy.getLinearVelocity().y);
         this.setInSkillAnimation(true);
         this.setTimePassedSinceLastUsed(0);
+        //enemy.deathSoundArray[MathUtils.random(0, 1)].play();
         
     }
     

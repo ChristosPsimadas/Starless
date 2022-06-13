@@ -1,5 +1,6 @@
 package com.shlad.berserk.Sprites;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -94,6 +95,19 @@ public class Jerma extends Enemy
         jermaAI.updateAI();
         if (destroyed)
         {
+            screen.hud.objective = "Survive";
+            
+            screen.backgroundImageSky = new Texture("stringstar fields/backgroundSky1.png");
+            
+            screen.backgroundImageMountains = new Texture("stringstar fields/backgroundsky2.png");
+            screen.backgroundImageMountains.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            
+            screen.backgroundImageRuins = new Texture("stringstar fields/backgroundSky3.png");
+            screen.backgroundImageRuins.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            
+            screen.player.b2body.setTransform(4415 / Berserk.PPM, 880 / Berserk.PPM, 0);
+            screen.hud.objective = "Survive";
+            screen.gameDirector.stagesCompleted += 1;
             for (B2MeleeCreator meleeHitBox : jermaSmashes)
             {
                 meleeHitBox.setToBeDestroyed();

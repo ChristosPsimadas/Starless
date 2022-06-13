@@ -11,7 +11,7 @@ public class Lean extends EquipItem
         super(screen);
         this.itemImg = new Texture("itemTextures/TripleShotLean.png");
         this.description = "I LOVE LEAN I LOVE LEAN I LOVE LEAN";
-        this.itemName = "Triple Shot Lean";
+        this.itemName = "Lean";
         this.hasPassiveEffect = true;
         this.effectApplied = false;
     }

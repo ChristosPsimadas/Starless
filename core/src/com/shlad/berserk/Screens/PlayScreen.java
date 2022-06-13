@@ -50,9 +50,6 @@ public class PlayScreen implements Screen
     private final Box2DDebugRenderer b2dr;
     
     public Commando player;
-    private Imp enemy;
-    
-    private final Texture backgroundTexture;
     
     public static boolean won = false;
     
@@ -71,8 +68,10 @@ public class PlayScreen implements Screen
     public static ArrayList<Item> spawnedItems = new ArrayList<>();
      
     public Teleporter teleporter1;
-    public Teleporter teleporter2;
-     
+    
+    public Texture backgroundImageSky;
+    public Texture backgroundImageMountains;
+    public Texture backgroundImageRuins;
      
     public PlayScreen(Berserk game)
     {
@@ -86,27 +85,32 @@ public class PlayScreen implements Screen
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(gameCam.combined);
         
-        backgroundTexture = new Texture("stringstar fields/background_0.png");
+        backgroundImageSky = new Texture("desert/Background/backgroundsky1.png");
         
-        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        backgroundImageMountains = new Texture("desert/Background/backgroundmountains2.png");
+        backgroundImageMountains.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        
+        backgroundImageRuins = new Texture("desert/Background/backgroundruins3.png");
+        backgroundImageRuins.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        
+        
+        //backgroundTexture = new Texture("stringstar fields/background_0.png");
+        //backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
         //Set gamecam to be centered at the start of the map
         gameCam.position.set(gamePort.getWorldWidth() / 2.0f, gamePort.getWorldHeight() / 2.0f, 0);
         
-
         //Gravity , sleep objects at rest
         world = new World(new Vector2(0, -9.81f), true);
         b2dr = new Box2DDebugRenderer();
-    
         
         player = new Commando(this);
         gameDirector = new GameDirector(this);
         
-        
         new B2WorldCreator(this);
         
         song = Gdx.audio.newMusic(Gdx.files.internal("music/theme2.mp3"));
-        song.setVolume(0.35f);
+        song.setVolume(0.20f);
         song.setLooping(true);
         song.play();
         
@@ -212,11 +216,6 @@ public class PlayScreen implements Screen
             enemy.update(deltaTime);
         }
         
-        for (Item items : spawnedItems)
-        {
-            items.updateItem(deltaTime);
-        }
-        
         for (int i = 0; i < allEnemies.size; i++)
         {
             if (allEnemies.get(i).destroyed)
@@ -252,6 +251,12 @@ public class PlayScreen implements Screen
         Gdx.gl.glClearColor(0.3f, 0.45f, 0.74f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
+        game.batch.begin();
+        game.batch.draw(backgroundImageSky, 0, 0);
+        game.batch.draw(backgroundImageMountains, -player.b2body.getPosition().x / 3, 0, 8000 * 2, 4160 * 2, 0, 20, 20, 0);
+        game.batch.draw(backgroundImageRuins, -player.b2body.getPosition().x * 3, 0, 8000 * 2, 4160 * 2, 0, 20, 20, 0);
+        game.batch.end();
+        
         //render the game map
         renderer.render();
     
@@ -264,12 +269,6 @@ public class PlayScreen implements Screen
         for (Chest chest : chests)
         {
             chest.draw(game.batch);
-        }
-        
-        
-        for (Item itemOnFloor : spawnedItems)
-        {
-            itemOnFloor.draw(game.batch);
         }
         
         player.draw(game.batch);
@@ -334,10 +333,18 @@ public class PlayScreen implements Screen
         renderer.dispose();
         world.dispose();
         b2dr.dispose();
-        backgroundTexture.dispose();
         hud.stage.dispose();
+        backgroundImageSky.dispose();
         player.getTexture().dispose();
-        enemy.getTexture().dispose();
-        
+        shapeRenderer.dispose();
+        game.batch.dispose();
+        backgroundImageMountains.dispose();
+        backgroundImageRuins.dispose();
+        for (Enemy enemy : allEnemies)
+        {
+            enemy.getTexture().dispose();
+            enemy.disposeSounds();
+        }
+        song.dispose();
     }
 }

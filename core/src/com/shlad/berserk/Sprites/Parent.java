@@ -1,5 +1,6 @@
 package com.shlad.berserk.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -55,6 +56,8 @@ public class Parent extends Enemy
         
         maxSpeed = MathUtils.random(0.6f, 0.9f);
     
+        
+        
         Array<TextureRegion> frames = new Array<>();
         for (int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 202, WIDTH, HEIGHT));}
         enemyRun = new Animation<>(0.1f, frames);

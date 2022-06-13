@@ -1,9 +1,12 @@
 package com.shlad.berserk.Sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.shlad.berserk.Berserk;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Sprites.EnemyAI.GroundMeleeAI;
@@ -26,12 +29,15 @@ public class Imp extends Enemy
     
     private Skill[] allSkills = new Skill[]{abyssalSlash, teleport, noSkill3, noSkill4, death};
     
+    
     private final int WIDTH = 33;
     private final int HEIGHT = 25;
     
     public GroundMeleeAI impAI;
     
     public ArrayList<B2MeleeCreator> abyssalSlashes = new ArrayList<>();
+    
+    
     
     public Imp(PlayScreen screen, float spawnPointX, float spawnPointY)
     {
@@ -43,7 +49,6 @@ public class Imp extends Enemy
         baseMaxHealth = 80;
         currentMaxHealth = baseMaxHealth + healthPerLevel * (level - 1);
         currentHealth = currentMaxHealth;
-        
         
         baseHealthRegen = 0;
         currentHealthRegen = 0;
@@ -82,7 +87,6 @@ public class Imp extends Enemy
         
         enemyDead = new TextureRegion(getTexture(), 239, 5 + 100, WIDTH, HEIGHT);
         
-        
         enemySkillThree = enemyRun;
         enemySkillFour = enemyRun;
         
@@ -91,12 +95,15 @@ public class Imp extends Enemy
         
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
         setRegion(enemyIdle);
+        
+        //spawn1.play();
     }
     
     @Override
     public void update(float dt)
     {
         super.update(dt);
+        
         impAI.updateAI();
         if (destroyed)
         {

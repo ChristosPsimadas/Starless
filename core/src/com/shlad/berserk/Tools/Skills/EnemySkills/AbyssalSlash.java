@@ -1,6 +1,7 @@
 package com.shlad.berserk.Tools.Skills.EnemySkills;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.shlad.berserk.Sprites.Enemy;
 import com.shlad.berserk.Sprites.Imp;
@@ -33,7 +34,8 @@ public class AbyssalSlash extends Skill
     {
         if (!imp.destroyed)
         {
-            System.out.println("imp hitting");
+            //imp.attackTellSoundArray[MathUtils.random(0, 2)].play();
+            
             Timer.schedule(new Timer.Task()
             {
                 @Override
@@ -42,6 +44,7 @@ public class AbyssalSlash extends Skill
                     if (!imp.destroyed)
                     {
                         imp.abyssalSlashes.add(new B2MeleeCreator(imp, damagePercent));
+                        //imp.attack1Array[MathUtils.random(0, 2)].play();
                     }
                 }
             }, coolDownSeconds / 3);

@@ -23,8 +23,11 @@ public class Hud
     private Player player;
     private EquipItem itemToDisplay;
     private boolean displayItem;
+    private float displayItemTimer;
+    private float timer;
     
-    ShapeRenderer shapeRenderer = new ShapeRenderer();
+    public String objective = "Find the teleporter";
+    public ShapeRenderer shapeRenderer = new ShapeRenderer();
     BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
     Texture gold = new Texture("itemTextures/money.png");
     
@@ -36,19 +39,25 @@ public class Hud
         viewport = new FitViewport(Berserk.V_WIDTH, Berserk.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spriteBatch);
         this.player = player;
+        
     
         displayItem = false;
+        displayItemTimer = 4.5f;
+        
+        timer = 0f;
         
         Table table = new Table();
         table.bottom();
         table.setFillParent(true);
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursorImage, 0, 0));
+        
     }
 
     public void itemObtained(EquipItem item)
     {
         itemToDisplay = item;
         displayItem = true;
+        displayItemTimer = 0;
     }
     
     private void display()
@@ -72,23 +81,22 @@ public class Hud
             font.getData().setScale(0.4f);
             font.setColor(Color.WHITE);
             font.draw(stage.getBatch(), itemToDisplay.itemName, Berserk.V_WIDTH / 2f - 58, Berserk.V_HEIGHT - 58);
+            font.getData().setScale(0.25f);
+            font.draw(stage.getBatch(), itemToDisplay.description, Berserk.V_WIDTH / 2f - 58, Berserk.V_HEIGHT - 69);
             
             stage.getBatch().end();
-    
-            //I should change the timer to use delta time instead because its a little glitchy
-            //Keep DT as a float, and when a new Item is picked up, reset it to 0 & then do whatever incrementing it through the other method
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run()
-                {
-                    displayItem = false;
-                }
-            }, 4.5f);
+            
+            if (displayItemTimer > 5)
+                displayItem = false;
+            
         }
     }
 
     public void updateHud(float deltaTime)
     {
+        displayItemTimer += deltaTime;
+        timer += deltaTime;
+        
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
     
@@ -118,18 +126,50 @@ public class Hud
         shapeRenderer.rect(Berserk.V_WIDTH / 2f - 75, Berserk.V_HEIGHT - 398 + 18, 150 * (float) player.getXp() / (float) player.getXpToLevelUp(), 4);
         
         shapeRenderer.end();
+    
+        //Transparent Boxes
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 0.3f));
+        
+        //around gold
+        shapeRenderer.rect(Berserk.V_WIDTH - 790, Berserk.V_HEIGHT - 45, 70, 30);
+        
+        //Around enemy lvl
+        shapeRenderer.rect(Berserk.V_WIDTH - 85, Berserk.V_HEIGHT - 39, 70, 26);
+        
+        //Timer
+        shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 0.5f));
+        shapeRenderer.rect(Berserk.V_WIDTH - 55, Berserk.V_HEIGHT - 39, 40, 26);
+        
+        //Objectives
+        shapeRenderer.rect(Berserk.V_WIDTH - 85, Berserk.V_HEIGHT - 39 - 64, 70, 60);
+        
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+        
         
         stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
         stage.getBatch().begin();
-        stage.getBatch().draw(gold, Berserk.V_WIDTH / 40f, Berserk.V_HEIGHT - 40);
+        stage.getBatch().draw(gold, Berserk.V_WIDTH - 780, Berserk.V_HEIGHT - 40);
     
         //Draw money
         font.getData().setScale(0.5f);
         font.setColor(Color.WHITE);
         font.draw(stage.getBatch(), "$" + player.getGold(), Berserk.V_WIDTH / 18f, Berserk.V_HEIGHT - 24);
+    
+        font.getData().setScale(0.5f);
+        font.draw(stage.getBatch(), String.format("%04d", (int) timer), Berserk.V_WIDTH - 50, Berserk.V_HEIGHT - 21);
+        
+        font.getData().setScale(0.3f);
+        font.draw(stage.getBatch(), "Objectives:", Berserk.V_WIDTH - 68, Berserk.V_HEIGHT - 47);
+        font.getData().setScale(0.26f);
+        font.draw(stage.getBatch(), objective, Berserk.V_WIDTH - 82, Berserk.V_HEIGHT - 64);
+        
         
         //Draw player health number
-        font.getData().setScale(0.30f);
+        font.getData().setScale(0.3f);
         font.draw(stage.getBatch(), "" + (int) player.getCurrentHealth() + "/" + (int) player.getCurrentMaxHealth(), Berserk.V_WIDTH / 2f - 18, Berserk.V_HEIGHT - 361);
         stage.getBatch().end();
         
@@ -141,17 +181,10 @@ public class Hud
     
     public void updateEnemyLevel()
     {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(new Color(81/255f, 101/255f, 133/255f, 1f));
-        shapeRenderer.rect(Berserk.V_WIDTH - 82, Berserk.V_HEIGHT - 47, 34, 34);
-        
-        shapeRenderer.setColor(new Color(35/255f, 45/255f, 61/255f, 1f));
-        shapeRenderer.rect(Berserk.V_WIDTH - 80, Berserk.V_HEIGHT - 45, 30, 30);
-        shapeRenderer.end();
         
         stage.getBatch().begin();
-        font.getData().setScale(0.65f);
-        font.draw(stage.getBatch(), "" + Enemy.level, Berserk.V_WIDTH - 70, Berserk.V_HEIGHT - 23);
+        font.getData().setScale(0.50f);
+        font.draw(stage.getBatch(), "" + Enemy.level, Berserk.V_WIDTH - 73, Berserk.V_HEIGHT - 23);
         
         font.getData().setScale(0.15f);
         font.draw(stage.getBatch(), "enemy lvl.", Berserk.V_WIDTH - 79, Berserk.V_HEIGHT - 17);

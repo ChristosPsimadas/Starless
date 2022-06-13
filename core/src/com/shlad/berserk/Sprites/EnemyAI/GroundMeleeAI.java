@@ -55,13 +55,20 @@ public class GroundMeleeAI
         if (distanceFromPlayer >= 0.25f)
             enemy.playerInMeleeRange = false;
         
-        if (player.b2body.getPosition().y > enemy.b2bodyEnemy.getPosition().y && enemy.b2bodyEnemy.getLinearVelocity().x < 0.1 && enemy.b2bodyEnemy.getLinearVelocity().x > -0.1 && enemy.b2bodyEnemy.getLinearVelocity().y == 0)
+        if (player.b2body.getPosition().y
+                > enemy.b2bodyEnemy.getPosition().y
+                && enemy.b2bodyEnemy.getLinearVelocity().x
+                < 0.1 && enemy.b2bodyEnemy.getLinearVelocity().x
+                > -0.1 && enemy.b2bodyEnemy.getLinearVelocity().y == 0)
         {
             enemy.b2bodyEnemy.applyLinearImpulse(new Vector2(0, 4.5f), enemy.b2bodyEnemy.getWorldCenter(), true);
         }
         
         
-        if (distanceFromPlayer > 0.3f  && distanceFromPlayer < 4 && !enemy.playerInMeleeRange && Skill.checkIfNotInAnyAnimation(enemy))
+        if (distanceFromPlayer > 0.3f
+                //&& distanceFromPlayer < 4
+                && !enemy.playerInMeleeRange
+                && Skill.checkIfNotInAnyAnimation(enemy))
         {
                                             //Greater than means the enemy is to the right, so it has to move left, which is negative
             if (enemy.b2bodyEnemy.getPosition().x > player.b2body.getPosition().x && enemy.b2bodyEnemy.getLinearVelocity().x >= -enemy.getMaxSpeed())

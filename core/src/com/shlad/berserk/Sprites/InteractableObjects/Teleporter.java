@@ -2,6 +2,7 @@ package com.shlad.berserk.Sprites.InteractableObjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
@@ -17,6 +18,7 @@ public class Teleporter
     private boolean active = false;
     private int progressToCompletion = 0;
     
+    private PlayScreen screen;
     private World world;
     private TiledMap map;
     private Rectangle bounds;
@@ -32,6 +34,7 @@ public class Teleporter
     
     public Teleporter(PlayScreen screen, Rectangle bounds, float xTeleportPosition, float yTeleportPosition)
     {
+        this.screen = screen;
         this.world = screen.getWorld();
         this.map = screen.getMap();
         this.bounds = bounds;
@@ -75,6 +78,10 @@ public class Teleporter
             director.spawnBoss();
             spawnBoss = false;
         }
+        if (active)
+        {
+            screen.hud.objective = "Kill Jerma";
+        }
     }
     
     public void onTouch()
@@ -84,5 +91,6 @@ public class Teleporter
             spawnBoss = true;
             active = true;
         }
+        
     }
 }
