@@ -1,7 +1,7 @@
 # Starless
 Fourth Game for Competition
 
-This is our fourth and final game, a 2D platformer shooter with looting!
+This is our fourth and final game, a 2D platformer shooter with looting.
 
 Here is a preview of the game:
 ![Starless](https://user-images.githubusercontent.com/75281423/200491607-9893f8cc-7f76-4bb5-8130-36d2e3dc7ae1.png)
