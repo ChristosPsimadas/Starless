@@ -33,7 +33,16 @@ public class WorldContactListener implements ContactListener
                 Fixture enemy = fixA.getFilterData().categoryBits == Berserk.ENEMY_BIT ? fixA : fixB;
                 Fixture object = enemy.equals(fixA) ? fixB : fixA;
     
-                ((InteractiveTileObject) object.getUserData()).onTouch(enemy.getBody());
+                
+                //There is a bug where the player gets mistaken as a jump pad and the jump pad as an enemy, even though that shouldn't even be happening here
+                //It attempts to cast player as an instance of interactiveTileObject which crashes the game
+                //This checks of the object is castable, and if not then checks the opposite way.
+                if (object.getUserData() instanceof InteractiveTileObject)
+                {
+                    ((InteractiveTileObject) object.getUserData()).onTouch(enemy.getBody());
+                }
+                else
+                    ((InteractiveTileObject) enemy.getUserData()).onTouch(object.getBody());
                 
                 break;
             

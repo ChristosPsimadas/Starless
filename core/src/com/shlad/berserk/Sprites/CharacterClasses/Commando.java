@@ -22,8 +22,8 @@ public class Commando extends Player
     private Skill death = new DeathSkillPlayer(this);
     private Skill[] allSkillObjects = new Skill[]{doubleTap, fullMetalJacket, dodgeRoll, suppressiveFire, death};
     
-    private final int WIDTH = 38;
-    private final int HEIGHT = 12;
+    private final int WIDTH = 86;
+    private final int HEIGHT = 53;
     
     public ArrayList<B2BulletCreator> bullets = new ArrayList<>();
     public ArrayList<B2BulletCreator> fmjBullets = new ArrayList<>();
@@ -31,12 +31,14 @@ public class Commando extends Player
 
     public Commando(PlayScreen screen)
     {
-        super(screen, "playerSpritesNoBG2/commandoFinal.pack", "commando");
-
+        //super(screen, "playerSpritesNoBG2/commandoFinal.pack", "commando");
+        //super(screen, "playerSpritesNoBG2/geniusHourFinal.pack", "geniusHour");
+        super(screen, "playerSpritesNoBG2/geniusHour.pack", "ridingHoodNoBG");
+        
         this.setSkillArrayObject(allSkillObjects);
         
-        currentMaxHealth = 140;
-        baseMaxHealth = 140;
+        currentMaxHealth = 1400;
+        baseMaxHealth = 1400;
         currentHealth = currentMaxHealth;
         healthPerLevel = 40;
         
@@ -44,48 +46,48 @@ public class Commando extends Player
         currentHealthRegen = 2.2;
         healthRegenPerLevel = 0.4;
         
-        baseDamage = 15;
-        currentDamage = 15;
+        baseDamage = 50;
+        currentDamage = 50;
         damagePerLevel = 4.4;
     
         //The sprites begin at 0, 0. The sprites should have 1 pixel padding on each side, which is why there is a plus 1.
         //The x and y parameters are INCLUSIVE. They include the point 1 etc.
         //Sprite should be 12 pixels height and width.
         Array<TextureRegion> frames = new Array<>();
-        for(int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 12, WIDTH, HEIGHT));}
+        for(int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + ((2-1) * HEIGHT), WIDTH, HEIGHT));}
         playerRun = new Animation<>(0.1f, frames);
         frames.clear();
     
                                                             //3 because it's the 3rd from the top
-        playerJump = new TextureRegion(getTexture(), 1, 3 + 24, WIDTH, HEIGHT);
+        playerJump = new TextureRegion(getTexture(), 1, 3 + ((3-1) * HEIGHT), WIDTH, HEIGHT);
         //Same animation
         playerFall = playerJump;
     
         playerIdle = new TextureRegion(getTexture(), 1, 1     , WIDTH, HEIGHT);
         
-        for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + 48, WIDTH, HEIGHT));}
+        for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + ((5-1) * HEIGHT), WIDTH, HEIGHT));}
         playerSkillOne = new Animation<>(doubleTap.getAnimationDuration() / 5f, frames);
         frames.clear();
 
-        for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 6 + 60, WIDTH, HEIGHT));}
+        for (int i = 0; i < 5; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 6 + ((6-1) * HEIGHT), WIDTH, HEIGHT));}
         playerSkillTwo = new Animation<>(fullMetalJacket.getAnimationDuration() / 5f, frames);
         frames.clear();
 
-        for (int i = 0; i < 9; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 7 + 72, WIDTH, HEIGHT));}
-        playerSkillThree = new Animation<>(dodgeRoll.getAnimationDuration() / 8f, frames);
+        for (int i = 0; i < 6; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 7 + ((7-1) * HEIGHT), WIDTH, HEIGHT));}
+        playerSkillThree = new Animation<>(dodgeRoll.getAnimationDuration() / 6f, frames);
         frames.clear();
         
-        for (int i = 0; i < 15; i++){frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 8 + 84, WIDTH, HEIGHT));}
-        playerSkillFour = new Animation<>(suppressiveFire.getAnimationDuration() / 15f, frames);
+        for (int i = 0; i < 10f; i++){frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 8 + ((8-1) * HEIGHT), WIDTH, HEIGHT));}
+        playerSkillFour = new Animation<>(suppressiveFire.getAnimationDuration() / 10f, frames);
         frames.clear();
     
-        for (int i = 0; i < 5; i++){frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 9 + 96, WIDTH, HEIGHT));}
+        for (int i = 0; i < 5; i++){frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 9 + ((9-1) * HEIGHT), WIDTH, HEIGHT));}
         playerDying = new Animation<>(0.1f, frames);
         frames.clear();
         
-        playerDead = new TextureRegion(getTexture(), 1 + 4 + (4 * WIDTH), 9 + 96, WIDTH, HEIGHT);
+        playerDead = new TextureRegion(getTexture(), 1 + 4 + (4 * WIDTH), 9 + ((9-1) * HEIGHT), WIDTH, HEIGHT);
     
-        definePlayer(4.5f);
+        definePlayer(12f);
     
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);
         setRegion(playerIdle);

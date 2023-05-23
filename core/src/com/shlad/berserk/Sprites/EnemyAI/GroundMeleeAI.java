@@ -55,7 +55,7 @@ public class GroundMeleeAI
         if (distanceFromPlayer >= 0.25f)
             enemy.playerInMeleeRange = false;
         
-        if (player.b2body.getPosition().y
+        if ((player.b2body.getPosition().y - 0.5f)
                 > enemy.b2bodyEnemy.getPosition().y
                 && enemy.b2bodyEnemy.getLinearVelocity().x
                 < 0.1 && enemy.b2bodyEnemy.getLinearVelocity().x

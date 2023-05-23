@@ -26,7 +26,7 @@ public class Hud
     private float displayItemTimer;
     private float timer;
     
-    public String objective = "Find the teleporter";
+    public String objective = "Find grandma";
     public ShapeRenderer shapeRenderer = new ShapeRenderer();
     BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/font2.fnt"));
     Texture gold = new Texture("itemTextures/money.png");

@@ -34,7 +34,7 @@ public class Jerma extends Enemy
     
     public Jerma(PlayScreen screen, float spawnPointX, float spawnPointY)
     {
-        super(screen, "enemySpritesNoBG/jerma/jermaNoBG.pack", "jermaPS");
+        super(screen, "enemySpritesNoBG/jerma/skeleton.pack", "skelly");
         this.setSkillArrayObject(allSkills);
         this.jermaAI = new GroundMeleeAI(this, screen.player);
         

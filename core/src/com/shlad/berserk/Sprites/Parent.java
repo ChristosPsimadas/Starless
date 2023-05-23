@@ -34,7 +34,7 @@ public class Parent extends Enemy
     
     public Parent(PlayScreen screen, float spawnPointX, float spawnPointY)
     {
-        super(screen, "enemySpritesNoBG/parent/parentSprites.pack", "parent");
+        super(screen, "enemySpritesNoBG/parent/geniusHourTrashMonster.pack", "trashMonster");
         this.setSkillArrayObject(allSkills);
         this.parentAI = new GroundMeleeAI(this, screen.player);
     
@@ -55,29 +55,29 @@ public class Parent extends Enemy
         goldDropped = 30;
         
         maxSpeed = MathUtils.random(0.6f, 0.9f);
-    
+        
         
         
         Array<TextureRegion> frames = new Array<>();
-        for (int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 202, WIDTH, HEIGHT));}
+        for (int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 4 + (4-1) * HEIGHT, WIDTH, HEIGHT));}
         enemyRun = new Animation<>(0.1f, frames);
         frames.clear();
     
-        for (int i = 0; i < 11; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + 269, WIDTH, HEIGHT));}
+        for (int i = 0; i < 11; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + (5-1) * HEIGHT, WIDTH, HEIGHT));}
         enemySkillOne = new Animation<>(0.1f, frames);
         frames.clear();
     
-        for (int i = 0; i < 12; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 6 + 336, WIDTH, HEIGHT));}
+        for (int i = 0; i < 12; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 6 + (6-1) * HEIGHT, WIDTH, HEIGHT));}
         enemyDying = new Animation<>(0.15f, frames);
         frames.clear();
     
-        enemyJump = new TextureRegion(getTexture(), 1, 2 + 202, WIDTH, HEIGHT);
+        enemyJump = new TextureRegion(getTexture(), 1, 2 + (2-1) * HEIGHT, WIDTH, HEIGHT);
     
         enemyFall = enemyJump;
     
         enemyIdle = new TextureRegion(getTexture(), 1, 1      , WIDTH, HEIGHT);
     
-        enemyDead = new TextureRegion(getTexture(), 801, 6 + 336, WIDTH, HEIGHT);
+        enemyDead = new TextureRegion(getTexture(), 1 + 11 + 11 * WIDTH, 6 + (6-1) * HEIGHT, WIDTH, HEIGHT);
     
         enemySkillTwo = enemyRun;
         enemySkillThree = enemyRun;

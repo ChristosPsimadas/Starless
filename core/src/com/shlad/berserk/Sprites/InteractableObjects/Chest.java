@@ -86,7 +86,7 @@ public class Chest extends Sprite
                 this.equipItem = new Lean(screen);
                 break;
             case (3):
-                this.equipItem = new SajivProteinBar(screen);
+                this.equipItem = new Brotein(screen);
                 break;
             default:
                 this.equipItem = new Battery(screen);

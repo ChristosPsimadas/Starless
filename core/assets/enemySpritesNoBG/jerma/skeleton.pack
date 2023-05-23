@@ -1,12 +1,12 @@
 
-commandoFinal.png
+skeleton.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-commando
+skelly
   rotate: false
-  xy: 1, 1
-  size: 587, 118
-  orig: 587, 118
+  xy: 0, 0
+  size: 811, 611
+  orig: 811, 611
   offset: 0, 0
   index: -1

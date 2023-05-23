@@ -85,12 +85,21 @@ public class PlayScreen implements Screen
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(gameCam.combined);
         
-        backgroundImageSky = new Texture("desert/Background/backgroundsky1.png");
         
-        backgroundImageMountains = new Texture("desert/Background/backgroundmountains2.png");
+        
+        //backgroundImageSky = new Texture("desert/Background/backgroundsky1.png");
+        
+        //backgroundImageMountains = new Texture("desert/Background/backgroundmountains2.png");
+        //backgroundImageMountains.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        
+        //backgroundImageRuins = new Texture("desert/Background/backgroundruins3.png");
+        //backgroundImageRuins.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+    
+        
+        backgroundImageSky = new Texture("stringstar fields/backgroundSky1.png");
+        backgroundImageMountains = new Texture("stringstar fields/backgroundsky2.png");
         backgroundImageMountains.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        
-        backgroundImageRuins = new Texture("desert/Background/backgroundruins3.png");
+        backgroundImageRuins = new Texture("stringstar fields/backgroundSky3.png");
         backgroundImageRuins.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         
         
@@ -105,12 +114,13 @@ public class PlayScreen implements Screen
         b2dr = new Box2DDebugRenderer();
         
         player = new Commando(this);
+        player.setSize(53.75f / Berserk.PPM, 31.25f / Berserk.PPM);
         gameDirector = new GameDirector(this);
         
         new B2WorldCreator(this);
         
         song = Gdx.audio.newMusic(Gdx.files.internal("music/theme2.mp3"));
-        song.setVolume(0.20f);
+        song.setVolume(0.30f);
         song.setLooping(true);
         song.play();
         
@@ -276,7 +286,7 @@ public class PlayScreen implements Screen
         
         
         //render the physics lines
-        b2dr.render(world, gameCam.combined);
+        //b2dr.render(world, gameCam.combined);
         
         
         hud.updateHud(delta);

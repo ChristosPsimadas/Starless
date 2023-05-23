@@ -11,8 +11,8 @@ public class Battery extends EquipItem
     {
         super(screen);
         this.itemImg = new Texture("itemTextures/battery.png");
-        this.description = "Reduce Your Cooldowns";
-        this.itemName = "Literally Just A Battery";
+        this.description = "Reduce Cooldowns";
+        this.itemName = "Magic Mushroom";
         this.hasPassiveEffect = true;
         this.effectApplied = false;
     }

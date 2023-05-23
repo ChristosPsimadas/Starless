@@ -14,6 +14,7 @@ import com.shlad.berserk.Items.EquipItem;
 import com.shlad.berserk.Items.Item;
 import com.shlad.berserk.Screens.PlayScreen;
 import com.shlad.berserk.Tools.Skill;
+import com.sun.jndi.ldap.Ber;
 
 import java.util.ArrayList;
 
@@ -88,13 +89,14 @@ public class Player extends Sprite
         stateTimer = 0;
         runningRight = true;
         
-        gold = 0;
+        gold = 50;
         xp = 0;
         xpToLevelUp = 40;
         
         dead = false;
 
         equipItems = new ArrayList<>();
+        
     }
     
     public void handlePlayerInput(float deltaTime)
@@ -297,13 +299,21 @@ public class Player extends Sprite
         BodyDef bdef = new BodyDef();
         //Starting position
         bdef.position.set(312 / Berserk.PPM, 820 / Berserk.PPM);
+        //.position.set(4415 / Berserk.PPM, 880 / Berserk.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         
         b2body = world.createBody(bdef);
 
+        
         FixtureDef fdef = new FixtureDef();
+        
+        //PolygonShape shape2 = new PolygonShape();
+        //shape2.setAsBox(53.75f / 6 / Berserk.PPM, 31.25f / 2.2f / Berserk.PPM - 2 / Berserk.PPM);
+        
         CircleShape shape = new CircleShape();
         shape.setRadius(radius / Berserk.PPM);
+        
+        
         fdef.filter.categoryBits = Berserk.PLAYER_BIT;
         fdef.filter.maskBits = Berserk.DEFAULT_BIT | Berserk.JUMP_PAD_BIT | Berserk.PLAYER_BIT | Berserk.WALL_BIT | Berserk.ENEMY_SENSOR_MELEE_BIT | Berserk.ENEMY_MELEE_BIT | Berserk.TELEPORTER_BIT;
 

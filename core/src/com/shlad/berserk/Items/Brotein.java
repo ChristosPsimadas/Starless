@@ -9,8 +9,8 @@ public class Brotein extends EquipItem
     {
         super(screen);
         this.itemImg = new Texture("itemTextures/brotein.png");
-        this.description = "Become swoler to geT MORE HEALTH";
-        this.itemName = "Brotein";
+        this.description = "Healthy";
+        this.itemName = "Some sort of Fruit";
         this.hasPassiveEffect = true;
         this.effectApplied = false;
     }
@@ -18,9 +18,9 @@ public class Brotein extends EquipItem
     @Override
     public void effect()
     {
-        player.increaseMaxHealth(50);
-        player.addHealth(50);
-        player.setCurrentHealthRegen(player.getCurrentHealthRegen() * 1.1);
+        player.increaseMaxHealth(500);
+        player.addHealth(500);
+        player.setCurrentHealthRegen(player.getCurrentHealthRegen() * 3);
         effectApplied = true;
     }
 

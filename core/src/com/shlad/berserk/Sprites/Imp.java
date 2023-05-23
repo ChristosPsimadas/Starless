@@ -30,8 +30,8 @@ public class Imp extends Enemy
     private Skill[] allSkills = new Skill[]{abyssalSlash, teleport, noSkill3, noSkill4, death};
     
     
-    private final int WIDTH = 33;
-    private final int HEIGHT = 25;
+    private final int WIDTH = 44;
+    private final int HEIGHT = 33;
     
     public GroundMeleeAI impAI;
     
@@ -41,7 +41,7 @@ public class Imp extends Enemy
     
     public Imp(PlayScreen screen, float spawnPointX, float spawnPointY)
     {
-        super(screen, "enemySpritesNoBG/impSpriteNoBG.pack", "impSpritePhotoshopNoBG");
+        super(screen, "enemySpritesNoBG/geniusHourImp.pack", "impSprite");
         this.setSkillArrayObject(allSkills);
         this.impAI =  new GroundMeleeAI(this, screen.player);
     
@@ -63,34 +63,34 @@ public class Imp extends Enemy
         maxSpeed = MathUtils.random(0.8f, 1.1f);
     
         Array<TextureRegion> frames = new Array<>();
-        for (int i = 0; i < 6; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + 25, WIDTH, HEIGHT));}
+        for (int i = 0; i < 6; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 2 + ((2-1) * HEIGHT), WIDTH, HEIGHT));}
         enemyRun = new Animation<>(0.1f, frames);
         frames.clear();
     
-        for (int i = 0; i < 11; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 4 + 75, WIDTH, HEIGHT));}
+        for (int i = 0; i < 11; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 4 + ((4-1) * HEIGHT), WIDTH, HEIGHT));}
         enemySkillOne = new Animation<>(0.1f, frames);
         frames.clear();
     
-        for (int i = 0; i < 3; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 3 + 50, WIDTH, HEIGHT));}
+        for (int i = 0; i < 3; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 3 + ((3-1) * HEIGHT), WIDTH, HEIGHT));}
         enemySkillTwo = new Animation<>(0.3f, frames);
         frames.clear();
     
-        for (int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + 100, WIDTH, HEIGHT));}
+        for (int i = 0; i < 8; i++) {frames.add(new TextureRegion(getTexture(), 1 + i + i * WIDTH, 5 + ((5-1) * HEIGHT), WIDTH, HEIGHT));}
         enemyDying = new Animation<>(0.15f, frames);
         frames.clear();
         
-        enemyJump = new TextureRegion(getTexture(), 1, 2 + 25, WIDTH, HEIGHT);
+        enemyJump = new TextureRegion(getTexture(), 1, 2 + ((2-1) * HEIGHT), WIDTH, HEIGHT);
         
         enemyFall = enemyJump;
         
         enemyIdle = new TextureRegion(getTexture(), 1, 1     , WIDTH, HEIGHT);
         
-        enemyDead = new TextureRegion(getTexture(), 239, 5 + 100, WIDTH, HEIGHT);
+        enemyDead = new TextureRegion(getTexture(), 1 + 7 + 7 * WIDTH, 5 + ((5-1) * HEIGHT), WIDTH, HEIGHT);
         
         enemySkillThree = enemyRun;
         enemySkillFour = enemyRun;
         
-        defineEnemyRadius(10f, spawnPointX, spawnPointY);
+        defineEnemyRadius(15f, spawnPointX, spawnPointY);
         defineMeleeRangeRadius(27f);
         
         setBounds(0, 0, WIDTH / Berserk.PPM, HEIGHT / Berserk.PPM);

@@ -1,0 +1,12 @@
+
+geniusHourTrashMonster.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+trashMonster
+  rotate: false
+  xy: 0, 0
+  size: 962, 405
+  orig: 962, 405
+  offset: 0, 0
+  index: -1
